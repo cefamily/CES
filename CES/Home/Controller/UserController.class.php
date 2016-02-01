@@ -3,9 +3,9 @@ namespace Home\Controller;
 use Think\Controller;
 class UserController extends Controller{
 	public function _initialize(){
-		//if(!IS_POST && !IS_AJAX){
-		//	$this->error('要做个好孩子喵~');
-		//}
+		if(!IS_POST && !IS_AJAX){
+			$this->error('要做个好孩子喵~');
+		}
 	}
 	public function userlogin()
 	{
