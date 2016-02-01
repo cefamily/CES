@@ -7,52 +7,42 @@ class UserController extends Controller{
 		//	$this->error('要做个好孩子喵~');
 		//}
 	}
-	public function login($username,$password)
+	public function userlogin()
 	{
-			$user=M('Userinfo');
-			$password=md5($password.$username);
-			$data = $user->where("UserName='%s' AND UserPwd='%s'",$username,$password)->find();
-			dump($data);
-			if($data && $data!=NULL){
-				//$this->success('登录成功');
-				session('user',$data);
+			$user=D('User','Logic');
+			$data['UserName']=I('post.username','','string');
+			$data['UserPwd']=md5(I('post.userpwd','',false).$data['UserName']);
+			$result= $user->login($data);
+			if($result)
+			{			
+				session('user',$result);
 				$this->assign('user',session('user'));
 				$this->display();
 			}
 			else
 			{
-				$this->error('登录失败'.$password.$username);
+				$this->error('登录失败');
 			}	
 	}
 	
 	public function reg()
 	{
-		$user=D('UserInfo');
+		$user=D('User','Logic');
 		$data['UserName']=I('post.username','','string');
 		$data['UserPwd']=md5(I('post.userpwd','',false).$data['UserName']);
 		$data['UserEmail']=I('post.useremail','','email');
-		dump($data);
-		//dump($user);
-		if(I('post.userpwd','',false)==I('post.userpwd2','',false)){
-			if($user->create($data))
+		//dump($data);
+		if(I('post.userpwd','',false)==I('post.userpwd2','',false))
+		{
+			$result=$user->reg($data);
+			if($result)
 			{
-				echo 'test'.$user->uesrname;
-				$result=$user->add();
-				if($result)
-				{
-					$this->success('注册成功');
-				}
-				else
-				{
-					$this->error('注册失败');
-				}
+				$this->success('注册成功');
 			}
 			else
 			{
-				echo 'test'.$user->Username;
-				//dump($user);
-				$this->error($user->getError(),'javascript:history.back(-1);',50);
-			}
+				$this->error($user->getError());
+			}		
 		}
 		else
 		{
