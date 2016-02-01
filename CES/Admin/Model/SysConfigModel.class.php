@@ -1,5 +1,5 @@
 <?php
-namespace Home\Model;
+namespace Admin\Model;
 use Think\Model;
 
 class SysConfigModel extends  Model{

@@ -4,7 +4,7 @@ use Think\Model;
 class UserInfoLogic extends Model{
 	//protected $tableName='userinfo';
 	function reg($data){
-		$user=D('UserInfo');
+		$user=D('Admin/UserInfo');
 		if($user->create($data))
 		{
 			$result=$user->add();
@@ -25,8 +25,8 @@ class UserInfoLogic extends Model{
 	}
 	
 	function login($data){
-		$user=M('UserInfo');
-		$result=$user->where("UserName='%s' AND UserPwd='%s'",$data['UserName'],$data['UserPwd'])->find();
+		//$user=M('UserInfo');
+		$result=$this->where($data)->find();
 		if($result && $result!=NULL)
 		{
 			return $result;
