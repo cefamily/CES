@@ -3,7 +3,7 @@ namespace Home\Model;
 use Think\Model;
 
 class UserInfoModel extends Model{
-	protected $tableName = 'userinfo';
+	//protected $tableName = 'userinfo';
   	protected	$_validate=array(
 		array('UserName','require','用户名格式错误',1),
 		array('UserName','4,16','用户名长度要在4-16字符',1,'length',1),

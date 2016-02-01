@@ -1,8 +1,8 @@
 <?php
 namespace Home\Logic;
 use Think\Model;
-class UserLogic extends Model{
-	protected $tableName='userinfo';
+class UserInfoLogic extends Model{
+	//protected $tableName='userinfo';
 	function reg($data){
 		$user=D('UserInfo');
 		if($user->create($data))
@@ -25,7 +25,7 @@ class UserLogic extends Model{
 	}
 	
 	function login($data){
-		$user=M('Userinfo');
+		$user=M('UserInfo');
 		$result=$user->where("UserName='%s' AND UserPwd='%s'",$data['UserName'],$data['UserPwd'])->find();
 		if($result && $result!=NULL)
 		{

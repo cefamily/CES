@@ -9,7 +9,7 @@ class UserController extends Controller{
 	}
 	public function userlogin()
 	{
-			$user=D('User','Logic');
+			$user=D('UserInfo','Logic');
 			$data['UserName']=I('post.username','','string');
 			$data['UserPwd']=md5(I('post.userpwd','',false).$data['UserName']);
 			$result= $user->login($data);
@@ -27,7 +27,7 @@ class UserController extends Controller{
 	
 	public function reg()
 	{
-		$user=D('User','Logic');
+		$user=D('UserInfo','Logic');
 		$data['UserName']=I('post.username','','string');
 		$data['UserPwd']=md5(I('post.userpwd','',false).$data['UserName']);
 		$data['UserEmail']=I('post.useremail','','email');
