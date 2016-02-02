@@ -3,9 +3,9 @@ namespace Home\Controller;
 use Think\Controller;
 class UserController extends Controller{
 	public function _initialize(){
-		if(!IS_POST && !IS_AJAX){
-			$this->error('要做个好孩子喵~');
-		}
+		//if(!IS_POST && !IS_AJAX){
+		//	$this->error('要做个好孩子喵~');
+		//}
 	}
 	public function userlogin(){
 			$user=D('UserInfo','Logic');
@@ -30,8 +30,6 @@ class UserController extends Controller{
 		$data['UserPwd']=md5(I('post.userpwd','',false).$data['UserName']);
 		$data['UserEmail']=I('post.useremail','','email');
 		//dump($data);
-		if(I('post.userpwd','',false)==I('post.userpwd2','',false))
-		{
 			$result=$user->reg($data);
 			if($result)
 			{
@@ -40,13 +38,7 @@ class UserController extends Controller{
 			else
 			{
 				$this->error($user->getError());
-			}		
-		}
-		else
-		{
-			$this -> error('两次密码不一致');
-		}
-		
+			}				
 	}
 }
 ?>
