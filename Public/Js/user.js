@@ -12,4 +12,7 @@ $(document).ready(function(e) {
 		var pwd1=$("#userpwd").val();
 		$("#userpwd").val(CryptoJS.MD5(pwd1));
 		});
+	$("#randimg").click(function(e) {
+        $(this).attr("src",rand);
+    });
 });
