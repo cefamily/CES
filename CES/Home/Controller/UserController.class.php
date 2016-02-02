@@ -7,8 +7,7 @@ class UserController extends Controller{
 			$this->error('要做个好孩子喵~');
 		}
 	}
-	public function userlogin()
-	{
+	public function userlogin(){
 			$user=D('UserInfo','Logic');
 			$data['UserName']=I('post.username','','string');
 			$data['UserPwd']=md5(I('post.userpwd','',false).$data['UserName']);
@@ -25,8 +24,7 @@ class UserController extends Controller{
 			}	
 	}
 	
-	public function reg()
-	{
+	public function reg(){
 		$user=D('UserInfo','Logic');
 		$data['UserName']=I('post.username','','string');
 		$data['UserPwd']=md5(I('post.userpwd','',false).$data['UserName']);
