@@ -24,6 +24,7 @@ class UserInfoLogic{
 	}
 	
 	function login($data){
+		
 		$user=M('UserInfo');
 		$result=$user->where($data)->find();
 		if($result && $result!=NULL)
