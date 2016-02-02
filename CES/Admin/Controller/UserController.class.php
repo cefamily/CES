@@ -20,8 +20,8 @@ class UserController extends Controller{
 			$result=$user->login($data);
 			if($result)
 			{
-				echo '成功了喵~';
-				session('admin',$result);		
+				session('admin',$result);
+				$this->success('欢迎'.$result['username'],__MODULE__.'/Product/showlist');
 			}else{
 				$this->error('登录失败');
 			}
@@ -33,6 +33,10 @@ class UserController extends Controller{
 	{
 		$Verify= new \Think\Verify();
 		$Verify->entry();
-	}	
+	}
+	public function loginOut(){
+		session('admin',NULL);
+		$this->success('已经退出登录','login');
+	}
 }
 ?>
