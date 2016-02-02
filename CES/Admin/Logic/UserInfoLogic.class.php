@@ -3,13 +3,13 @@ namespace Admin\Logic;
 use Think\Model;
 class UserInfoLogic extends Model{
 
-	function login()
+	function login($data)
 	{
 		//$data['UserType']=4;
 		$result=$this->where($data)->find();
 		if($result)
 		{
-			if($result['UserType']>2)
+			if($result['usertype']>2)
 			{
 				return $result;
 			}
