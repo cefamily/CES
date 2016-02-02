@@ -1,7 +1,6 @@
 <?php
 namespace Home\Logic;
-use Think\Model;
-class UserInfoLogic extends Model{
+class UserInfoLogic{
 	//protected $tableName='userinfo';
 	function reg($data){
 		$user=D('Admin/UserInfo');
@@ -25,8 +24,8 @@ class UserInfoLogic extends Model{
 	}
 	
 	function login($data){
-		//$user=M('UserInfo');
-		$result=$this->where($data)->find();
+		$user=M('UserInfo');
+		$result=$user->where($data)->find();
 		if($result && $result!=NULL)
 		{
 			return $result;
