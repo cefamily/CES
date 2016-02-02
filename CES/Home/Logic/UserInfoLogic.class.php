@@ -27,7 +27,7 @@ class UserInfoLogic extends Model{
 	function login($data){
 		//$user=M('UserInfo');
 		$result=$this->where($data)->find();
-		if($result && $result!=NULL)
+		if($result)
 		{
 			return $result;
 		}

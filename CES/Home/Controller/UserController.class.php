@@ -6,6 +6,9 @@ class UserController extends Controller{
 		//if(!IS_POST && !IS_AJAX){
 		//	$this->error('要做个好孩子喵~');
 		//}
+		
+		
+		//登陆用户信息
 	}
 	public function userlogin(){
 			$user=D('UserInfo','Logic');
@@ -24,6 +27,10 @@ class UserController extends Controller{
 			}	
 	}
 	
+	public function userLogout(){
+		
+		
+	}
 	public function reg(){
 		$user=D('UserInfo','Logic');
 		$data['UserName']=I('post.username','','string');
@@ -39,6 +46,27 @@ class UserController extends Controller{
 			{
 				$this->error($user->getError());
 			}				
+	}
+	public function userCenter(){
+		switch($this->getMyUserType()){
+			case 0:
+				break;
+			case 1:
+				break;
+			case 2:
+				break;
+			case 3:
+				break;
+			case 4:
+				break;
+			default:
+				break;
+		}
+	}
+	private function getMyUserType(){
+		$userInfo = I('session.user');
+		return $userInfo ? $userInfo['UserType'] : -1;
+		
 	}
 }
 ?>
