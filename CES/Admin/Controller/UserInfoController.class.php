@@ -11,7 +11,7 @@ class UserInfoController extends Construct{
 			$group=M('TeamInfo');
 			$title='全部';
 			
-			$page=I('param.page','1','int');
+			$page=I('param.page',1,'int');
 			$groupid=I('param.group',NULL,'int');
 			
 			$where['UserType']=array('LT',session('admin.usertype'));
@@ -20,9 +20,22 @@ class UserInfoController extends Construct{
 				$title=$group->where('TeamId=%d',$groupid)->getField('TeamName');
 			}
 			
-			$result=$user->getuser($page,$where);
+			
+			$result=$user->getuser($page,10,$where);
 			$grouplist=$group->select();
 			
+			//----------生成分页信息---------
+			$pagedata['count']=$result['count']/10;
+			if($result['count']%10!=0)
+			{
+				$pagedata['count']+=1;
+			}
+			//----------------------------
+			
+			$pagedata['count']=(int)$pagedata['count'];
+			$pagedata['now']=$page;
+			
+			$this->assign('pagedata',$pagedata);
 			$this->assign('userlist',$result['result']);
 			$this->assign('item_index',2);
 			$this->assign('grouplist',$grouplist);

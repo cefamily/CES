@@ -38,3 +38,21 @@
              </volist>
             </tbody>
             </table>
+ <script type="text/javascript">
+ $(document).ready(function(e) {
+	 var group="{$Think.get.group}";
+	 var str="";
+	 if(group!=""){
+	 	str="/group/"+group;
+	 }
+	 
+    $("#pagebox").Jpager({
+		url:"__ACTION__"+str,
+		view:3
+		});
+});
+ </script>
+   <div class="row text-center">
+    	<ul class="pagination" id="pagebox" count="{$pagedata.count}" now="{$pagedata.now}">
+    </ul>
+</div>

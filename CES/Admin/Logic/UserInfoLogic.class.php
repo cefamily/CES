@@ -24,14 +24,14 @@ class UserInfoLogic extends Model{
 		}
 	}
 	
-	public function getuser($page,$where=false){
+	public function getuser($page,$view=10,$where=false){
 		
 		$data['result']=$this->field('user_info.*,TeamName')
 						->join('LEFT JOIN user_team ON user_info.UserId=user_team.UserId')
 						->join('LEFT JOIN team_info ON user_team.TeamId=team_info.TeamId')
 						->where($where)
 						->order('user_info.UserId DESC')
-						->page($page,'30')
+						->page($page,$view)
 						->select();
 		$data['count']=$this->join('LEFT JOIN user_team ON user_info.UserId=user_team.UserId')
 						->join('LEFT JOIN team_info ON user_team.TeamId=team_info.TeamId')
