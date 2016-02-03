@@ -9,7 +9,11 @@ class ProductController extends Controller{
 		$this->assign('adminname',session('admin.username'));
 		$this->assign('admintype',session('admin.usertype'));
 	}
-	public function showlist(){
+	public function showlist($page=1){
+		$product=D('ProductInfo','Logic');
+		$productListInfo = $product->getList($page);
+		$this->assign('maxrow',$productListInfo[0]);
+		$this->assign('productlist',$productListInfo[1]);
 		$this->assign('item_index',0);
 		$this->display();
 	}

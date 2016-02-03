@@ -16,7 +16,7 @@ class ProductInfoLogic extends Model{
 		if($result){
 			return array($count,$result);
 		}else{
-			return false;
+			return array(0,array());;
 		}
 	}
 	public function getList($page){
