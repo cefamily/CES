@@ -4,19 +4,19 @@ use Think\Model;
 class ProductInfoLogic extends Model{
 	public UserType;
 	public function _initialize(){
-		$this->UserType=D('CES/UserController')->getMyUserType();
+		$userInfo = I('session.admin',false);
+		$this->UserType = $userInfo===false ? $userInfo['UserType'] : -1;
 	}
 	private function getListByCondition($page=1,$where=false){
-		$product=M('ProductInfo');
-		$result=$product	->join('user_info on product_info.UserId = user_info.UserId')
-							->where($where)
-							->page($page,20)
-							->order('ProId DESC')
+		$result=$this	->join('user_info on product_info.UserId = user_info.UserId')
+						->where($where)
+						->page($page,20)
+						->rder('ProId DESC')
 							->select();
-		$count = $product	->field('count(*) as count')
-							->join('user_info on product_info.UserId = user_info.UserId')
-							->where($where)
-							->find();
+		$count =$this	->field('count(*) as count')
+						->join('user_info on product_info.UserId = user_info.UserId')
+						->where($where)
+						->find();
 		$count=$count['count'];
 		if($result){
 			return array($count,$result);
@@ -38,7 +38,7 @@ class ProductInfoLogic extends Model{
 		return $this->updateByCondition(array('ProId'=>$proId),$data);
 	}
 	private function updateByCondition($where,$data){
-		return M('ProductInfo')->where($where)-save($data);
+		return $this->where($where)-save($data);
 	}
 	public function fakeDelete($proId){
 		if($this->UserType<3)return false;
