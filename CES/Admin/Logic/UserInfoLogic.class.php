@@ -24,26 +24,25 @@ class UserInfoLogic extends Model{
 		}
 	}
 	
-	public function getuser($page,$where=false){		
-		if($where){
-		$data['result']=$this->join('user_team ON user_info.UserId=user_team.UserId')
+	public function getuser($page,$where=false){
+		
+		$data['result']=$this->field('user_info.*,TeamName')
+						->join('LEFT JOIN user_team ON user_info.UserId=user_team.UserId')
+						->join('LEFT JOIN team_info ON user_team.TeamId=team_info.TeamId')
 						->where($where)
-						->order('userid DESC')
+						->order('user_info.UserId DESC')
 						->page($page,'30')
 						->select();
-		$data['count']=$this->join('user_team ON user_info.UserId=user_team.UserId')
+		$data['count']=$this->join('LEFT JOIN user_team ON user_info.UserId=user_team.UserId')
 						->field('count(*) as count')
-						->where($data)
+						->where($where)
 						->find();
-		}else{
-			$data['count']=$this->field('count(*) as count')->where($where)->find();
-			$data['result']=$this->where($where)->page($page,'30')->select();
-		}
+						
 		return $data;
 	}
 	
 	private function updata($where,$data){
-		$user=D('UserInfo');	
+		$user=D('UserInfo');
 		if($user->create($data)){
 			$result=$user->where($where)->save();
 			if($result){
