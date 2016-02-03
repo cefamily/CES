@@ -6,7 +6,7 @@ class ProductInfoLogic extends Model{
 		$result=$this	->join('user_info on product_info.UserId = user_info.UserId')
 						->where($where)
 						->page($page,20)
-						->rder('ProId DESC')
+						->order('ProId DESC')
 							->select();
 		$count =$this	->field('count(*) as count')
 						->join('user_info on product_info.UserId = user_info.UserId')
