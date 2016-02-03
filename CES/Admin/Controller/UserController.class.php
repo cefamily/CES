@@ -34,7 +34,7 @@ class UserController extends Controller{
 		$Verify= new \Think\Verify();
 		$Verify->entry();
 	}
-	public function loginOut(){
+	public function logout(){
 		session('admin',NULL);
 		$this->success('已经退出登录','login');
 	}
