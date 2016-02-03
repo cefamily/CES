@@ -2,7 +2,7 @@
 /**
 * JQuery分页插件
 * 作者:呆萌
-* 最后编辑日期：2016年2月4日01:07:16
+* 最后编辑日期：2016年2月4日
 * github:democyann
 */
 
@@ -24,7 +24,8 @@
 		}else{
 			temp=opts.view;
 			}
-		
+		now=now>count?count:now;
+		now=now<1?1:now;
 		$(this).append("<li><a href='"+opts.url+"/page/1"+"'>1&laquo;</a></li>");
 		if(now<opts.view){
 			var i;
@@ -36,13 +37,13 @@
 				}
 			}
 			if(count>opts.view){
-				$(this).append("<li><a href='"+opts.url+"/page/"+i+"'>...</a></li>");
+				$(this).append("<li><a class='pgbtn'>...</a></li>");
 			}
 			
 		}else{
 			if(count>opts.view){
 				if(now>(count-opts.view)){
-					$(this).append("<li><a href='#'>...</a></li>");
+					$(this).append("<li><a class='pgbtn'>...</a></li>");
 					var i;
 					for(i=count-opts.view;i<=count;i++){
 						if(i==now){
@@ -52,7 +53,7 @@
 						}
 					}
 				}else{
-						$(this).append("<li><a href='#'>...</a></li>");
+						$(this).append("<li><a class='pgbtn'>...</a></li>");
 						var i;
 						for(i=now-1;i<now+opts.view;i++){
 							if(i==now){
@@ -61,7 +62,7 @@
 								$(this).append("<li><a href='"+opts.url+"/page/"+i+"'>"+i+"</a></li>");
 							}
 						}
-						$(this).append("<li><a href='#'>...</a></li>");
+						$(this).append("<li><a class='pgbtn'>...</a></li>");
 				}				
 			}else{
 				var i;
@@ -77,5 +78,11 @@
 		
 		
 		$(this).append("<li><a href='"+opts.url+"/page/"+count+"'>&raquo;"+count+"</a></li>");
+		$(document).on('click',"#"+$(this).attr('id')+">li>.pgbtn",function(){
+			var pagenum=prompt("请输入要跳转的页数");
+			if(!isNaN(pagenum) && pagenum!=null){
+				window.location=opts.url+"/page/"+pagenum;
+			}
+		});
 		}
 })(jQuery);
