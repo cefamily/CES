@@ -1,13 +1,9 @@
 <?php
 namespace Admin\Controller;
-use Think\Controller;
-class UserInfoController extends Controller{
+use Admin\Common\Controller\Construct;
+class UserInfoController extends Construct{
 		public function _initialize(){
-			if(!session('?admin') || session('admin.usertype')<2){
-			$this->error('非法操作');
-		}
-		$this->assign('adminname',session('admin.username'));
-		$this->assign('admintype',session('admin.usertype'));
+			parent::_initialize();
 		}
 		
 		public function showlist(){
