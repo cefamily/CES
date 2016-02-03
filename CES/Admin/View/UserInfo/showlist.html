@@ -1,5 +1,21 @@
 <layout name="../Tpl/layout" />
-	        <h1>用户列表</h1>
+	        <h1>用户列表-{$list_title}</h1>
+             <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="dropdown">
+                    <button type="button" class="btn dropdown-toggle" id="group_dropdown" data-toggle="dropdown">
+                        按组筛选
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="group_dropdown">
+                        <li role="presentation"><a role="menuitem" href="__URL__/showlist">全部</a></li>
+                        <volist name="grouplist" id="vo">
+                        <li role="presentation"><a role="menuitem" href="__URL__/showlist/group/{$vo.teamid}">{$vo.teamname}</a></li>
+                        </volist>
+                    </ul>
+                </div>
+            </div>
+        </div>
             <table class="table table-striped table-bordered">
             <thead>
             	<tr>

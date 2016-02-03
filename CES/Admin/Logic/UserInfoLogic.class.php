@@ -35,10 +35,8 @@ class UserInfoLogic extends Model{
 						->select();
 		$data['count']=$this->join('LEFT JOIN user_team ON user_info.UserId=user_team.UserId')
 						->join('LEFT JOIN team_info ON user_team.TeamId=team_info.TeamId')
-						->field('count(*) as count')
 						->where($where)
-						->find();
-						
+						->getField('count(*)');					
 		return $data;
 	}
 	
