@@ -2,8 +2,8 @@
 $(document).ready(function(e) {
     $("#navbar_admin>li").removeClass("active");
 	$("#navbar_admin>li").eq(item_index).addClass("active");
-	if(admintype<3){
-		$("#navbar_admin>li").eq(3).addClass("disenable");
-		$("#navbar_admin>li").eq(4).addClass("disenable");
+	if(usertype<3){
+		$("#navbar_admin>li").eq(3).addClass("disabled");
+		$("#navbar_admin>li").eq(4).addClass("disabled");
 	}
 });

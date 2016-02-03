@@ -9,7 +9,7 @@ class UserInfoLogic extends Model{
 		$result=$this->where($data)->find();
 		if($result)
 		{
-			if($result['usertype']>2)
+			if($result['usertype']>1)
 			{
 				return $result;
 			}
