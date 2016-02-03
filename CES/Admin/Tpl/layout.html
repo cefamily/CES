@@ -7,6 +7,11 @@
 <load href="__PUBLIC__/Css/bootstrap.min.css"/>
 <load href="__PUBLIC__/Js/jquery.js"/>
 <load href="__PUBLIC__/Js/bootstrap.min.js"/>
+<script type="text/javascript">
+	var usertype="{$admintype}";
+	var item_index="{$item_index}";
+</script>
+<load href="__PUBLIC__/Js/admin/layout_init.js"/>
 </head>
 <body>
     <nav class="navbar-default navbar" role="navigation">
@@ -21,10 +26,10 @@
         </div>
         <div><p class="navbar-text">当前登录管理员：{$adminname}</p></div>
      <div class="collapse navbar-collapse" id="admin_navbar">
- 	<ul class="nav navbar-nav">
-        <li class="active"><a href="#">任务列表</a></li>                    
+ 	<ul class="nav navbar-nav" id="navbar_admin">
+        <li class="active"><a href="__MODULE__/Product/showlist">任务列表</a></li>                    
         <li><a href="#">已删除的任务</a></li>                    
-        <li><a href="#">用户管理</a></li>                    
+        <li><a href="__MODULE__/UserInfo/showlist">用户管理</a></li>                    
         <li><a href="#">组列表</a></li>
         <li><a href="#">管理员管理</a></li>
         <li><a href="__MODULE__/User/logout">退出登录</a></li>
