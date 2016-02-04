@@ -42,5 +42,8 @@ class UserInfoController extends Construct{
 			$this->assign('list_title',$title);
 			$this->display();
 		}
+		public function showuser(){
+			
+		}
 	}
 ?>
