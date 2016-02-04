@@ -7,5 +7,8 @@ class UserTeamModel extends  Model{
 		array('UserId','require','用户ID必须',1),
 		array('TeamId','require','群组ID必须',1)
 	);
+	protected  $_auto=array(
+		array('AdminFlag','0')
+	);
 }
 ?>
