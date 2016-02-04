@@ -13,8 +13,8 @@ class UserInfoModel extends Model{
 	);
 	protected $_auto=array(
 		array('UserType','0'),
-		array('LastTime','time',2,'function'),
-		array('Userip','get_client_ip',2,'function')
+//		array('LastTime','time',2,'function'),
+//		array('UserIp','get_client_ip',2,'function')
 	);
 }
 ?>

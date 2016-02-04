@@ -11,6 +11,10 @@ class UserInfoLogic extends Model{
 		{
 			if($result['usertype']>1)
 			{
+				$where['UserId']=$result['userid'];
+				$d['LastTime']=date('Y-m-d H:i:s',time());
+				$d['UserIp']=get_client_ip();
+				$this->where($where)->data($d)->save();
 				return $result;
 			}
 			else
