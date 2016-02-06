@@ -14,6 +14,7 @@ class ConstructController extends Controller{
 		$this->assign('admintype',session('admin.usertype'));
 		$this->adminname=session('admin.username');
 		$this->admintype=session('admin.usertype');
+		$this->adminid=session('admin.userid');
 		
 	}
 
