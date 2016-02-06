@@ -1,13 +1,6 @@
 <?php
 namespace Admin\Controller;
-class ProductController extends Construct{
-	public function _initialize(){
-		if(!session('?admin') || session('admin.usertype')<2){
-			$this->error('非法操作');
-		}
-		$this->assign('adminname',session('admin.username'));
-		$this->assign('admintype',session('admin.usertype'));
-	}
+class ProductController extends ConstructController{
 	public function showlist(){
 		$pagedata['now'] = $page = I('param.page',1,'int');
 		$product=D('ProductInfo','Logic');

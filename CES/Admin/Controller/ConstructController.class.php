@@ -1,7 +1,7 @@
 <?php
-namespace Admin\Common\Controller;
+namespace Admin\Controller;
 use Think\Controller;
-class Construct extends Controller{
+class ConstructController extends Controller{
 	
 	protected $adminname='';
 	protected $admintype;
@@ -14,6 +14,7 @@ class Construct extends Controller{
 		$this->assign('admintype',session('admin.usertype'));
 		$this->adminname=session('admin.username');
 		$this->admintype=session('admin.usertype');
+		
 	}
 
 }
