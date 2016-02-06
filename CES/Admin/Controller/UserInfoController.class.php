@@ -13,13 +13,17 @@ class UserInfoController extends Construct{
 			
 			$page=I('param.page',1,'int');
 			$groupid=I('param.group',NULL,'int');
+			$uname=I('param.uname',NULL,'string');
 			
 			$where['UserType']=array('LT',session('admin.usertype'));
 			if(!is_null($groupid)){
 				$where['team_info.TeamId']=$groupid;
 				$title=$group->where('TeamId=%d',$groupid)->getField('TeamName');
 			}
-			
+			if(!is_null($uname) && $uname!=''){
+				$where['user_info.UserName']=$uname;
+				$title='搜索'.$uname;
+			}
 			
 			$result=$user->getuser($page,10,$where);
 			$grouplist=$group->select();
