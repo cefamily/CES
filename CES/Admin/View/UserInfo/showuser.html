@@ -1,5 +1,13 @@
 <layout name="../Tpl/layout" />
-<load href="__PUBLIC__/Js/admin/showuser.js"/> 
+<eq name="admintype" value="3">
+<load href="__PUBLIC__/Js/admin/showuser.js"/>
+<script type="text/javascript">
+var teamname="{$userinfo.teamname}";
+$(document).ready(function(e) {
+    admin_init();
+});
+</script>
+</eq>
 <div class="container">
     <div class="row">
         <h1>详细信息-User</h1>
@@ -46,14 +54,15 @@
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="groupdrop">
+                                <volist name="grouplist" id="vo">
                                 <li role="presentation">
-                                    <a>TEST1</a>
+                                    <a>{$vo.teamname}</a>
                                 </li>
+                                </volist>
                             </ul>
                         </div>
-                        <div class="col-xs-3 form-control-static">
-                            <span class="label label-primary">test1</span>
-                            <span class="label label-primary">test1</span>
+                        <div class="col-xs-3 form-control-static" id="admin_team">
+                        <!--组别信息-->
                         </div>
                         <div class="col-xs-1">
                             <button type="button" class="btn btn-warning">重选</button>

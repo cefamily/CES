@@ -48,11 +48,16 @@ class UserInfoController extends ConstructController{
 		public function showuser(){
 			$userid=I('get.userid','','int');
 			$user=D('UserInfo','Logic');
+			
+			
 			if($userid!=''){
 				$result=$user->getuserById($userid);
 				if($result){
-					
+					$group=M('TeamInfo');
+					$grouplist=$group->select();
+					$this->assign('grouplist',$grouplist);
 					$this->assign('userinfo',$result);
+					$this->assign('item_index',2);
 					$this->display();
 				
 				}else{
