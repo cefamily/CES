@@ -5,7 +5,8 @@
         <h1>详细信息-User</h1>
         <div class="panel panel-default">
             <div class="panel-body">
-                <form class="form-horizontal">
+                <form class="form-horizontal" action="__URL__/updateuser" method="post">
+                    <input type="hidden" value="{$userinfo.userid}" name="userid"/>
                     <div class="form-group">
                         <label class="col-xs-2 control-label">用户名</label>
                         <div class="col-xs-4 form-control-static">{$userinfo.username}</div>
@@ -13,15 +14,17 @@
                     <div class="form-group">
                         <label class="col-xs-2 control-label">邮箱</label>
                         <div class="col-xs-4">
-                            <input type="text" class="form-control" value="{$userinfo.useremail}" placeholder="请输入邮箱"/>
+                            <input type="text" class="form-control" name="useremail" value="{$userinfo.useremail}" placeholder="请输入邮箱"/>
                         </div>
                     </div>
+                    <eq name="admintype" value="3">
                     <div class="form-group">
                         <label class="col-xs-2 control-label">密码</label>
                         <div class="col-xs-4">
-                            <input type="password" class="form-control" placeholder="请输入密码，留空为不修改">
+                            <button type="button" id="restpwd" class="btn btn-danger btn-block">重置密码</button>
                         </div>
                     </div>
+                    </eq>
  					 <div class="form-group">
                         <label class="col-xs-2 control-label">当前所在组</label>
                         <div class="col-xs-4 form-control-static">{$userinfo.teamname}</div>
