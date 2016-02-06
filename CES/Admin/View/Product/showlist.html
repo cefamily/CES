@@ -11,12 +11,14 @@
                 </tr>
             </thead>
             <tbody>
+				<volist name="productlist" id="vo">
             	<tr>
-                	<td>1</td>
-                    <td>Test</td>
-                    <td>Test</td>
-                    <td>Test</td>
-                    <td>Test</td>
+                	<td>{$vo.proid}</td>
+                    <td>{$vo.protitle}</td>
+                    <td>{$vo.username}</td>
+                    <td>{$vo.prostate}</td>
+                    <td>{$vo.protime}</td>
                 </tr>
+				</volist>
             </tbody>
             </table>
