@@ -17,6 +17,16 @@ class ConstructController extends Controller{
 		$this->adminid=session('admin.userid');
 		
 	}
+	
+	public function checkType($userid){
+		$user=M('UserInfo');
+		$type1=$user->where('UserId='.$userid)->getField('UserType');		
+		if($this->admintype>$type1){
+			return true;
+		}else{
+			return false;
+		}
+	}
 
 }
 ?>

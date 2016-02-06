@@ -53,8 +53,12 @@ class UserInfoController extends ConstructController{
 			if($userid!=''){
 				$result=$user->getuserById($userid);
 				if($result){
-					$group=M('TeamInfo');
-					$grouplist=$group->select();
+					$group=D('TeamInfo','Logic');
+					if($this->admintype=='3'){
+						$grouplist=$group->select();
+					}else{
+						$grouplist=$group->getTeamListByAdmin($this->adminid);
+					}
 					$this->assign('grouplist',$grouplist);
 					$this->assign('userinfo',$result);
 					$this->assign('item_index',2);
@@ -63,6 +67,19 @@ class UserInfoController extends ConstructController{
 				}else{
 					$this->error($user->getError());
 				}
+			}
+		}
+		
+		public function updateuser(){
+			$data['UserEmail']=I('post.useremail','','email');
+			$userid=I('post.userid','','int');
+			if(!$this->checkType($userid)) $this->error('权限不足');
+			$user=D('UserInfo','Logic');
+			$result=$user->updataByInfo($userid,$data);
+			if($result){
+				$this->success('修改成功');
+			}else{
+				$this->error($user->getError());
 			}
 		}
 	}
