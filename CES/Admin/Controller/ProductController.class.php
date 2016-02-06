@@ -22,6 +22,7 @@ class ProductController extends Controller{
 		$this->display();
 	}
 	public function showlistOfDeleted(){
+		if($this->admintype<4)$this->error('无权限操作');
 		$pagedata['now'] = $page = I('param.page',1,'int');
 		$product=D('ProductInfo','Logic');
 		$productListInfo = $product->getListByDeleted($page);
