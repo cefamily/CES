@@ -42,7 +42,7 @@
             <volist name="userlist" id="vo">
                 <tr class="{$vo['usertype']=='2'?'warning':($vo['usertype']=='1'?'success':'')}">
                 	<td>{$vo.userid}</td>
-                    <td>{$vo.username}</td>
+                    <td><a href="__URL__/showuser/userid/{$vo.userid}">{$vo.username}</a></td>
                     <td>{$vo.regtime}</td>
                     <td>{$vo.teamname}</td>
                     <td>{$vo['usertype']=='2'?'管理员':($vo['usertype']=='1'?'汉化组成员':'普通用户')}</td>

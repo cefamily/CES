@@ -46,6 +46,22 @@ class UserInfoLogic extends Model{
 		return $data;
 	}
 	
+	public function getuserById($id=0){
+		$where['user_info.UserId']=$id;
+		$result=$this->field("user_info.*,GROUP_CONCAT(`TeamName` separator ' | ') as TeamName")
+						->join('LEFT JOIN user_team ON user_info.UserId=user_team.UserId')
+						->join('LEFT JOIN team_info ON user_team.TeamId=team_info.TeamId')
+						->where($where)
+						->group('user_info.UserId')
+						->find();
+		if($result){
+			return $result;
+		}else{
+			$this->error='未查找到此用户';
+			return false;
+		}
+	}
+	
 	private function updata($where,$data){
 		$user=D('UserInfo');
 		if($user->create($data)){

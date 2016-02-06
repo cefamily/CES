@@ -1,7 +1,6 @@
 <?php
 namespace Admin\Controller;
-use Admin\Common\Controller\Construct;
-class UserInfoController extends Construct{
+class UserInfoController extends ConstructController{
 		public function _initialize(){
 			parent::_initialize();
 		}
@@ -47,7 +46,19 @@ class UserInfoController extends Construct{
 			$this->display();
 		}
 		public function showuser(){
-			
+			$userid=I('get.userid','','int');
+			$user=D('UserInfo','Logic');
+			if($userid!=''){
+				$result=$user->getuserById($userid);
+				if($result){
+					
+					$this->assign('userinfo',$result);
+					$this->display();
+				
+				}else{
+					$this->error($user->getError());
+				}
+			}
 		}
 	}
 ?>
