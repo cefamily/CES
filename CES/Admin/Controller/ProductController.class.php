@@ -1,7 +1,6 @@
 <?php
 namespace Admin\Controller;
-use Think\Controller;
-class ProductController extends Controller{
+class ProductController extends Construct{
 	public function _initialize(){
 		if(!session('?admin') || session('admin.usertype')<2){
 			$this->error('非法操作');
@@ -31,6 +30,11 @@ class ProductController extends Controller{
 		$this->assign('productlist',$productListInfo[1]);
 		$this->assign('item_index',0);
 		$this->display();
+	}
+	
+	public function clearProduct(){
+		
+		
 	}
 }
 ?>
