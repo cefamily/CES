@@ -48,7 +48,7 @@ class UserInfoController extends ConstructController{
 		public function showuser(){
 			$userid=I('get.userid','','int');
 			$user=D('UserInfo','Logic');
-			
+			if(!$this->checkType($userid)) $this->error('权限不足');
 			
 			if($userid!=''){
 				$result=$user->getuserById($userid);
@@ -81,6 +81,30 @@ class UserInfoController extends ConstructController{
 			}else{
 				$this->error($user->getError());
 			}
+		}
+		
+		public function resetpwd_ajax(){
+			if(!IS_AJAX) $this->error('非法操作');
+			
+			$pwd=I('post.pwd','',false);
+			$userid=I('post.userid','','int');
+			
+			if(!$this->checkType($userid)){
+				$request='TYPE_ERR';
+				$this->ajaxReturn($request);
+				return;
+				}
+			
+			$user=M('UserInfo');
+			$name=$user->where('UserId='.$userid)->getField('UserName');
+			$data['UserPwd']=md5($pwd.$name);
+			$result= $user->where('UserId='.$userid)->save($data);
+			if($result){
+				$request='OK';
+			}else{
+				$request='ERR';
+			}
+			$this->ajaxReturn($request);
 		}
 	}
 ?>

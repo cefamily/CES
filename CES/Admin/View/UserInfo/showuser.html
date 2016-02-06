@@ -1,4 +1,9 @@
 <layout name="../Tpl/layout" />
+<load href="__PUBLIC__/Js/md5.js"/>
+
+<script type="text/javascript">
+	var path="__URL__";
+</script>
 <load href="__PUBLIC__/Js/admin/showuser.js"/>
 <div class="container">
     <div class="row">
@@ -6,7 +11,7 @@
         <div class="panel panel-default">
             <div class="panel-body">
                 <form class="form-horizontal" action="__URL__/updateuser" method="post">
-                    <input type="hidden" value="{$userinfo.userid}" name="userid"/>
+                    <input type="hidden" id="userid" value="{$userinfo.userid}" name="userid"/>
                     <div class="form-group">
                         <label class="col-xs-2 control-label">用户名</label>
                         <div class="col-xs-4 form-control-static">{$userinfo.username}</div>
@@ -20,8 +25,8 @@
                     <eq name="admintype" value="3">
                     <div class="form-group">
                         <label class="col-xs-2 control-label">密码</label>
-                        <div class="col-xs-4">
-                            <button type="button" id="restpwd" class="btn btn-danger btn-block">重置密码</button>
+                        <div class="col-xs-4" id="pwdbox">
+                            <button type="button" id="resetpwd" class="btn btn-danger btn-block">重置密码</button>
                         </div>
                     </div>
                     </eq>
