@@ -25,16 +25,18 @@
                     <th>用户名</th>
                     <th>注册时间</th>
                     <th>所属组别</th>
+                    <th>用户权限</th>
                     <th>操作</th>
                 </tr>
             </thead>
             <tbody>
             <volist name="userlist" id="vo">
-            	<tr>
+                <tr class="{$vo['usertype']=='2'?'warning':($vo['usertype']=='1'?'success':'')}">
                 	<td>{$vo.userid}</td>
                     <td>{$vo.username}</td>
                     <td>{$vo.regtime}</td>
                     <td>{$vo.teamname}</td>
+                    <td>{$vo['usertype']=='2'?'管理员':($vo['usertype']=='1'?'汉化组成员':'普通用户')}</td>
                     <td>Test</td>
                 </tr>
              </volist>
@@ -44,7 +46,7 @@
 		</div>
 	 <script type="text/javascript">
      $(document).ready(function(e) {
-         var group="{$Think.get.group}";
+         var group="{$Think.get.group|default=''}";
          var str="";
          if(group!=""){
             str="/group/"+group;
