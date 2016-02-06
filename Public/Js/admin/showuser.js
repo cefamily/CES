@@ -1,12 +1,8 @@
 // JavaScript Document
 $(document).ready(function(e) {
-
+var teamid;
+	$(".team_iteam").click(function(){
+			$("#groupdrop").html($(this).html());
+			teamid=$(this).attr("teamid");
+		});
 });
-
-function admin_init(){
-	var strdata=teamname.split(' | ');
-	var i;
-	for(i=0;i<strdata.length;i++){
-		$("#admin_team").append("<span class='label label-primary'>"+strdata[i]+"</span>");
-	}
-}
