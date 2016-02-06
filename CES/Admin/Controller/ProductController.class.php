@@ -13,8 +13,8 @@ class ProductController extends Controller{
 		$pagedata['now'] = $page = I('param.page',1,'int');
 		$product=D('ProductInfo','Logic');
 		$state = I('param.state',-2,'int');
-		if($state>3 && $this->admintype<4)$this->error('无权限操作');
-		$productListInfo = $state==-2 ? $product->getList($page) : $product->getListByCondition($page,10,array('product_info.ProState='.$state));
+		if($state > 3 && $this->admintype < 4)$this->error('无权限操作');
+		$productListInfo = $state==-2 ? $product->getList($page) : $product->getListByState($page,$state);
 		$pagedata['count']=floor(($result['count']-1)/10+1);
 		$this->assign('pagedata',$pagedata);
 		$this->assign('productlist',$productListInfo[1]);
