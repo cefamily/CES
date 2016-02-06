@@ -9,10 +9,24 @@ class ProductController extends Controller{
 		$this->assign('adminname',session('admin.username'));
 		$this->assign('admintype',session('admin.usertype'));
 	}
-	public function showlist($page=1){
+	public function showlist(){
+		$pagedata['now'] = $page = I('param.page',1,'int');
 		$product=D('ProductInfo','Logic');
-		$productListInfo = $product->getList($page);
-		$this->assign('maxrow',$productListInfo[0]);
+		$state = I('param.state',-2,'int');
+		if($state>3 && $this->admintype<4)$this->error('无权限操作');
+		$productListInfo = $state==-2 ? $product->getList($page) : $product->getListByCondition($page,10,array('product_info.ProState='.$state));
+		$pagedata['count']=floor(($result['count']-1)/10+1);
+		$this->assign('pagedata',$pagedata);
+		$this->assign('productlist',$productListInfo[1]);
+		$this->assign('item_index',0);
+		$this->display();
+	}
+	public function showlistOfDeleted(){
+		$pagedata['now'] = $page = I('param.page',1,'int');
+		$product=D('ProductInfo','Logic');
+		$productListInfo = $product->getListByDeleted($page);
+		$pagedata['count']=floor(($result['count']-1)/10+1);
+		$this->assign('pagedata',$pagedata);
 		$this->assign('productlist',$productListInfo[1]);
 		$this->assign('item_index',0);
 		$this->display();

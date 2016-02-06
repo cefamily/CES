@@ -2,10 +2,10 @@
 namespace Admin\Logic;
 use Think\Model;
 class ProductInfoLogic extends Model{
-	private function getListByCondition($page=1,$where=false){
+	public function getListByCondition($page=1,$limit=10,$where=false){
 		$result=$this	->join('user_info on product_info.UserId = user_info.UserId')
 						->where($where)
-						->page($page,20)
+						->page($page,$limit)
 						->order('ProId DESC')
 							->select();
 		$count =$this	->field('count(*) as count')
@@ -20,10 +20,10 @@ class ProductInfoLogic extends Model{
 		}
 	}
 	public function getList($page){
-		return $this->getListByCondition($page,'product_info.ProState < 4');
+		return $this->getListByCondition($page,10,'product_info.ProState < 4');
 	}
 	public function getListByDeleted($page){
-		return $this->getListByCondition($page,'product_info.ProState > 3');
+		return $this->getListByCondition($page,10,'product_info.ProState > 3');
 	}
 	public function update($proId,$data){
 		return $this->updateByCondition(array('ProId'=>$proId),$data);
