@@ -48,6 +48,7 @@ class UserInfoLogic extends Model{
 	
 	public function getuserById($id=0){
 		$where['user_info.UserId']=$id;
+		$where['UserType']=array('LT',session('admin.usertype'));
 		$result=$this->field("user_info.*,GROUP_CONCAT(`TeamName` separator ' | ') as TeamName")
 						->join('LEFT JOIN user_team ON user_info.UserId=user_team.UserId')
 						->join('LEFT JOIN team_info ON user_team.TeamId=team_info.TeamId')
@@ -64,7 +65,7 @@ class UserInfoLogic extends Model{
 	
 	private function updata($where,$data){
 		$user=D('UserInfo');
-		if($user->create($data)){
+		if($user->create($data,2)){
 			$result=$user->where($where)->save();
 			if($result){
 				return true;
@@ -78,7 +79,11 @@ class UserInfoLogic extends Model{
 			return false;
 		}
 	}
-	
+	public function updataByInfo($id,$info){		
+		$where['UserId']=$id;
+		$result=$this->updata($where,$info);
+		return $result;
+	}
 	public function updataByType($id,$type){
 		$where['UserId']=$id;
 		$data['UserType']=$type;
