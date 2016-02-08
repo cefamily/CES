@@ -52,18 +52,11 @@ class UserInfoController extends ConstructController{
 			
 			if($userid!=''){
 				$result=$user->getuserById($userid);
+				
 				if($result){
-					$group=D('TeamInfo','Logic');
-					if($this->admintype=='3'){
-						$grouplist=$group->select();
-					}else{
-						$grouplist=$group->getTeamListByAdmin($this->adminid);
-					}
-					$this->assign('grouplist',$grouplist);
 					$this->assign('userinfo',$result);
 					$this->assign('item_index',2);
-					$this->display();
-				
+					$this->display();				
 				}else{
 					$this->error($user->getError());
 				}
