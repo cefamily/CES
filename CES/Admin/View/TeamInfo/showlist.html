@@ -18,11 +18,12 @@
             <volist name="grouplist" id="vo">
             <tr>
                 <td>{$vo.teamid}</td>
-                <td>{$vo.teamname}</td>
+                <td><a href="__URL__/showteam/teamid/{$vo.teamid}">{$vo.teamname}</a></td>
             </tr>
             </volist>
             </tbody>
         </table>
+        </div>
      <script type="text/javascript">
      $(document).ready(function(e) {
 		 
@@ -35,5 +36,4 @@
         <div class="row text-center">
             <ul class="pagination" id="pagebox" count="{$pagedata.count}" now="{$pagedata.now}"></ul>
         </div>
-    </div>
 </div>
