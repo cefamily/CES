@@ -19,6 +19,9 @@
 		var count =parseInt($(this).attr('count'));
 		var now =parseInt($(this).attr('now'));
 		var temp;
+		
+		if(count==1) return; //如果只有一页则不显示分页
+		
 		if(count<opts.view){
 			temp=count;
 		}else{
