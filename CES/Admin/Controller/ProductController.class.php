@@ -80,9 +80,7 @@ class ProductController extends ConstructController{
 		$proid = I('post.ProId',0,'int');
 		if(!$proid)$this->error('proId不存在');
 		if(I('post.ProState',0,'int') > 3 && $this->admintype < 4)$this->error('无权限操作');
-		$product = D('ProductInfo');
-		$result = D('ProductInfo')->where('ProId='.$proid)->save($info);
-		//$result = $product->where('proid=1')->save(array('Protitle'=>'test5'));
+		$result = D('ProductInfo','Logic')->update($proid,$info);
 		if(!$result)$this->error($product->error);
 		else $this->success('修改成功');
 	}
