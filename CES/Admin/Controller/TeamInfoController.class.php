@@ -27,5 +27,42 @@ class TeamInfoController extends ConstructController{
 				$this->assign('pagedata',$pagedata);
 				$this->display();
 		}
+		
+		public function addTeam_ajax(){
+			
+			if($this->admintype<3) $this->error('权限不足');
+			
+			$team=D('TeamInfo','Logic');
+			$name=I('post.teamname','','string');
+			
+			$res=$team->createTeam($name);
+			if($res){
+				$result='OK';
+			}else{
+				$result=$team->getError();
+			}
+			$this->ajaxReturn($result);
+		}
+		
+		public function deleteTeam_ajax(){
+			if($this->admintype<3) $this->error('权限不足');
+			
+			$teamid=I('post.teamid','0','int');
+			
+			$userteam=M('UserTeam');
+			$team=M('TeamInfo');
+			$res=$userteam->where('TeamId='.$teamid)->delete();
+			if($res>=0){
+					$res=$team->where('TeamId='.$teamid)->delete();
+					if($res!=false){
+						$result='OK';
+					}else{
+						$result='删除出错'.$res;
+					}
+			}else{
+				$result='删除成员出错'.$res;
+			}
+			$this->ajaxReturn($result);
+		}
 }
 ?>

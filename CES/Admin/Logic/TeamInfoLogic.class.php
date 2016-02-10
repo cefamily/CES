@@ -12,5 +12,22 @@ class TeamInfoLogic extends Model{
 			->getField('count(*)');
 		return $result;
 	}
+	
+	public function createTeam($name){
+		$team=D('TeamInfo');
+		$data['TeamName']=$name;
+		if($team->create($data)){
+			$result=$team->add();
+			if($result){
+				return true;
+			}else{
+				$this->error='添加失败';
+				return false;
+			}
+		}else{
+			$this->error=$team->getError();
+			return false;
+		}
+	}
 }
 ?>
