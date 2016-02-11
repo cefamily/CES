@@ -1,0 +1,39 @@
+<layout name="../Tpl/layout" />
+<script>
+	var path="__URL__";
+</script>
+<div class="container">
+    <div class="row">
+        <h1>组内成员
+            <small>{$teaminfo.teamname}</small>
+        </h1>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> 添加成员</button>
+                    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-plus-sign"></span> 添加管理员</button>
+                </div>
+            </div>
+        </div>
+            <table class="table table-striped table-bordered">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>用户名</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <volist name='meblist' id='vo'>
+                <tr class="{$vo['adminflag']==1?danger:''}">
+                    <td>{$vo.userid}</td>
+                    <td>{$vo.username}</td>
+                    <td>
+                        <button class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-minus-sign"></span> 移除</button>
+                    </td>
+                </tr>
+                </volist>
+                </tbody>
+            </table>
+    </div>
+</div>

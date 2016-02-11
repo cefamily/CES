@@ -57,6 +57,20 @@ class UserTeamLogic extends Model{
 		
 	}
 	
+	public function getlist($where,$page=1,$view=10){
+		$team=M('UserTeam');
+		$result['data']=$team->join('user_info ON user_info.UserId=user_team.UserId')
+								->join('team_info ON team_info.TeamId=user_team.TeamId')
+								->where($where)
+								->page($page,$view)
+								->select();
+		$result['count']=$team->join('user_info ON user_info.UserId=user_team.UserId')
+								->join('team_info ON team_info.TeamId=user_team.TeamId')
+								->where($where)
+								->getField('count(*)');
+		return $result;
+	}
+	
 	private function checkuser($data,$flag=false){
 		$user=D('UserInfo','Logic');
 		$team=M('TeamInfo');
