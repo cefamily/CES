@@ -93,7 +93,7 @@ class TeamInfoController extends ConstructController{
 				$pagedata['count']+=1;
 			}
 			$pagedata['now']=$page;
-			$this->assign('count',$pagedata);
+			$this->assign('pagedata',$pagedata);
 			$this->assign('meblist',$result['data']);
 			$this->assign('teaminfo',$teamre);
 			$this->display();

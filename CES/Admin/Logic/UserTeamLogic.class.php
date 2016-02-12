@@ -100,6 +100,7 @@ class UserTeamLogic extends Model{
 								->join('team_info ON team_info.TeamId=user_team.TeamId')
 								->where($where)
 								->page($page,$view)
+								->order('AdminFlag DESC,user_info.UserId DESC')
 								->select();
 		$result['count']=$team->join('user_info ON user_info.UserId=user_team.UserId')
 								->join('team_info ON team_info.TeamId=user_team.TeamId')
