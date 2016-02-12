@@ -87,7 +87,7 @@ class UserInfoLogic extends Model{
 	public function updataByType($id,$type){
 		$where['UserId']=$id;
 		$data['UserType']=$type;
-		$result=$this->updata($where,$data);
+		$result=$this->where($where)->data($data)->save();
 		return $result;
 	}
 }
