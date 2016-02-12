@@ -88,7 +88,7 @@ class TeamInfoController extends ConstructController{
 			$result=$team->getlist($where,$page,$view);
 			
 			$pagedata['count']=$result['count']/$view;
-			if($grouplist['count']%$view!=0)
+			if($result['count']%$view!=0)
 			{
 				$pagedata['count']+=1;
 			}
@@ -97,6 +97,30 @@ class TeamInfoController extends ConstructController{
 			$this->assign('meblist',$result['data']);
 			$this->assign('teaminfo',$teamre);
 			$this->display();
+		}
+		
+		public function addMember_ajax(){
+			$data['UserId']=I('post.userid','0','int');
+			$data['TeamId']=I('post.teamid','0','int');
+			
+			if($this->checkType($data['UserId'],1)){
+					
+				$userteam=D('UserTeam','Logic');
+				if($userteam->checkadmin($this->adminid,$data['TeamId']) || $this->admintype=='3'){
+					if($userteam->addMember($data)){
+						$res='OK';
+					}else{
+						$res=$userteam->getError();
+					}
+				}else{
+					$res='您无权管理此组';
+				}
+			}else{
+				 $res='权限不足';
+			}
+			
+			$this->ajaxReturn($res);
+			
 		}
 }
 ?>

@@ -48,4 +48,30 @@ $(document).ready(function(e) {
 			alert("验证失败，取消操作");
 		}
 		});
+		
+		$("#addmember").click(function(){
+			$("#modal1").modal('hide');
+			var userid=$("#userid").val();
+			$.ajax({
+				url:path+"/addMember_ajax",
+				type:"POST",
+				dataType:"JSON",
+				data:{"userid":userid,"teamid":teamid},
+				success:function(data){
+					if(data=="OK"){
+						alert("添加成功");
+						location.reload();
+					}else{
+						alert(data);
+					}
+					},
+				error:function(ex){
+					$("body").html(ex.responseText);
+				console.log(ex);
+			}
+				
+				});
+			
+			});
+		
 });
