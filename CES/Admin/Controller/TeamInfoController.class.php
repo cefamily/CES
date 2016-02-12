@@ -122,5 +122,28 @@ class TeamInfoController extends ConstructController{
 			$this->ajaxReturn($res);
 			
 		}
+	
+		public function delMember_ajax(){
+			$data['UserId']=I('post.userid','0','int');
+			$data['TeamId']=I('post.teamid','0','int');
+			
+			if($this->checkType($data['UserId'],1)){			
+				$userteam=D('UserTeam','Logic');
+				if($userteam->checkadmin($this->adminid,$data['TeamId']) || $this->admintype=='3'){
+					if($userteam->delMember($data)){
+						$res='OK';
+					}else{
+						$res=$userteam->getError();
+					}
+				}else{
+					$res='您无权管理此组';
+				}
+			}else{
+				 $res='权限不足';
+			}
+			
+			$this->ajaxReturn($res);
+			
+		}
 }
 ?>

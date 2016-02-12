@@ -10,10 +10,10 @@ class UserTeamLogic extends Model{
 		$uid=$userinfo->where('UserId='.$data['UserId'])->find();
 		
 		//如果为普通用户自动添加汉化组权限
-		if($uid['UserType']==0){
+		if($uid['usertype']=='0'){
 			$t=$userinfo->updataByType($data['UserId'],1);
 			if(!$t){
-				$this->error='type:'.$userinfo->getError();
+				$this->error='更改权限失败';
 				return false;
 			}
 		}
@@ -44,11 +44,11 @@ class UserTeamLogic extends Model{
 		$result=$this->where($data)->delete();
 		
 		//如果该用户没有属于任何组且仅为汉化组成员则撤销其汉化组权限，降级为普通用户
-		$m=$this->where('UserId='.$data['UserId'])-find();
+		$m=$this->where('UserId='.$data['UserId'])->find();
 		if(!$m){
 			$userinfo=D('UserInfo','Logic');
 			$uid=$userinfo->where('UserId='.$data['UserId'])->find();
-			if($uid['UserType']==1){
+			if($uid['usertype']=='1'){
 				$t=$userinfo->updataByType($data['UserId'],0);
 				if(!$t){
 					$this->error='type:'.$userinfo->getError();

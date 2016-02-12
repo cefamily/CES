@@ -33,7 +33,7 @@
                     <td>{$vo.userid}</td>
                     <td>{$vo.username}</td>
                     <td>
-                        <button class="delmember btn btn-danger btn-sm"><span class="glyphicon glyphicon-minus-sign"></span> 移除</button>
+                        <button class="delmember btn btn-danger btn-sm" uid="{$vo.userid}"><span class="glyphicon glyphicon-minus-sign"></span> 移除</button>
                         <if condition="$admintype eq 3 && $vo.adminflag eq 1">
                         <button class="deladmin btn btn-warning btn-sm"><span class="glyphicon glyphicon-remove-circle"></span> 撤销管理权限</button></if>
                     </td>
@@ -86,7 +86,7 @@
                 <button type="button" class="btn btn-default"
                         data-dismiss="modal">关闭
                 </button>
-                <button type="button" id="addmember" class="btn btn-primary">
+                <button type="button" id="addadmin" class="btn btn-primary">
                     提交
                 </button>
             </div>

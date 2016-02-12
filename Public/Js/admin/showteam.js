@@ -35,12 +35,13 @@ $(document).ready(function(e) {
 			success: function(data){
 					if(data=="OK"){
 						alert("删除成功");
-						window.location=path+"/showlist";
+						location.reload();
 					}else{
 						alert(data);
 					}
 				},
 			error:function(ex){
+				alert('发生未知错误,请联系管理解决');
 				console.log(ex);
 			}
 			});	
@@ -66,12 +67,38 @@ $(document).ready(function(e) {
 					}
 					},
 				error:function(ex){
-					$("body").html(ex.responseText);
+				alert('发生未知错误,请联系管理解决');
 				console.log(ex);
 			}
 				
 				});
 			
+			});
+			
+		$(".delmember").click(function(){
+			var userid=$(this).attr("uid");
+			var a=confirm("您真的要移除此成员吗？");
+			if(!a) return;
+			
+			$.ajax({
+				url:path+"/delMember_ajax",
+				type:"POST",
+				dataType:"JSON",
+				data:{"userid":userid,"teamid":teamid},
+				success:function(data){
+					if(data=="OK"){
+						alert("删除成功");
+						location.reload();
+					}else{
+						alert(data);
+					}
+					},
+				error:function(ex){
+				alert('发生未知错误,请联系管理解决');
+				console.log(ex);
+			}
+				
+				});
 			});
 		
 });
