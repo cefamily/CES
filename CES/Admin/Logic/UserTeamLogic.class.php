@@ -140,27 +140,26 @@ class UserTeamLogic extends Model{
 	private function checkuser($data,$flag=false){
 		$user=M('UserInfo');
 		$team=M('TeamInfo');
-		$flag=true;
 		
 		//检测用户和群组状态
 		$uid=$user->where('UserId='.$data['UserId'])->find();
 		if(!$uid){
 			$this->error='用户不存在';
-			$flag=false;
+			return false;
 		}
 		
 		if($flag && $uid['usertype']<'2'){
 			$this->error='该用户权限不足';
-			$flag=false;
+	 		return false;
 		}
 		
 		$tid=$team->where('TeamId='.$data['TeamId'])->find();
 		if(!$tid){
 			$this->error='群组不存在';
-			$flag=false;
+			return false;
 		}
 					
-		return $flag;
+		return true;
 	}
 }
 ?>
