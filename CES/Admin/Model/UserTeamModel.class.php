@@ -8,7 +8,7 @@ class UserTeamModel extends  Model{
 		array('TeamId','require','群组ID必须',1)
 	);
 	protected  $_auto=array(
-		array('AdminFlag','0')
+		//array('AdminFlag','0',)
 	);
 }
 ?>

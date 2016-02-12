@@ -101,4 +101,55 @@ $(document).ready(function(e) {
 				});
 			});
 		
+		$("#addadmin").click(function(){
+			$("#modal2").modal('hide');
+			var adminid=$("#adminid").val();
+			$.ajax({
+				url:path+"/addTeamAdmin_ajax",
+				type:"POST",
+				dataType:"JSON",
+				data:{"adminid":adminid,"teamid":teamid},
+				success:function(data){
+					if(data=="OK"){
+						alert("添加成功");
+						location.reload();
+					}else{
+						alert(data);
+					}
+					},
+				error:function(ex){
+				alert('发生未知错误,请联系管理解决');
+				$('body').html(ex.responseText);
+				console.log(ex);
+			}
+				
+				});
+			
+			});
+			
+		$(".deladmin").click(function(){
+		var adminid=$(this).attr("uid");
+			var a=confirm("您真的要移除此成员的管理权限吗？");
+			if(!a) return;
+			
+			$.ajax({
+				url:path+"/delTeamAdmin_ajax",
+				type:"POST",
+				dataType:"JSON",
+				data:{"adminid":adminid,"teamid":teamid},
+				success:function(data){
+					if(data=="OK"){
+						alert("操作成功");
+						location.reload();
+					}else{
+						alert(data);
+					}
+					},
+				error:function(ex){
+				alert('发生未知错误,请联系管理解决');
+				console.log(ex);
+			}
+				
+				});
+			});
 });

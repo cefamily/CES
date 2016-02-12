@@ -66,9 +66,23 @@ class UserTeamLogic extends Model{
 	}
 	
 	public function addTeamAdmin($data){
-		if(!checkuser($data,true)) return false;
+		if(!$this->checkuser($data,true)) return false;
 		
 		$userteam=D('UserTeam');
+		
+		
+		$temp=$this->where($data)->find();
+		if($temp){
+			$t=$this->where($data)->setField('AdminFlag','1');
+			if($t)
+			{
+				return true;
+			}else{
+				$this->error='添加失败';
+				return false;
+			}
+		}
+		
 		$data['AdminFlag']='1';
 		if($userteam->create($data)){
 			$result=$userteam->add();
@@ -85,11 +99,12 @@ class UserTeamLogic extends Model{
 	}
 	
 	public function delTeamAdmin($where){
-		$data['AdminFlag']=0;
-		$result=$this->where($where)->data($data)->save();
+
+		$result=$this->where($where)->setField('AdminFlag','0');
 		if($result){
 			return true;
 		}else{
+			$this->error='操作失败';
 			return false;
 		}
 	}
@@ -123,27 +138,29 @@ class UserTeamLogic extends Model{
 	}
 	
 	private function checkuser($data,$flag=false){
-		$user=D('UserInfo','Logic');
+		$user=M('UserInfo');
 		$team=M('TeamInfo');
+		$flag=true;
 		
 		//检测用户和群组状态
-		$uid=$user->where($data['UserId'])->find();
+		$uid=$user->where('UserId='.$data['UserId'])->find();
 		if(!$uid){
 			$this->error='用户不存在';
-			return false;
-		}
-		if($flag && !$uid['UserType']>1){
-			$this->error='该用户权限不足';
-			return false;
+			$flag=false;
 		}
 		
-		$tid=$team->where($data['TeamId'])->find();
+		if($flag && $uid['usertype']<'2'){
+			$this->error='该用户权限不足';
+			$flag=false;
+		}
+		
+		$tid=$team->where('TeamId='.$data['TeamId'])->find();
 		if(!$tid){
 			$this->error='群组不存在';
-			return false;
+			$flag=false;
 		}
-		
-		return true;
+					
+		return $flag;
 	}
 }
 ?>

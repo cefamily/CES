@@ -35,7 +35,7 @@
                     <td>
                         <button class="delmember btn btn-danger btn-sm" uid="{$vo.userid}"><span class="glyphicon glyphicon-minus-sign"></span> 移除</button>
                         <if condition="$admintype eq 3 && $vo.adminflag eq 1">
-                        <button class="deladmin btn btn-warning btn-sm"><span class="glyphicon glyphicon-remove-circle"></span> 撤销管理权限</button></if>
+                        <button class="deladmin btn btn-warning btn-sm" uid="{$vo.userid}"><span class="glyphicon glyphicon-remove-circle"></span> 撤销管理权限</button></if>
                     </td>
                 </tr>
                 </volist>

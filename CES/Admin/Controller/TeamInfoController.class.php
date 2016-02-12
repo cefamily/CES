@@ -145,5 +145,41 @@ class TeamInfoController extends ConstructController{
 			$this->ajaxReturn($res);
 			
 		}
+		
+		public function addTeamAdmin_ajax(){
+			$data['UserId']=I('post.adminid','0','int');
+			$data['TeamId']=I('post.teamid','0','int');
+					
+				$userteam=D('UserTeam','Logic');
+				if($this->admintype=='3'){
+					if($userteam->addTeamAdmin($data)){
+						$res='OK';
+					}else{
+						$res=$userteam->getError();
+					}
+				}else{
+					$res='您无权进行此操作';
+				}
+			$this->ajaxReturn($res);
+			
+			
+		}
+		
+		public function delTeamAdmin_ajax(){
+			$data['UserId']=I('post.adminid','0','int');
+			$data['TeamId']=I('post.teamid','0','int');
+					
+				$userteam=D('UserTeam','Logic');
+				if($this->admintype=='3'){
+					if($userteam->delTeamAdmin($data)){
+						$res='OK';
+					}else{
+						$res=$userteam->getError();
+					}
+				}else{
+					$res='您无权进行此操作';
+				}
+			$this->ajaxReturn($res);
+		}
 }
 ?>
