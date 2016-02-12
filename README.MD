@@ -9,6 +9,7 @@ Civilization Extend System
 
 #参与人员
 * [H.cat](https://github.com/uccu "uccu")<br>
+* [mchobits](https://github.com/mchobits "mchobits")<br>
 * [呆萌](https://github.com/democyann "democyann")
 
 #其他声明
