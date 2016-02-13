@@ -21,7 +21,9 @@ class ProductController extends ConstructController{
 		if($state > 97 && $this->admintype < 3)$this->error('无权限操作');
 		$search = I('param.search',false);
 		$userid = I('param.userid',false,'int');
-		$productListInfo = $product->searchProducts($page,$state,$userid,$search);
+		$productListInfo = $product->searchProductsLimit($page,$state,$userid,$search,$this->admintype==3?0:$this->tlist);
+		
+		
 		$pagedata['count']=floor(($result['count']-1)/10+1);
 		$this->assign('pagedata',$pagedata);
 		$this->assign('productlist',$productListInfo[1]);

@@ -3,22 +3,31 @@ namespace Admin\Logic;
 use Think\Model;
 class ProductInfoLogic extends Model{
 	public $admintype =0;
-	private function getListByCondition($page=1,$limit=10,$where=false){
+	private function getListByCondition($page=1,$limit=10,$tlist=array(),$where=false){
 		 //$r = $this->query("update product_info set protitle='test'");die($r?'1':'0');
 		// var_dump($r);
 		// die();
-		$anotherWhere['user_info.UserType']=array('ELT',$this->admintype);
-		$result=$this	->join('user_info on product_info.UserId = user_info.UserId')
-						->where($anotherWhere)
-						->where($where)
-						->page($page,$limit)
-						->order('ProId DESC')
-							->select();
-		$count =$this	->field('count(*) as count')
-						->join('user_info on product_info.UserId = user_info.UserId')
-						->where($anotherWhere)
-						->where($where)
-						->find();
+
+		if($tlist){
+			$anotherWhere['progress.Type']=array('EQ','team');
+			$anotherWhere['progress.ProgressText']=array('IN',$tlist);
+		}
+		$result = M('Progress')	->field('product_info.*,user_info.*')
+								->join('product_info on progress.ProId = product_info.ProId')
+								->join('user_info on product_info.UserId = user_info.UserId')
+								->where($anotherWhere)
+								->where($where)
+								->page($page,$limit)
+								->order('progress.ProId DESC')
+								//->fetchSql(true)
+								->select();
+								//var_dump($result);die();
+		$count = M('Progress')	->field('product_info.*,user_info.*')
+								->join('product_info on progress.ProId = product_info.ProId')
+								->join('user_info on product_info.UserId = user_info.UserId')
+								->where($anotherWhere)
+								->where($where)
+								->find();
 		$count=$count['count'];
 		if($result){
 			return array($count,$result);
@@ -26,15 +35,12 @@ class ProductInfoLogic extends Model{
 			return array(0,array());;
 		}
 	}
-	public function getList($page){
-		return $this->getListByCondition($page,10,'product_info.ProState < 98');
-	}
-	public function searchProducts($page,$state=false,$userid=false,$search=false){
+	public function searchProducts($page,$state=false,$userid=false,$search=false,$tlist=false){
 		$where['product_info.ProState']=array('LT',98);
 		if($state)$where['product_info.ProState']=array('EQ',floor($state));
 		if($userid)$where['product_info.UserId']=array('EQ',floor($userid));
 		if($search)$where['product_info.ProTitle']=array('LIKE','%'.$search.'%');
-		return $this->getListByCondition($page,10,$where);
+		return $this->getListByCondition($page,10,$tlist?$tlist:0,$where);
 	}
 	public function getListByDeleted($page){
 		return $this->searchProducts($page,98);
