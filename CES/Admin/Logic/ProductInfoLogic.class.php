@@ -3,7 +3,7 @@ namespace Admin\Logic;
 use Think\Model;
 class ProductInfoLogic extends Model{
 	private function getListByCondition($page=1,$limit=10,$where=false){
-		// $r = $this->where('UNIX_TIMESTAMP()-UNIX_TIMESTAMP(ProTime)>24*3600*1')->field('(UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(ProTime))/(3600*24),ProTime,UNIX_TIMESTAMP()')->select();
+		 //$r = $this->query("update product_info set protitle='test'");die($r?'1':'0');
 		// var_dump($r);
 		// die();
 		$result=$this	->join('user_info on product_info.UserId = user_info.UserId')
@@ -39,7 +39,7 @@ class ProductInfoLogic extends Model{
 		return $this->updateByCondition(array('ProId'=>$proId),$data);
 	}
 	private function updateByCondition($where,$data){
-		return $this->where($where)-save($data);
+		return $this->where($where)->save($data);
 	}
 	public function fakeDelete($proId){
 		return $this->update($proId,array('ProState'=>4));
