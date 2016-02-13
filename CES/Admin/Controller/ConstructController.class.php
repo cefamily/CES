@@ -5,6 +5,7 @@ class ConstructController extends Controller{
 	
 	protected $adminname='';
 	protected $admintype;
+	protected $tlist;
 	
 	public function _initialize(){
 		if(!session('?admin') || session('admin.usertype')<2){
@@ -15,7 +16,8 @@ class ConstructController extends Controller{
 		$this->adminname=session('admin.username');
 		$this->admintype=session('admin.usertype');
 		$this->adminid=session('admin.userid');
-		
+		$team=M('UserTeam');
+		$this->tlist=$team->where('UserId='.$this->adminid.' AND AdminFlag=1')->getField('teamid',true);
 	}
 	
 	public function checkType($userid,$flag=false){
@@ -32,6 +34,6 @@ class ConstructController extends Controller{
 			return false;
 		}
 	}
-
+	
 }
 ?>

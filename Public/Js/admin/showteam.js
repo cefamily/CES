@@ -2,6 +2,7 @@
 $(document).ready(function(e) {
     $("#add").click(function(){
 		var name=prompt("请输入要添加的组名");
+		if(!name) return;
 		$.ajax({
 			url:path+"/addTeam_ajax",
 			type:"POST",

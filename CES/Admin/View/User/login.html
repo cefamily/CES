@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 <title>管理员登录</title>
 <load href="__PUBLIC__/Css/bootstrap.min.css"/>
 <load href="__PUBLIC__/Js/md5.js"/>
@@ -29,8 +30,8 @@ var rand="__URL__/randimg";
 <body>
 <div class="container">
 	<div class="row">
-        <div class="col-xs-3"></div>
-        <div class="col-xs-6 mainback">
+        <div class="col-md-3"></div>
+        <div class="col-xs-12 col-md-6 mainback">
             <div class="panel panel-default panel_box">
                 <div class="panel-heading">
                     登录
@@ -51,10 +52,10 @@ var rand="__URL__/randimg";
                         </div>
                         <div class="form-group">
                             <label class="col-xs-3 control-label">验证码</label>
-                            <div class="col-xs-5">
+                            <div class="col-xs-3">
                                 <input type="text" class="form-control" name="rand" id="rand" placeholder="请输入验证码">
                             </div>
-                            <div class="col-xs-4"><img id="randimg" class="img-responsive" src="__URL__/randimg" /></div>
+                            <div class="col-xs-5"><img id="randimg" class="img-responsive" src="__URL__/randimg" /></div>
                         </div>
                         <div class="form-group">
                             <div class="col-xs-9 col-xs-offset-2">
@@ -65,7 +66,7 @@ var rand="__URL__/randimg";
                 </div>
             </div>
         </div>
-        <div class="col-xs-3"></div>
+        <div class="col-md-3"></div>
     </div>
 </div>
 </body>
