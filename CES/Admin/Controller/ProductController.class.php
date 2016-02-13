@@ -3,7 +3,7 @@ namespace Admin\Controller;
 class ProductController extends ConstructController{
 	public function _initialize(){
 		parent::_initialize();
-		D('ProductInfo','Logic')->admintype = $this->admintype;
+		//D('ProductInfo','Logic')->admintype = $this->admintype;
 	}
 	/*************************
 	** 需要模板
