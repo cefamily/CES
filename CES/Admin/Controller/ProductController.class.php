@@ -7,14 +7,14 @@ class ProductController extends ConstructController{
 	** 模板提供变量
 	**     $pagedata	页面信息：最大页数count，当前页数now
 	**     $productlist	任务信息列表【数组】
-	** 支持search搜索，userid查询，state搜索（查询已删除需要管理员权限4）
+	** 支持search搜索，userid查询，state搜索（查询已删除需要管理员权限3）
 	** 格式为 URL+/page/页数/search/测试名字/state/2/userid/9 (顺序无关)
 	*************************/
 	public function showlist(){
 		$pagedata['now'] = $page = I('param.page',1,'int');
 		$product=D('ProductInfo','Logic');
 		$state = I('param.state',false,'int');
-		if($state > 3 && $this->admintype < 4)$this->error('无权限操作');
+		if($state > 3 && $this->admintype < 3)$this->error('无权限操作');
 		$search = I('param.search',false);
 		$userid = I('param.userid',false,'int');
 		$productListInfo = $product->searchProducts($page,$state,$userid,$search);
@@ -27,14 +27,14 @@ class ProductController extends ConstructController{
 	/*************************
 	** 需要模板
 	** 列表已删除任务（中途某些原因删除的任务）
-	** 需要权限管理员等级4
+	** 需要权限管理员等级3
 	** 模板提供变量
 	**     $pagedata	页面信息：最大页数count，当前页数now
 	**     $productlist	任务信息列表【数组】
 	** 格式为 URL+/page/页数
 	*************************/
 	public function showlistOfDeleted(){
-		if($this->admintype<4)$this->error('无权限操作');
+		if($this->admintype<3)$this->error('无权限操作');
 		$pagedata['now'] = $page = I('param.page',1,'int');
 		$product=D('ProductInfo','Logic');
 		$productListInfo = $product->getListByDeleted($page);
@@ -47,10 +47,10 @@ class ProductController extends ConstructController{
 	/*************************
 	** ajax and post
 	** 清理1个星期前的任务
-	** 需要管理员权限4
+	** 需要管理员权限3
 	*************************/
 	public function clearProduct(){
-		if($this->admintype < 4)$this->error('无权限操作');
+		if($this->admintype < 3)$this->error('无权限操作');
 		if(!IS_POST || !IS_AJAX)$this->error('清理失败');
 		D('ProductInfo','Logic')->deleteProOfAWeekAge();
 		$this->success('清理成功');
@@ -58,14 +58,14 @@ class ProductController extends ConstructController{
 	/*************************
 	** ajax and post
 	** 得到对应proid的任务信息
-	** 获取已删除任务需要管理员权限4
+	** 获取已删除任务需要管理员权限3
 	** 格式为 URL+/proid/任务ID
 	*************************/
 	public function getInfoByProId($proid){
 		if(!IS_POST || !IS_AJAX)$this->error('获取失败');
 		$info = D('ProductInfo','Logic')->getInfoByProId($proid);
 		if(!$info)$this->error('无法获取制定的任务信息');
-		elseif($info['state']>3 && $this->admintype < 4)$this->error('无权限操作');
+		elseif($info['state']>3 && $this->admintype < 3)$this->error('无权限操作');
 		else $this->success($info);
 	}
 	/*************************
@@ -79,7 +79,7 @@ class ProductController extends ConstructController{
 		$info = I('post.');
 		$proid = I('post.ProId',0,'int');
 		if(!$proid)$this->error('proId不存在');
-		if(I('post.ProState',0,'int') > 3 && $this->admintype < 4)$this->error('无权限操作');
+		if(I('post.ProState',0,'int') > 3 && $this->admintype < 3)$this->error('无权限操作');
 		$result = D('ProductInfo','Logic')->update($proid,$info);
 		if(!$result)$this->error($product->error);
 		else $this->success('修改成功');
@@ -87,7 +87,7 @@ class ProductController extends ConstructController{
 	public function productInfo($proid){
 		$info = D('ProductInfo','Logic')->getInfoByProId($proid);
 		if(!$info)$this->error('无法获取制定的任务信息');
-		elseif($info['state']>3 && $this->admintype < 4)$this->error('无权限操作');
+		elseif($info['state']>3 && $this->admintype < 3)$this->error('无权限操作');
 		else{
 			$this->assign('productinfo',$info);
 			$this->assign('item_index',0);
