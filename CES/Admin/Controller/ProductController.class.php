@@ -1,6 +1,10 @@
 <?php
 namespace Admin\Controller;
 class ProductController extends ConstructController{
+	public function _initialize(){
+		parent::_initialize();
+		D('ProductInfo','Logic')->admintype = $this->admintype;
+	}
 	/*************************
 	** 需要模板
 	** 列表任务
@@ -14,7 +18,7 @@ class ProductController extends ConstructController{
 		$pagedata['now'] = $page = I('param.page',1,'int');
 		$product=D('ProductInfo','Logic');
 		$state = I('param.state',false,'int');
-		if($state > 3 && $this->admintype < 3)$this->error('无权限操作');
+		if($state > 97 && $this->admintype < 3)$this->error('无权限操作');
 		$search = I('param.search',false);
 		$userid = I('param.userid',false,'int');
 		$productListInfo = $product->searchProducts($page,$state,$userid,$search);
@@ -65,7 +69,7 @@ class ProductController extends ConstructController{
 		if(!IS_POST || !IS_AJAX)$this->error('获取失败');
 		$info = D('ProductInfo','Logic')->getInfoByProId($proid);
 		if(!$info)$this->error('无法获取制定的任务信息');
-		elseif($info['state']>3 && $this->admintype < 3)$this->error('无权限操作');
+		elseif($info['state']>97 && $this->admintype < 3)$this->error('无权限操作');
 		else $this->success($info);
 	}
 	/*************************
@@ -79,7 +83,7 @@ class ProductController extends ConstructController{
 		$info = I('post.');
 		$proid = I('post.ProId',0,'int');
 		if(!$proid)$this->error('proId不存在');
-		if(I('post.ProState',0,'int') > 3 && $this->admintype < 3)$this->error('无权限操作');
+		if(I('post.ProState',0,'int') > 97 && $this->admintype < 3)$this->error('无权限操作');
 		$result = D('ProductInfo','Logic')->update($proid,$info);
 		if(!$result)$this->error($product->error);
 		else $this->success('修改成功');
@@ -87,7 +91,7 @@ class ProductController extends ConstructController{
 	public function productInfo($proid){
 		$info = D('ProductInfo','Logic')->getInfoByProId($proid);
 		if(!$info)$this->error('无法获取制定的任务信息');
-		elseif($info['state']>3 && $this->admintype < 3)$this->error('无权限操作');
+		elseif($info['state']>97 && $this->admintype < 3)$this->error('无权限操作');
 		else{
 			$this->assign('productinfo',$info);
 			$this->assign('item_index',0);
