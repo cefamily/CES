@@ -14,7 +14,7 @@
 				<volist name="productlist" id="vo">
             	<tr>
                 	<td>{$vo.proid}</td>
-                    <td>{$vo.protitle}</td>
+                    <td><a href="/index.php/Admin/Product/productInfo/proid/{$vo.proid}">{$vo.protitle}</a></td>
                     <td>{$vo.username}</td>
                     <td>{$vo.prostate}</td>
                     <td>{$vo.protime}</td>

@@ -84,5 +84,15 @@ class ProductController extends ConstructController{
 		if(!$result)$this->error($product->error);
 		else $this->success('修改成功');
 	}
+	public function productInfo($proid){
+		$info = D('ProductInfo','Logic')->getInfoByProId($proid);
+		if(!$info)$this->error('无法获取制定的任务信息');
+		elseif($info['state']>3 && $this->admintype < 4)$this->error('无权限操作');
+		else{
+			$this->assign('productinfo',$info);
+			$this->assign('item_index',0);
+			$this->display();
+		}
+	}
 }
 ?>
