@@ -15,8 +15,8 @@
             	<tr>
                 	<td>{$vo.proid}</td>
                     <td><a href="/index.php/Admin/Product/productInfo/proid/{$vo.proid}">{$vo.protitle}</a></td>
-                    <td>{$vo.username}</td>
-                    <td>{$vo.prostate}</td>
+                    <td><a href="/index.php/Admin/Product/showlist/userid/{$vo.userid}">{$vo.username}</a></td>
+                    <td><a href="/index.php/Admin/Product/showlist/state/{$vo.prostate}">{$vo.prostate}</a></td>
                     <td>{$vo.protime}</td>
                 </tr>
 				</volist>
