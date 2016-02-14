@@ -4,6 +4,7 @@ class AdminController extends ConstructController{
 		public function _initialize(){
 			parent::_initialize();
 			if($this->admintype!='3') $this->error('权限不足');
+			$this->assign('item_index',4);
 		}
 		
 		public function index(){			
@@ -20,6 +21,25 @@ class AdminController extends ConstructController{
 			
 			$this->assign('pagedata',$pagedata);
 			$this->assign('adminlist',$result['data']);
+			$this->display();
+		}
+		
+		public function addadmin_ajax(){
+			$userid=I('post.userid','0','int');
+			$user=D('UserInfo','Logic');
+
+				$temp=$user->where('UserId='.$userid)->find();
+				if($temp && $temp['usertype']<'2'){
+				$t=$user->updataByType($userid,2);
+				if($t){
+					$res='OK';
+				}else{
+					$res='修改权限失败';
+				}
+			}else{
+				$res='当前用户权限大于等于管理员权限，无法操作';
+			}
+			$this->ajaxReturn($res);
 		}
 }
 ?>

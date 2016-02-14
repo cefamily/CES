@@ -64,8 +64,8 @@ class UserInfoLogic extends Model{
 	}
 	
 	public function getAdmin($page,$view=10){
-		$result['data']=$admin->where('UserType=2')->page($page,$view)->select();
-		$result['count']=$admin->where('UserType=2')->getField('count(*)');
+		$result['data']=$this->where('UserType=2')->page($page,$view)->select();
+		$result['count']=$this->where('UserType=2')->getField('count(*)');
 		return $result;
 	}
 	
