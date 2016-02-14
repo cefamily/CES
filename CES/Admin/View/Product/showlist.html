@@ -1,5 +1,12 @@
 <layout name="../Tpl/layout" />
+<div class="container">
+    <div class="row">
 	        <h1>任务列表</h1>
+            <div class="panel panel-default">
+            <div class="panel-body">
+				筛选控制
+            </div>
+        </div>
             <table class="table table-striped table-bordered">
             <thead>
             	<tr>
@@ -14,11 +21,13 @@
 				<volist name="productlist" id="vo">
             	<tr>
                 	<td>{$vo.proid}</td>
-                    <td><a href="/index.php/Admin/Product/productInfo/proid/{$vo.proid}">{$vo.protitle}</a></td>
-                    <td><a href="/index.php/Admin/Product/showlist/userid/{$vo.userid}">{$vo.username}</a></td>
-                    <td><a href="/index.php/Admin/Product/showlist/state/{$vo.prostate}">{$vo.prostate}</a></td>
+                    <td><a href="__URL__/productInfo/proid/{$vo.proid}">{$vo.protitle}</a></td>
+                    <td><a href="__URL__/showlist/userid/{$vo.userid}">{$vo.username}</a></td>
+                    <td><a href="__URL__/showlist/state/{$vo.prostate}">{$vo.prostate}</a></td>
                     <td>{$vo.protime}</td>
                 </tr>
 				</volist>
             </tbody>
             </table>
+	</div>
+</div>
