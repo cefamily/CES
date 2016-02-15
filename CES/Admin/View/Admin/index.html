@@ -23,7 +23,7 @@
                 <volist name='adminlist' id='vo'>
                 <tr>
                     <td>{$vo.userid}</td>
-                    <td>{$vo.username}</td>
+                    <td><a href="__MODULE__/UserInfo/showuser/userid/{$vo.userid}">{$vo.username}</a></td>
                     <td>
                         <button class="deladmin btn btn-danger btn-sm" uid="{$vo.userid}"><span class="glyphicon glyphicon-minus-sign"></span> 撤销管理权限</button>
                     </td>
