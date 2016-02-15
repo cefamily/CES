@@ -10,8 +10,8 @@ class AdminController extends ConstructController{
 		public function index(){			
 			$admin=D('UserInfo','Logic');
 			$view=10;
-			$pagedata['now']=I('get.page','1','int');			
-			$result=$admin->getAdmin($page,$view);
+			$pagedata['now']=I('get.page','1','int');	
+			$result=$admin->getAdmin($pagedata['now'],$view);
 			
 			$pagedata['count']=$result['count']/$view;
 			if($result['count']%$view!=0)
@@ -27,19 +27,27 @@ class AdminController extends ConstructController{
 		public function addadmin_ajax(){
 			$userid=I('post.userid','0','int');
 			$user=D('UserInfo','Logic');
-
-				$temp=$user->where('UserId='.$userid)->find();
-				if($temp && $temp['usertype']<'2'){
-				$t=$user->updataByType($userid,2);
-				if($t){
-					$res='OK';
-				}else{
-					$res='修改权限失败';
-				}
+			$t=$user->addAdmin($userid);
+			if($t){
+				$res='OK';
 			}else{
-				$res='当前用户权限大于等于管理员权限，无法操作';
+				$res=$user->getError();
 			}
 			$this->ajaxReturn($res);
 		}
+		
+		public function deladmin_ajax(){
+		
+			$userid=I('post.userid','0','int');
+			$user=D('UserInfo','Logic');
+			$t=$user->delAdmin($userid);
+			if($t){
+				$res='OK';
+			}else{
+				$res=$user->getError();
+			}
+			$this->ajaxReturn($res);
+		}
+		
 }
 ?>

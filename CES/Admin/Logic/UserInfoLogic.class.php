@@ -96,5 +96,46 @@ class UserInfoLogic extends Model{
 		$result=$this->where($where)->data($data)->save();
 		return $result;
 	}
+	
+	public function addAdmin($userid){
+			$temp=$this->where('UserId='.$userid)->find();
+			if(!$temp){
+				$this->error='此用户不存在';
+				return false;
+			}
+			if($temp['usertype']>='2'){
+				$this->error='当前用户权限大于等于管理员权限，无法操作';
+				return false;
+			}
+			$t=$this->updataByType($userid,2);
+			if($t){
+				return true;
+			}else{
+				$this->error='修改权限失败';
+				return false;
+			}
+	}
+	
+	public function delAdmin($userid){
+		$team=M('UserTeam');
+		$data['AdminFlag']=0;
+		$where['UserId']=$userid;
+		$where['AdminFlag']=1;
+		if($team->where($where)->find()){		
+			$temp=$team->where($where)->data($data)->save();
+			if(!$temp){
+				$this->error='撤销群组管理失败，请重新尝试';
+				return false;
+			}
+		}
+		
+		$t=$this->updataByType($userid,1);
+		if($t){
+			return true;
+		}else{
+			$this->error='修改权限失败';
+			return false;
+		}
+	}
 }
 ?>

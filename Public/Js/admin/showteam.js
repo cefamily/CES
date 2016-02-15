@@ -11,7 +11,7 @@ $(document).ready(function(e) {
 			success: function(data){
 					if(data=="OK"){
 						alert("添加成功");
-						window.location=path+"/showlist";
+						location.reload();
 					}else{
 						alert(data);
 					}
@@ -148,7 +148,6 @@ $(document).ready(function(e) {
 					},
 				error:function(ex){
 				alert('发生未知错误,请联系管理解决');
-				console.log(ex);
 			}
 				
 				});
