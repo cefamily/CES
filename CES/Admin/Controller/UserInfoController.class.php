@@ -20,7 +20,7 @@ class UserInfoController extends ConstructController{
 				$title=$group->where('TeamId=%d',$groupid)->getField('TeamName');
 			}
 			if(!is_null($uname) && $uname!=''){
-				$where['user_info.UserName']=$uname;
+				$where['user_info.UserName']=array('like','%'.$uname.'%');
 				$title='搜索'.$uname;
 			}
 			
