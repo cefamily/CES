@@ -25,10 +25,14 @@ class ProductController extends ConstructController{
 		
 		
 		$pagedata['count']=floor(($result['count']-1)/10+1);
-		$this->assign('pagedata',$pagedata);
-		$this->assign('productlist',$productListInfo[1]);
-		$this->assign('item_index',0);
-		$this->display();
+		if(!IS_POST || !IS_AJAX){
+			$this->assign('pagedata',$pagedata);
+			$this->assign('productlist',$productListInfo[1]);
+			$this->assign('item_index',0);
+			$this->display();
+		}else{
+			$this->success(array('pagedata'=>$pagedata,'productlist'=>$productListInfo[1]));
+		}
 	}
 	/*************************
 	** 需要模板
@@ -45,10 +49,14 @@ class ProductController extends ConstructController{
 		$product=D('ProductInfo','Logic');
 		$productListInfo = $product->getListByDeleted($page);
 		$pagedata['count']=floor(($result['count']-1)/10+1);
-		$this->assign('pagedata',$pagedata);
-		$this->assign('productlist',$productListInfo[1]);
-		$this->assign('item_index',1);
-		$this->display();
+		if(!IS_POST || !IS_AJAX){
+			$this->assign('pagedata',$pagedata);
+			$this->assign('productlist',$productListInfo[1]);
+			$this->assign('item_index',1);
+			$this->display();
+		}else{
+			$this->success(array('pagedata'=>$pagedata,'productlist'=>$productListInfo[1]));
+		}
 	}
 	/*************************
 	** ajax and post
