@@ -18,6 +18,7 @@ class ConstructController extends Controller{
 		$this->adminid=session('admin.userid');
 		$team=M('UserTeam');
 		$this->tlist=$team->where('UserId='.$this->adminid.' AND AdminFlag=1')->getField('teamid',true);
+		$this->tlist[]='0';
 	}
 	
 	public function checkType($userid,$flag=false){
