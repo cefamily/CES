@@ -2,14 +2,6 @@
 namespace Home\Controller;
 use Think\Controller;
 class UserController extends Controller{
-	public function _initialize(){
-		//if(!IS_POST && !IS_AJAX){
-		//	$this->error('要做个好孩子喵~');
-		//}
-		
-		
-		//登陆用户信息
-	}
 	public function userlogin(){
 			$user=D('UserInfo','Logic');
 			$data['UserName']=I('post.username','','string');
@@ -63,10 +55,39 @@ class UserController extends Controller{
 				break;
 		}
 	}
-	private function getMyUserType(){
-		$userInfo = I('session.user');
-		return $userInfo ? $userInfo['UserType'] : -1;
+	public function changeEmail(){
+		
 		
 	}
+	public function changePassword(){
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
 ?>
