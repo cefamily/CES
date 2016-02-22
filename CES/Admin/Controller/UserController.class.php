@@ -21,7 +21,8 @@ class UserController extends Controller{
 			if($result)
 			{
 				session('admin',$result);
-				$this->success('欢迎'.$result['username'],__MODULE__.'/Product/showlist');
+				$this->success('OK');
+				//$this->success('欢迎'.$result['username'],__MODULE__.'/Product/showlist');
 			}else{
 				$this->error('登录失败');
 			}
@@ -36,7 +37,8 @@ class UserController extends Controller{
 	}
 	public function logout(){
 		session('admin',NULL);
-		$this->success('已经退出登录','login');
+		$this->success('OK');
+		//$this->success('已经退出登录','login');
 	}
 }
 ?>

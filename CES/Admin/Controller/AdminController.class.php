@@ -19,9 +19,14 @@ class AdminController extends ConstructController{
 				$pagedata['count']+=1;
 			}
 			
-			$this->assign('pagedata',$pagedata);
-			$this->assign('adminlist',$result['data']);
-			$this->display();
+			$ajaxdata=array(
+				'pagedata'=>$pagedata,
+				'adminlist'=>$result['data']
+			);
+			$this->success($ajaxdata);
+			//$this->assign('pagedata',$pagedata);
+			//$this->assign('adminlist',$result['data']);
+			//$this->display();
 		}
 		
 		public function addadmin_ajax(){
@@ -29,11 +34,13 @@ class AdminController extends ConstructController{
 			$user=D('UserInfo','Logic');
 			$t=$user->addAdmin($userid);
 			if($t){
-				$res='OK';
+				//$res='OK';
+				$this->success('OK');
 			}else{
-				$res=$user->getError();
+				$this->error($user->getError());
+				//$res=$user->getError();
 			}
-			$this->ajaxReturn($res);
+			//$this->ajaxReturn($res);
 		}
 		
 		public function deladmin_ajax(){
@@ -42,11 +49,13 @@ class AdminController extends ConstructController{
 			$user=D('UserInfo','Logic');
 			$t=$user->delAdmin($userid);
 			if($t){
-				$res='OK';
+				//$res='OK';
+				$this->success('OK');
 			}else{
-				$res=$user->getError();
+				$this->error($user->getError());
+				//$res=$user->getError();
 			}
-			$this->ajaxReturn($res);
+			//$this->ajaxReturn($res);
 		}
 		
 }

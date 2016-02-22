@@ -38,12 +38,19 @@ class UserInfoController extends ConstructController{
 			$pagedata['count']=(int)$pagedata['count'];
 			$pagedata['now']=$page;
 			
-			$this->assign('pagedata',$pagedata);
-			$this->assign('userlist',$result['result']);
-			$this->assign('item_index',2);
-			$this->assign('grouplist',$grouplist);
-			$this->assign('list_title',$title);
-			$this->display();
+			//$this->assign('pagedata',$pagedata);
+//			$this->assign('userlist',$result['result']);
+//			$this->assign('item_index',2);
+//			$this->assign('grouplist',$grouplist);
+//			$this->assign('list_title',$title);
+//			$this->display();
+			$ajaxdata=array(
+				'pagedata'=>$pagedata,
+				'userlist'=>$result['result'],
+				'grouplist'=>$grouplist,
+				'list_title'=>$title
+			);
+			$this->success($ajaxdata);
 		}
 		public function showuser(){
 			$userid=I('get.userid','','int');
@@ -54,9 +61,13 @@ class UserInfoController extends ConstructController{
 				$result=$user->getuserById($userid);
 				
 				if($result){
-					$this->assign('userinfo',$result);
-					$this->assign('item_index',2);
-					$this->display();				
+//					$this->assign('userinfo',$result);
+//					$this->assign('item_index',2);
+//					$this->display();
+					$ajaxdata=array(
+						'userinfo'=>$result,
+					);
+					$this->success($ajaxdata);
 				}else{
 					$this->error($user->getError());
 				}
@@ -84,7 +95,8 @@ class UserInfoController extends ConstructController{
 			
 			if(!$this->checkType($userid)){
 				$request='TYPE_ERR';
-				$this->ajaxReturn($request);
+				//$this->ajaxReturn($request);
+				$this->error($request);
 				return;
 				}
 			
@@ -94,10 +106,14 @@ class UserInfoController extends ConstructController{
 			$result= $user->where('UserId='.$userid)->save($data);
 			if($result){
 				$request='OK';
+				$this->success($request);
+				return;
 			}else{
 				$request='ERR';
+				$this -> error($request);
+				return;
 			}
-			$this->ajaxReturn($request);
+			//$this->ajaxReturn($request);
 		}
 	}
 ?>

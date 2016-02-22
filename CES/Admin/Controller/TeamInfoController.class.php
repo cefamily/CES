@@ -23,9 +23,14 @@ class TeamInfoController extends ConstructController{
 				}
 				
 				$pagedata['now']=$nowpage;
-				$this->assign('grouplist',$grouplist['data']);
-				$this->assign('pagedata',$pagedata);
-				$this->display();
+				$ajaxdata=array(
+					'grouplist'=>$grouplist['data'],
+					'pagedata'=>$pagedata
+				);
+				$this->success($ajaxdata);
+				//$this->assign('grouplist',$grouplist['data']);
+				//$this->assign('pagedata',$pagedata);
+				//$this->display();
 		}
 		
 		public function addTeam_ajax(){
@@ -37,11 +42,13 @@ class TeamInfoController extends ConstructController{
 			
 			$res=$team->createTeam($name);
 			if($res){
-				$result='OK';
+				//$result='OK';
+				$this->success('OK');
 			}else{
-				$result=$team->getError();
+				//$result=$team->getError();
+				$this->error($this->getError());
 			}
-			$this->ajaxReturn($result);
+			//$this->ajaxReturn($result);
 		}
 		
 		public function deleteTeam_ajax(){
@@ -55,14 +62,17 @@ class TeamInfoController extends ConstructController{
 			if($res>=0){
 					$res=$team->where('TeamId='.$teamid)->delete();
 					if($res!=false){
-						$result='OK';
+						$this->susccess('OK');
+						//$result='OK';
 					}else{
-						$result='删除出错'.$res;
+						$this->error('删除出错');
+						//$result='删除出错';
 					}
 			}else{
-				$result='删除成员出错'.$res;
+				$this->error('删除成员出错');
+				//$result='删除成员出错';
 			}
-			$this->ajaxReturn($result);
+			//$this->ajaxReturn($result);
 		}
 		
 		public function showteam(){
@@ -93,10 +103,17 @@ class TeamInfoController extends ConstructController{
 				$pagedata['count']+=1;
 			}
 			$pagedata['now']=$page;
-			$this->assign('pagedata',$pagedata);
-			$this->assign('meblist',$result['data']);
-			$this->assign('teaminfo',$teamre);
-			$this->display();
+			$ajaxdata=array(
+				'pagedata'=>$pagedata,
+				'meblist'=>$result['data'],
+				'teaminfo'=>$teamre
+			);
+			$this->success($ajaxdata);
+			
+			//$this->assign('pagedata',$pagedata);
+			//$this->assign('meblist',$result['data']);
+			//$this->assign('teaminfo',$teamre);
+			//$this->display();
 		}
 		
 		public function addMember_ajax(){
@@ -108,18 +125,22 @@ class TeamInfoController extends ConstructController{
 				$userteam=D('UserTeam','Logic');
 				if($userteam->checkadmin($this->adminid,$data['TeamId']) || $this->admintype=='3'){
 					if($userteam->addMember($data)){
-						$res='OK';
+						//$res='OK';
+						$this->success('OK');
 					}else{
-						$res=$userteam->getError();
+						$this->error($userteam->getError());
+						//$res=$userteam->getError();
 					}
 				}else{
-					$res='您无权管理此组';
+					$this->error('您无权管理此组');
+					//$res='您无权管理此组';
 				}
 			}else{
-				 $res='权限不足';
+				$this->error('权限不足');
+				 //$res='权限不足';
 			}
 			
-			$this->ajaxReturn($res);
+			//$this->ajaxReturn($res);
 			
 		}
 	
@@ -131,18 +152,22 @@ class TeamInfoController extends ConstructController{
 				$userteam=D('UserTeam','Logic');
 				if($userteam->checkadmin($this->adminid,$data['TeamId']) || $this->admintype=='3'){
 					if($userteam->delMember($data)){
-						$res='OK';
+						//$res='OK';
+						$this->success('OK');
 					}else{
-						$res=$userteam->getError();
+						$this->error($userteam->getError());
+						//$res=$userteam->getError();
 					}
 				}else{
-					$res='您无权管理此组';
+					$this->error('您无权管理此组');
+					//$res='您无权管理此组';
 				}
 			}else{
-				 $res='权限不足';
+				$this->error('权限不足');
+				 //$res='权限不足';
 			}
 			
-			$this->ajaxReturn($res);
+			//$this->ajaxReturn($res);
 			
 		}
 		
@@ -153,14 +178,17 @@ class TeamInfoController extends ConstructController{
 				$userteam=D('UserTeam','Logic');
 				if($this->admintype=='3'){
 					if($userteam->addTeamAdmin($data)){
-						$res='OK';
+						//$res='OK';
+						$this->success('OK');
 					}else{
-						$res=$userteam->getError();
+						//$res=$userteam->getError();
+						$this->error($userteam->getError());
 					}
 				}else{
-					$res='您无权进行此操作';
+					//$res='您无权进行此操作';
+					$this->error('您无权进行此操作');
 				}
-			$this->ajaxReturn($res);
+			//$this->ajaxReturn($res);
 			
 			
 		}
@@ -172,14 +200,17 @@ class TeamInfoController extends ConstructController{
 				$userteam=D('UserTeam','Logic');
 				if($this->admintype=='3'){
 					if($userteam->delTeamAdmin($data)){
-						$res='OK';
+						//$res='OK';
+						$this->success('OK');
 					}else{
-						$res=$userteam->getError();
+						//$res=$userteam->getError();
+						$this->error($userteam->getError());
 					}
 				}else{
-					$res='您无权进行此操作';
+					$this->error('您无权进行此操作');
+					//$res='您无权进行此操作';
 				}
-			$this->ajaxReturn($res);
+			//$this->ajaxReturn($res);
 		}
 }
 ?>
