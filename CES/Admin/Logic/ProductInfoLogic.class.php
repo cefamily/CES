@@ -22,13 +22,11 @@ class ProductInfoLogic extends Model{
 								//->fetchSql(true)
 								->select();
 								//var_dump($result);die();
-		$count = M('Progress')	->field('product_info.*,user_info.*')
-								->join('product_info on progress.ProId = product_info.ProId')
+		$count = M('Progress')	->join('product_info on progress.ProId = product_info.ProId')
 								->join('user_info on product_info.UserId = user_info.UserId')
 								->where($anotherWhere)
 								->where($where)
-								->find();
-		$count=$count['count'];
+								->getField('count(*)');
 		if($result){
 			return array($count,$result);
 		}else{

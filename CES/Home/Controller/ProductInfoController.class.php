@@ -31,9 +31,14 @@ class ProductInfoController extends Controller{
 	}
 	
 	public function getMyProducts(){
-		//获取我发布的任务列表
-		//select ProductInfo的信息join UserInfo
-		
+		$userid = $this->userid;
+		if(!$userid)$this->error('没有登录');
+		$page = I('page',1,'int');
+		$count = I('count',10,'int');
+		$product=D('ProductInfo','Logic');
+		$list = $product->getMyProductsList($userid,$page,$count);
+		$count = $product->getMyProductsCount($userid);
+		$this->success(array('list'=>$list,'count'=>$count));
 	}
 	
 	
