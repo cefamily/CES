@@ -6,7 +6,7 @@ class ProductInfoLogic extends Model{
 		$where['userid'] = $userid;
 		return $this->where($where)->page($page,$count)->select($data);
 	}
-	function getMyProductCount($userid){
+	function getMyProductsCount($userid){
 		$where['userid'] = $userid;
 		return $this->where($where)->getField('count(*)');
 	}
