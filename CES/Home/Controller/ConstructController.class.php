@@ -11,7 +11,6 @@ class ConstructController extends Controller{
 		$this->username=session('user.username','');
 		$this->usertype=session('user.usertype',0);
 		$this->userid=session('user.userid',0);
-
 	}
 	
 

@@ -1,7 +1,7 @@
 <?php
 namespace Home\Controller;
 use Think\Controller;
-class UserController extends Controller{
+class UserController extends ConstructController{
 	public function userlogin(){
 			$user=D('UserInfo','Logic');
 			$data['UserName']=I('post.username','','string');
@@ -56,12 +56,25 @@ class UserController extends Controller{
 		}
 	}
 	public function changeEmail(){
-		
-		
+		$email=I('post.useremail','','email');
+		$user=D('UserInfo','Logic');
+		$result=$user->changeEmail($this->userid,$email);
+		if($result){
+			$this->success('OK');
+		}else{
+			$this->error('err');
+		}	
 	}
 	public function changePassword(){
-		
-		
+		$pwd=md5(I('post.userpwd','',false).$this->username);
+		$oldpwd=md5(I('post.oldpwd','',false).$this->username);
+		$user=D('UserInfo','Logic');
+		$result=$user->changePassword($this->userid,$pwd,$oldpwd);
+		if($result){
+			$this->success('OK');
+		}else{
+			$this->error('err');
+		}	
 	}
 	
 	

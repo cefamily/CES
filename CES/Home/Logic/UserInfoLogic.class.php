@@ -40,5 +40,34 @@ class UserInfoLogic extends Model{
 			return false;
 		}
 	}
+	
+	function changeEmail($uid,$email)
+	{
+		$where['UserId']=$uid;
+		$data['UserEmail']=$email;
+		$result=$this->where($where)->data($data)->save();
+		return $result;
+	}
+	
+	function changePassword($uid,$pass,$oldpass)
+	{
+		$where['UserId']=$uid;
+		$where['UserPwd']=$oldpass;
+		$data['UserPwd']=$pass;
+		
+		$temp=$this->where($where)->find();
+		if($temp){
+			$result=$this->where($where)->data($data)->save();
+			if($result){
+				return true;
+			}else{
+				$this->error='修改失败';
+				return false;
+			}
+		}else{
+			$this->error='原始密码不正确';
+			return false;
+		}
+	}
 }
 ?>
