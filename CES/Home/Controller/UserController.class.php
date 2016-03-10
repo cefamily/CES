@@ -20,9 +20,10 @@ class UserController extends ConstructController{
 	}
 	
 	public function userLogout(){
-		
-		
+		session('user',NULL);
+		$this->success("OK");
 	}
+	
 	public function reg(){
 		$user=D('UserInfo','Logic');
 		$data['UserName']=I('post.username','','string');
@@ -75,32 +76,6 @@ class UserController extends ConstructController{
 		}else{
 			$this->error('err');
 		}	
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	}	
 }
 ?>
