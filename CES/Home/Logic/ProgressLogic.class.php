@@ -1,9 +1,12 @@
 <?php
 namespace Home\Logic;
 use Think\Model;
-class ProgressInfoLogic extends Model{
+class ProgressLogic extends Model{
 	
-	
+	function addNewProgress($data){
+		
+		return $this->data($data)->add();
+	}
 	
 	
 	

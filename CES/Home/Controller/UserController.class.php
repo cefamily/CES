@@ -3,6 +3,9 @@ namespace Home\Controller;
 use Think\Controller;
 class UserController extends ConstructController{
 	public function userlogin(){
+			
+			if($this->userid)$this->error('已登录');
+		
 			$user=D('UserInfo','Logic');
 			$data['UserName']=I('post.username','','string');
 			$data['UserPwd']=md5(I('post.userpwd','',false).$data['UserName']);

@@ -11,8 +11,11 @@ class ProductInfoLogic extends Model{
 		return $this->where($where)->getField('count(*)');
 	}
 	
-	
-	
+	function addNewProduct($data){
+		//var_dump($data);die();
+		return $this->data($data)->add();
+	}
+
 	
 	
 	

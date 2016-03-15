@@ -2,8 +2,49 @@
 namespace Home\Controller;
 use Think\Controller;
 class ProductInfoController extends ConstructController{
+	public function _initialize(){
+		parent::_initialize();
+		if(!IS_AJAX)$this->error('not ajax','http://a.co/index.php/Home');
+	}
 	public function releaseProduct(){
-		A('ProductInfo')->getMyProducts();
+		if(!$this->userid)$this->error('没有登录');
+		$product=D('ProductInfo','Logic');
+		$data['UserId'] = $this->userid;
+		$data['ProTitle'] = I('post.title','');
+		$data['ProImg'] = I('post.img','');
+		$data['ProState'] = $this->usertype ? 1 : 0;
+		$data['ProRem'] = I('post.remark','');
+		$data['ProUP'] = I('post.up',0);
+		$data['ProImgType'] = I('post.type',0);
+		$proId = $product -> addNewProduct($data);
+		//$this->success($productInfo );
+		if($proId){
+			$progress=D('Progress','Logic');
+			$data = array();
+			$data['UserId'] = $this->userid;
+			$data['ProId'] = $proId;
+			$data['Type'] = 'team';
+			if(!$this->usertype){
+				$data['ProgressText'] = 0;
+				$progress->addNewProgress($data);
+			}else{
+				$teams = I('teams',array(0));$real_teams=array();
+				if(!is_array($teams)) $this->error('teams参数错误');
+				foreach($teams as $v)if(preg_match('/\d+/',(string)$v))$real_teams[$v]=$v;
+				if($real_teams)foreach($real_teams as $v){
+					$data['ProgressText'] = $v;
+					$progress->addNewProgress($data);
+				}else{
+					$data['ProgressText'] = 0;
+					$progress->addNewProgress($data);
+				}
+			}
+			$data =array();
+			$data['ProId'] = $proId;
+			$this->success($data);
+		}
+		else $this->error('发布失败');
+		
 		//发布任务
 			//添加ProductInfo
 				/*
