@@ -30,7 +30,7 @@ class ProductInfoController extends ConstructController{
 				$progress->addNewProgress($data);
 			}else{
 				$teams = I('teams',array(0));$real_teams=array();
-				if(!is_array($teams)) $this->error('teams参数错误');
+				if(!is_array($teams)) $teams = array($teams);
 				foreach($teams as $v)if(preg_match('/\d+/',(string)$v))$real_teams[$v]=$v;
 				if($real_teams)foreach($real_teams as $v){
 					$data['ProgressText'] = $v;
