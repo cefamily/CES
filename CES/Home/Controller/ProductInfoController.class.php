@@ -4,9 +4,10 @@ use Think\Controller;
 class ProductInfoController extends ConstructController{
 	public function _initialize(){
 		parent::_initialize();
-		if(!IS_AJAX)$this->error('not ajax','http://a.co/index.php/Home');
+		if(!IS_AJAX)$this->error('not ajax','http://a.baka/index.php/Home');
 	}
 	public function releaseProduct(){
+		if(!IS_POST)$this->error('not post','http://a.baka/index.php/Home');
 		if(!$this->userid)$this->error('没有登录');
 		$product=D('ProductInfo','Logic');
 		$data['UserId'] = $this->userid;
@@ -83,7 +84,14 @@ class ProductInfoController extends ConstructController{
 		$count = $product->getMyProductsCount($userid);
 		$this->success(array('list'=>$list,'count'=>$count));
 	}
-	
+	public function getProducts(){
+		$page = I('page',1,'int');
+		$count = I('count',10,'int');
+		$product=D('ProductInfo','Logic');
+		$list = $product->getProductsList($page,$count);
+		$count = $product->getProductsCount();
+		$this->success(array('list'=>$list,'count'=>$count));
+	}
 	
 	
 	
