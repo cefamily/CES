@@ -8,9 +8,14 @@ class ConstructController extends Controller{
 	protected $userid;
 	
 	public function _initialize(){
-		$this->username=session('user.username','');
-		$this->usertype=session('user.usertype',0);
-		$this->userid=session('user.userid',0);
+		if($_SESSION['user']){
+			$this->username=$_SESSION['user']['username'];
+			$this->usertype=$_SESSION['user']['usertype'];
+			$this->userid=$_SESSION['user']['userid'];
+		}else{
+			$this->usertype = $this->userid = 0;
+			$this->username = '';
+		}
 	}
 	
 

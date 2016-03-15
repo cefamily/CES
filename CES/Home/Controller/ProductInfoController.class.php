@@ -1,8 +1,9 @@
 <?php
 namespace Home\Controller;
 use Think\Controller;
-class ProductInfoController extends Controller{
+class ProductInfoController extends ConstructController{
 	public function releaseProduct(){
+		A('ProductInfo')->getMyProducts();
 		//发布任务
 			//添加ProductInfo
 				/*
@@ -32,6 +33,7 @@ class ProductInfoController extends Controller{
 	
 	public function getMyProducts(){
 		$userid = $this->userid;
+		//var_dump($this->userid);die();
 		if(!$userid)$this->error('没有登录');
 		$page = I('page',1,'int');
 		$count = I('count',10,'int');
