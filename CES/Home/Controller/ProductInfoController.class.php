@@ -4,10 +4,27 @@ use Think\Controller;
 class ProductInfoController extends ConstructController{
 	public function _initialize(){
 		parent::_initialize();
-		if(!IS_AJAX)$this->error('not ajax','http://a.baka/index.php/Home');
+		if(!IS_AJAX)$this->error('not ajax');
 	}
+	
+	/*
+	发布任务
+	
+	必须post方式发布
+	必须登录
+	
+	参数	title	标题
+			img		封面图
+			remark	说明？
+			up		up数量（这是什么）
+			type	图片类型
+			teams	限定的组（管理员权限）
+	
+	*/
+	
+	
 	public function releaseProduct(){
-		if(!IS_POST)$this->error('not post','http://a.baka/index.php/Home');
+		if(!IS_POST)$this->error('not post');
 		if(!$this->userid)$this->error('没有登录');
 		$product=D('ProductInfo','Logic');
 		$data['UserId'] = $this->userid;
@@ -15,7 +32,7 @@ class ProductInfoController extends ConstructController{
 		$data['ProImg'] = I('post.img','');
 		$data['ProState'] = $this->usertype ? 1 : 0;
 		$data['ProRem'] = I('post.remark','');
-		$data['ProUP'] = I('post.up',0);
+		//$data['ProUP'] = I('post.up',0);
 		$data['ProImgType'] = I('post.type',0);
 		$proId = $product -> addNewProduct($data);
 		//$this->success($productInfo );
@@ -29,7 +46,7 @@ class ProductInfoController extends ConstructController{
 				$data['ProgressText'] = 0;
 				$progress->addNewProgress($data);
 			}else{
-				$teams = I('teams',array(0));$real_teams=array();
+				$teams = I('post.teams',array(0));$real_teams=array();
 				if(!is_array($teams)) $teams = array($teams);
 				foreach($teams as $v)if(preg_match('/\d+/',(string)$v))$real_teams[$v]=$v;
 				if($real_teams)foreach($real_teams as $v){
@@ -73,6 +90,24 @@ class ProductInfoController extends ConstructController{
 			
 	}
 	
+	
+	/*
+	
+	获取我发表的任务
+	
+	建议get获取（post没有参数可能会有异常抛出）
+	
+	例：	
+	
+	获取第20页(默认每页10个任务)
+	127.0.0.1/index.php/Home/ProductInfo/getMyProducts/page/20
+	
+	获取每页20个任务的第2页
+	127.0.0.1/index.php/Home/ProductInfo/getMyProducts/page/2/count/20
+	
+	
+	
+	*/
 	public function getMyProducts(){
 		$userid = $this->userid;
 		//var_dump($this->userid);die();
@@ -84,6 +119,23 @@ class ProductInfoController extends ConstructController{
 		$count = $product->getMyProductsCount($userid);
 		$this->success(array('list'=>$list,'count'=>$count));
 	}
+	/*
+	
+	获取前台展示的任务（征集中，进行中，完成）
+	
+	建议get获取（post没有参数可能会有异常抛出）
+	
+	例：	
+	
+	获取第20页(默认每页10个任务)
+	127.0.0.1/index.php/Home/ProductInfo/getProducts/page/20
+	
+	获取每页20个任务的第2页
+	127.0.0.1/index.php/Home/ProductInfo/getProducts/page/2/count/20
+	
+	之后会增加排序方式
+	
+	*/
 	public function getProducts(){
 		$page = I('page',1,'int');
 		$count = I('count',10,'int');
