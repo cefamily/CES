@@ -8,7 +8,10 @@ class ProgressController extends Controller{
 		
 	}
 	
-	
+	public function showProgress(){
+		//显示任务进度
+		
+		}
 	
 
 	

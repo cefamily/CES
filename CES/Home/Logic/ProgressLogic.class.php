@@ -8,6 +8,9 @@ class ProgressLogic extends Model{
 		return $this->data($data)->add();
 	}
 	
+	function selectProgress(){
+		return $this->where($data)->select();
+	}
 	
 	
 	
