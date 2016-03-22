@@ -27,16 +27,16 @@ class ProductInfoController extends ConstructController{
 		if(!IS_POST)$this->error('not post');
 		if(!$this->userid)$this->error('没有登录');
 		$product=D('ProductInfo','Logic');
-		$data['UserId'] = $this->userid;
-		$data['ProTitle'] = I('post.title','');
-		$data['ProImg'] = I('post.img','');
-		$data['ProState'] = $this->usertype ? 1 : 0;
-		$data['ProRem'] = I('post.remark','');
+		$data['uid'] = $this->userid;
+		$data['title'] = I('post.title','');
+		$data['img'] = I('post.img','');
+		$data['state'] = $this->usertype ? 1 : 0;
+		$data['remark'] = I('post.remark','');
 		//$data['ProUP'] = I('post.up',0);
 		$data['ProImgType'] = I('post.type',0);
 		$proId = $product -> addNewProduct($data);
 		//$this->success($productInfo );
-		if($proId){
+		if($proId && floor($proId)){
 			$progress=D('Progress','Logic');
 			$data = array();
 			$data['UserId'] = $this->userid;
@@ -114,9 +114,8 @@ class ProductInfoController extends ConstructController{
 		if(!$userid)$this->error('没有登录');
 		$page = I('page',1,'int');
 		$count = I('count',10,'int');
-		$product=D('ProductInfo','Logic');
-		$list = $product->getMyProductsList($userid,$page,$count);
-		$count = $product->getMyProductsCount($userid);
+		$list = D('ProductInfo','ViewModel')->getMyProductsList($userid,$page,$count);
+		$count =  D('ProductInfo','Logic')->getMyProductsCount($userid);
 		$this->success(array('list'=>$list,'count'=>$count));
 	}
 	/*
@@ -139,9 +138,8 @@ class ProductInfoController extends ConstructController{
 	public function getProducts(){
 		$page = I('page',1,'int');
 		$count = I('count',10,'int');
-		$product=D('ProductInfo','Logic');
-		$list = $product->getProductsList($page,$count);
-		$count = $product->getProductsCount();
+		$list = D('ProductInfo','ViewModel')->getProductsList($page,$count);
+		$count = D('ProductInfo','Logic')->getProductsCount();
 		$this->success(array('list'=>$list,'count'=>$count));
 	}
 	
