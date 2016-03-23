@@ -23,9 +23,13 @@ class ProgressLogic extends Model{
 		}else{
 			$this->error='没有认领此任务';
 			return false;
+			}
 	}
 	
-	
+	function modProgress(){
+		//修改任务逻辑
+		return $this->data($data)->save();
+	}
 	
 	
 	
