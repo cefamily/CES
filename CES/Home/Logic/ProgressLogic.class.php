@@ -12,11 +12,16 @@ class ProgressLogic extends Model{
 		return $this->where($where)->select();
 	}
 	
-	function selectProgressByProId($id){
+	function selectProgressByProId($id,$userid=null){
 		$where['Proid']=$id;
 		$crim=M('Claim');
 		$crimdata['Proid']=$id;
-		$crimdata['UserId']=session('uid');
+		if($userid){
+			$crimdata['UserId']=$userid;
+		}else{
+			$crimdata['Userid']=session('uid');
+		}
+		
 		$claimsta=$crim->where($crimdata)->find();
 		if($claimsta){
 			return $res=$this->selectProgress($where);
@@ -28,10 +33,16 @@ class ProgressLogic extends Model{
 	
 	function modProgress(){
 		//修改任务逻辑
-		return $this->data($data)->save();
+		if($this->create($data)){
+			if($this->add()){
+				return true;
+			}else{
+				return false;
+			}
+		}else{
+			return false;
+		}
 	}
-	
-	
 	
 	
 	

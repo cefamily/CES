@@ -5,7 +5,13 @@ class ProgressController extends Controller{
 	public function editProgress(){
 		//编辑任务进度
 			$progress=D('Progress','Logic');
-			$progress->modProgress($data);
+			$proid=I('post.proid','','int');
+			$userid=session('uid');
+			$protxt=I('post.protxt','','string');
+			$protype=I('post.type','','string');
+		
+			
+			$result= $progress->modProgress($proid,$userid,$protxt,$protype);
 		
 	}
 	
