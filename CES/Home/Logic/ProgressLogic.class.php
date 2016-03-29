@@ -31,8 +31,12 @@ class ProgressLogic extends Model{
 			}
 	}
 	
-	function modProgress(){
+	function modProgress($proud,$uid,$txt,$type){
 		//修改任务逻辑
+		$data['ProId']=$proud;
+		$data['Userid']=$uid;
+		$data['ProgressText']=$txt;
+		$data['Type']=$type;
 		if($this->create($data)){
 			if($this->add()){
 				return true;
