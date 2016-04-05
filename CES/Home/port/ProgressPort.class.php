@@ -1,19 +1,19 @@
 <?php
-namespace Home\Controller;
-use Think\Controller;
-class ProgressController extends Controller{
+namespace Home\Port;
+interface ProgressPort{
 
-    public function _initialize(){
-        $this->user = A('User','Event');
-        $this->claim = A('Claim','Event');
-        
-    }
-	public function change_progress(){
-		$this->user->_safe_login();
-        $this->user->_safe_type(2);
-        $this->claim->_safe_my_claim($pid,$type);
-        
-	}
+    /*
+    修改进度
+    传入参数
+    pid         必填          任务的ID
+    type        必填          职位
+    text        必填          进度说明
+
+    成功输出参数
+    int 1
+
+    */
+	public function change_progress();
 
 	
 	
