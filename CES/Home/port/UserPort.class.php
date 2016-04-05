@@ -6,9 +6,9 @@ interface UserPort{
     
     
     public function getMyInfo();
-    public function getUserInfo($uid=0);
+    public function getUserInfo();
     public function test();
-    public function getUserList($page=1);
+    public function getUserList();
     public function getAdminList();
 	public function addAdmin();
     public function delAdmin();
