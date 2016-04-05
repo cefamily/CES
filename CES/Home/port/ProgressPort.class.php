@@ -13,7 +13,7 @@ interface ProgressPort{
     int 1
 
     */
-	public function change_progress();
+	public function changeProgress();
 
 	
 	

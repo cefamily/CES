@@ -10,7 +10,7 @@ interface ClaimPort{
     int 1
     
     */
-	public function claim_product();
+	public function claimProduct();
     
     
     
@@ -24,7 +24,7 @@ interface ClaimPort{
     int 1
     
     */
-    public function finish_claim();
+    public function finishClaim();
     
     
     
@@ -39,7 +39,7 @@ interface ClaimPort{
     int 1
     
     */
-    public function cancel_claim();
+    public function cancelClaim();
 	
 
 	

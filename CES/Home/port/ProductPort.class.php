@@ -34,7 +34,7 @@ interface ProductPort{
     }
     
     */
-    public function get_my_product_list();
+    public function getMyProductList();
     
     
     
@@ -76,7 +76,7 @@ interface ProductPort{
     }
     
     */
-    public function get_product_list();
+    public function getProductList();
     
     /*
     后台获得任务列表(仅可获得有权限管理的任务列表)
@@ -116,7 +116,7 @@ interface ProductPort{
     }
     
     */
-    public function get_all_product_list();
+    public function getAllProductList();
     
     
     
@@ -127,7 +127,7 @@ interface ProductPort{
     成功输出参数
     int 1
     */
-	public function clean_product();
+	public function cleanProduct();
     
     
     
@@ -145,7 +145,7 @@ interface ProductPort{
     int 1
 
     */
-    public function change_product();
+    public function changeProduct();
     
     
     
@@ -164,7 +164,7 @@ interface ProductPort{
     
     $pid新建后的任务的ID
     */
-    public function release_product();
+    public function releaseProduct();
     
     
     
@@ -206,10 +206,7 @@ interface ProductPort{
     }
     
     */
-    public function get_my_claim_product(){
-		
-        
-	}
+    public function getMyClaimProduct();
 	
 	
 	

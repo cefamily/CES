@@ -30,7 +30,7 @@ interface TeamPort{
     如果没有组error
     如果没有组长或组员 master:[],member:[]
     */
-	public function get_team_info();
+	public function getTeamInfo();
     
     
     
@@ -47,7 +47,7 @@ interface TeamPort{
     成功输出参数
     int 1
     */
-    public function add_team();
+    public function addTeam();
     
     
     
@@ -60,7 +60,7 @@ interface TeamPort{
     成功输出参数
     int 1
     */
-    public function delete_team();
+    public function deleteTeam();
     
     
     
@@ -93,7 +93,7 @@ interface TeamPort{
     }
     如果没有则输出{teams:[],row:0}
     */
-    public function get_team_list();
+    public function getTeamList();
     
     
     
@@ -108,7 +108,7 @@ interface TeamPort{
     成功输出参数
     int 1
     */
-    public function add_member();
+    public function addMember();
     
     
     
@@ -123,7 +123,7 @@ interface TeamPort{
     成功输出参数
     int 1
     */
-    public function del_member();
+    public function delMember();
     
     
     
@@ -137,7 +137,7 @@ interface TeamPort{
     成功输出参数
     int 1
     */
-	public function add_master();
+	public function addMaster();
     
     
     
@@ -151,7 +151,7 @@ interface TeamPort{
     成功输出参数
     int 1
     */
-    public function del_master();
+    public function delMaster();
 	
 
 	
