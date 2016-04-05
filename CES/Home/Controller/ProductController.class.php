@@ -24,10 +24,7 @@ class ProductController extends Controller{
 		$this->user->_safe_admin();
         
 	}
-    public function get_deleted_product_list(){
-		
-        
-	}
+
 	public function clean_product(){
 		
         

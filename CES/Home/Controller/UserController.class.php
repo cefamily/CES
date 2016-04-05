@@ -1,10 +1,10 @@
 <?php
 namespace Home\Controller;
 use Think\Controller;
-class UserController extends ConstructController{
+class UserController extends Controller{
 	public function _initialize(){
-        $this->user = A('User','Event');
-        $this->userModel = D('UserInfo','Api');
+        //$this->user = A('User','Event');
+        //$this->userModel = D('UserInfo','Api');
     }
     public function get_my_info(){
         $this->user->_safe_login();

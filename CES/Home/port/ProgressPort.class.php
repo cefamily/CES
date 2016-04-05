@@ -3,7 +3,7 @@ namespace Home\Port;
 interface ProgressPort{
 
     /*
-    修改进度
+    修改我认领的任务的职务的进度
     传入参数
     pid         必填          任务的ID
     type        必填          职位
