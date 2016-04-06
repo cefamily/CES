@@ -7,6 +7,7 @@ interface ToolPort{
     
     输出图片
     
+    接口：domain/index.php/Home/Tool/captcha
     */
 	public function captcha();
    

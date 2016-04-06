@@ -4,6 +4,10 @@ interface ProductPort{
     
     /*
     获得我发布的任务列表
+    
+    权限
+    登录
+    
     传入参数
     page    默认1    显示页数
     limit   默认10   每页显示的数量
@@ -33,6 +37,8 @@ interface ProductPort{
         pteam:'0'
     }
     
+    API接口：domain/index.php/Home/Product/getMyProductList
+    
     */
     public function getMyProductList();
     
@@ -42,10 +48,14 @@ interface ProductPort{
     
     /*
     前台获得任务列表
+    
+    权限
+    登录
+    
     传入参数
     page        默认1         显示页数
     limit       默认10        每页显示的数量
-    
+    state       选填          资源状态可选征集，进行，完成
     成功输出参数
     {products:$array_products,row:$row}
     ___________________
@@ -75,11 +85,18 @@ interface ProductPort{
         pteam:'0'
     }
     
+    API接口：domain/index.php/Home/Product/getProductList
     */
     public function getProductList();
     
     /*
     后台获得任务列表(仅可获得有权限管理的任务列表)
+    
+    权限
+    后台
+    权限3以及以上
+    仅可获得有权限管理的任务
+    
     传入参数
     page        默认1         显示页数
     limit       默认10        每页显示的数量
@@ -115,6 +132,7 @@ interface ProductPort{
         pteam:'0'
     }
     
+    API接口：domain/index.php/Home/Product/getAllProductList
     */
     public function getAllProductList();
     
@@ -122,10 +140,17 @@ interface ProductPort{
     
     /*
     后台清理任务
+    
+    权限
+    后台
+    权限4
+    
     没有传入参数
 
     成功输出参数
     int 1
+    
+    API接口：domain/index.php/Home/Product/cleanProduct
     */
 	public function cleanProduct();
     
@@ -133,6 +158,12 @@ interface ProductPort{
     
     /*
     后台修改任务(仅可修改有权限管理的任务)
+    
+    权限
+    后台
+    3以及以上
+    仅可获得有权限管理的任务
+    
     传入参数
     pid         必填          任务的ID
     pname       选填          任务名字
@@ -144,6 +175,7 @@ interface ProductPort{
     成功输出参数
     int 1
 
+    API接口：domain/index.php/Home/Product/changeProduct
     */
     public function changeProduct();
     
@@ -151,6 +183,11 @@ interface ProductPort{
     
     /*
     新建任务
+    
+    权限
+    登录
+    权限2以及以上才能填team参数
+    
     传入参数
     pid         必填          任务的ID
     pname       必填          任务名字
@@ -163,6 +200,8 @@ interface ProductPort{
     {pid:$pid}
     
     $pid新建后的任务的ID
+    
+    API接口：domain/index.php/Home/Product/releaseProduct
     */
     public function releaseProduct();
     
@@ -173,6 +212,10 @@ interface ProductPort{
     
     /*
     获得我认领的任务列表
+    
+    权限
+    权限2以及以上
+    
     传入参数
     page    默认1     显示页数
     limit   默认10    每页显示的数量
@@ -205,6 +248,7 @@ interface ProductPort{
         
     }
     
+    API接口：domain/index.php/Home/Product/getMyClaimProduct
     */
     public function getMyClaimProduct();
 	
