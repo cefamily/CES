@@ -44,6 +44,31 @@ class UserInfoApi extends Model{
       }
    }
    
+   function change_password($user,$password,$oldpassword){
+       $where['uid']=$user;
+       $where['upassword']=$oldpassword;
+       $rule=array(
+           array('uid','require','UID必须'),
+           array('uid','number','UID格式不正确'),
+           array('upassword','require','密码必须')
+       );
+       $result=$this->where($where)->find();
+       if($result){
+           $res=$this-validate($rule)->create();
+           if($res){
+               if($this->save()){
+                   return true;
+               }else{
+                   return false;
+               }
+           }else{
+               return false;
+           }
+       }else{
+           $this->error='旧密码不正确';
+           return false;
+       }
+   }
    
 }
 ?>
