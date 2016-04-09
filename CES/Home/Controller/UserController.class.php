@@ -2,105 +2,304 @@
 namespace Home\Controller;
 use Think\Controller;
 class UserController extends Controller{
-	public function _initialize(){
-        //$this->user = A('User','Event');
-        //$this->userModel = D('UserInfo','Api');
-    }
-    public function get_my_info(){
-        $this->user->_safe_login();
-		$this->success($this->userModel->get_user_info($this->uid));
-	}
-    public function get_user_info($uid=0){
-        $this->user->_safe_admin();
-        $this->user->_safe_utype($uid);
-		$this->success($this->userModel->get_user_info($uid));
-	}
-    public function test(){
-		echo $this->success('niconiconi~~~');
-	}
-    public function get_user_list($page=1){
-        
-        //根据uid
-        //根据uname
-        //根据type
-		$this->user->_safe_admin();
-        $page = floor($page);
-        $page = $page<1?1:$page;
-        $this->success($this->userModel->get_user_list($this->type,$data,$page));
-        
-	}
-    public function get_admin_list($page=1){
-		$this->user->_safe_admin();
-        $this->user->_safe_type(4);
-        $page = floor($page);
-        $page = $page<1?1:$page;
-        $this->success($this->userModel->get_admin_list($data,$page));
-	}
-	public function add_admin(){
-        $uid = post('uid');
-		$this->user->_safe_admin();
-        $this->user->_safe_type(4);
-        $this->success($this->userModel->add_admin($uid));
-	}
-    public function del_admin(){
-        $uid = post('uid');
-		$this->user->_safe_admin();
-        $this->user->_safe_type(4);
-        $this->user->_safe_utype($uid);
-        $this->success($this->userModel->del_admin($uid));
-	}
-    public function user_login(){
-        
-        
-        
-        $uname = post('uname');
-        $pwd = post('pwd');
-        var_dump( $this->type );
-        $uid = 1;
-        $uname = 'c'; 
-        $type = 2;
-        $time = time();
-        $login_secury = self::LOGIN_SALT[rand(0,4)].base64_encode(implode('|',array(
-            $uid,
-            $type,
-            $uname,
-            $time,
-            md5($uid . $type . $uname . $time . self::LOGIN_SALT)
-        )));
-        cookie('login_secury',$login_secury,3600);
-        cookie('admin_secury',$login_secury,-72000);
-       
-        
-    }
-    public function user_logout(){
-	    $this->user->_safe_login();
+	 
+    /*
+    获取我的用户信息
     
-	}
-	public function reg(){
-        
-        
+    权限
+    登录
+    
+    无传入参数
+ 
+    成功输出参数
+    {info:$info,team:[1,2,3,4],master:[2,4]}
+    
+    
+    $info
+    {
+        uid:1,                               //用户ID    
+        uname:'我的名字',                    //用户名
+        uemail:'233@c.baka',                //邮箱
+        utype:'4',                          //权限等级
+        uavatar:'http://c.baka/avatar.jpg', //头像
+        uctime:'1700000000',                //创建时间
     }
-	public function change_email(){
-        $this->user->_safe_login();
-        
+    
+    API接口：domain/index.php/Home/User/getMyInfo
+    */
+    
+    public function getMyInfo();
+    
+    /*
+    获取用户信息
+    
+    权限
+    后台
+    权限3以及以上
+    仅可获得权限比自己低的用户
+    
+    传入参数
+    uid         必填          用户ID
+ 
+    成功输出参数
+    {info:$info,team:[1,2,5],master:[]}
+    
+    
+    $info
+    {
+        uid:2,                               //用户ID    
+        uname:'我的名字',                    //用户名
+        uemail:'233@c.baka',                //邮箱
+        utype:'1',                          //权限等级
+        uavatar:'http://c.baka/avatar.jpg', //头像
+        uctime:'1700000000',                //创建时间
+        uip:'192.168.0.102',                //上次更新时的IP
+        ulltime:'1800000000'                //上次更新时间
     }
-    public function change_password(){
-        $this->user->_safe_login();
-        
+    
+    API接口：domain/index.php/Home/User/getUserInfo
+    */
+
+    public function getUserInfo();
+    
+    
+    
+    
+     /*
+    获取用户信息
+    
+    权限
+    后台
+    权限3以及以上
+    仅可获得权限比自己低的用户
+    
+    传入参数
+    page    默认1    显示页数
+    limit   默认10   每页显示的数量
+    uid     选填
+    name    选填     
+    type    选填
+    
+    成功输出参数
+    {users:[$info1,$info2,$info3....],row:177}
+    没有搜到任何用户则输出{users:[],row:0}
+    
+    $info
+    {
+        uid:2,                               //用户ID    
+        uname:'我的名字',                    //用户名
+        uemail:'233@c.baka',                //邮箱
+        utype:'1',                          //权限等级
+        uavatar:'http://c.baka/avatar.jpg', //头像
+        uctime:'1700000000',                //创建时间
+        uip:'192.168.0.102',                //上次更新时的IP
+        ulltime:'1800000000'                //上次更新时间
     }
-    public function change_user_email(){
-        $uid = post('uid');
-        $this->user->_safe_admin();
-        $this->user->_safe_utype($uid);
+    
+    API接口：domain/index.php/Home/User/getUserList
+    */
+
+    public function getUserList();
+    
+    
+    
+    
+    
+    
+    
+    
+     /*
+    获取管理员列表
+    
+    权限
+    后台
+    权限4
+    获得权限3的用户
+    
+    传入参数
+    page    默认1    显示页数
+    limit   默认10   每页显示的数量
+ 
+    成功输出参数
+    {users:[$info1,$info2,$info3....],row:177}
+    没有搜到任何用户则输出{users:[],row:0}
+    
+    $info
+    {
+        uid:2,                               //用户ID    
+        uname:'我的名字',                    //用户名
+        uemail:'233@c.baka',                //邮箱
+        utype:'1',                          //权限等级
+        uavatar:'http://c.baka/avatar.jpg', //头像
+        uctime:'1700000000',                //创建时间
+        uip:'192.168.0.102',                //上次更新时的IP
+        ulltime:'1800000000'                //上次更新时间
     }
-    public function change_user_password(){
-        $uid = post('uid');
-        $this->user->_safe_admin();
-        $this->user->_safe_utype($uid);
-    }
-    public function admin_login(){
-        $this->user->_safe_login();
-        
-    }
+    
+    API接口：domain/index.php/Home/User/getAdminList
+    */
+    
+    public function getAdminList();
+    
+    
+    /*
+    修改用户权限
+    
+    权限
+    后台
+    权限4
+    仅可修改权限比自己低的用户
+    
+    传入参数
+    uid     必填      用户的ID  
+    type    必填      用户权限
+    成功输出参数
+    int 1
+    
+    API接口：domain/index.php/Home/User/changeUserType
+    */
+	public function changeUserType();
+    
+    
+    /*
+    登录
+
+    传入参数
+    name        必填      用户的名字
+    password    必填      用户的密码（md5加密后的）
+    captcha     必填      验证码
+    成功输出参数
+    int 1
+    
+    API接口：domain/index.php/Home/User/userLogin
+    */
+    public function userLogin();
+    
+    
+     /*
+    登出
+    
+    权限
+    登录
+    
+    无传入参数
+    
+    成功输出参数
+    int 1
+    
+    API接口：domain/index.php/Home/User/userLogout
+    */
+    public function userLogout();
+    
+    
+     /*
+    注册
+    
+    
+    传入参数
+    email       必填      修改后的邮箱
+    password    必填      用户的密码（md5加密后的）
+    name        必填      用户的名字
+    captcha     必填      验证码
+    成功输出参数
+    {uid:$uid}
+    
+    $uid  注册到的用户ID
+    
+    API接口：domain/index.php/Home/User/reg
+    */
+	public function reg();
+    
+    
+     /*
+    修改邮箱
+    
+    权限
+    登录
+    
+    传入参数
+    email       必填      修改后的邮箱
+    password    必填      用户的密码（md5加密后的）
+    captcha     必填      验证码
+    成功输出参数
+    int 1
+    
+    API接口：domain/index.php/Home/User/changeEmail
+    */
+	public function changeEmail();
+    
+    
+     /*
+    修改密码
+    
+    权限
+    登录
+    
+    传入参数
+    newpassword 必填      修改后的密码（md5加密后的）
+    password    必填      用户的密码（md5加密后的）
+    captcha     必填      验证码
+    成功输出参数
+    int 1
+    
+    API接口：domain/index.php/Home/User/changePassword
+    */
+    public function changePassword();
+    
+     /*
+    后台管理员修改邮箱
+    
+    权限
+    后台
+    权限3以及以上
+    仅可修改比自己权限低的用户
+    
+    传入参数
+    uid         必填      用户的ID
+    email       必填      修改后的邮箱
+    成功输出参数
+    int 1
+    
+    API接口：domain/index.php/Home/User/changeUserEmail
+    */
+    
+    public function changeUserEmail();
+    
+    
+     /*
+    后台管理员修改密码
+    
+    权限
+    后台
+    权限3以及以上
+    仅可修改比自己权限低的用户
+    
+    传入参数
+    uid         必填      用户的ID
+    email       必填      修改后的密码（md5加密后的）
+    成功输出参数
+    int 1
+    
+    API接口：domain/index.php/Home/User/changeUserPassword
+    */
+    public function changeUserPassword();
+    
+    
+    /*
+    后台登录
+    
+    权限
+    权限3以及以上
+    
+    传入参数
+    password    必填      用户的密码（md5加密后的）
+    captcha     必填      验证码
+    成功输出参数
+    int 1
+    
+    API接口：domain/index.php/Home/User/adminLogin
+    */
+    
+    public function adminLogin();
 }
 ?>
