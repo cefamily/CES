@@ -2,7 +2,12 @@
 namespace Home\Controller;
 use Think\Controller;
 class UserController extends Controller{
-	 
+     private userModel;
+     private userEvent;
+	 function _initialize(){
+         $this->user=D('UserInfo','Api');
+         $this->userEvent=A('User','Event');
+     }
     /*
     获取我的用户信息
     
@@ -173,7 +178,18 @@ class UserController extends Controller{
     
     API接口：domain/index.php/Home/User/userLogin
     */
-    public function userLogin();
+    public function userLogin(){
+        if($data['captcha']!=session('captcha'))
+            $this->error('验证码错误');
+        $result=$this->userModel->userLogin($data);
+        if($result){
+            session('userstat',$result);
+            $this->success(1);
+        }else{
+            $this->error(0);
+        }
+        
+    }
     
     
      /*

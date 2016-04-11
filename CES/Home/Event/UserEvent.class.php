@@ -7,7 +7,11 @@ class UserEvent extends Controller{
     登录返回true，未登录返回false
     */
     function _safe_login(){
-        
+        if(isset(session('userstst')){
+            return true;
+        }else{
+            return false;
+        }
     }
     
     /***
@@ -15,7 +19,14 @@ class UserEvent extends Controller{
     有返回true，无返回false
     */
     function _safe_type($type){
-        
+        $user=M('UserInfo');
+        $where['uid']=session('userstst')['uid'];
+        $re=$user->where($where)->find();
+        if($re['type']>=$type){
+            return true;
+        }else{
+            return false;
+        }
     }
     
     /***
