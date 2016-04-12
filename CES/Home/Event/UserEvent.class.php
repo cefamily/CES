@@ -10,6 +10,7 @@ class UserEvent extends Controller{
         if(isset(session('userstst')){
             return true;
         }else{
+            $4his->error('未登录');
             return false;
         }
     }

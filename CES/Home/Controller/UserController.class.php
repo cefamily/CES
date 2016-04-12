@@ -260,7 +260,16 @@ class UserController extends Controller{
     
     API接口：domain/index.php/Home/User/changePassword
     */
-    public function changePassword();
+    public function changePassword(){
+        $this->userEvent->_safe_login();
+        $uid=session('user')['uid'];
+        $newpassword=$data['newpassword'];
+        $password=$data['passwor'];
+        if($this->user->change_password($uid,$newpassword,$password)){
+            $this->success('1');
+        }else{
+            $this->error('0');
+        }
     
      /*
     后台管理员修改邮箱
