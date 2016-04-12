@@ -10,7 +10,7 @@ interface ClaimPort{
     
     传入参数
     pid     必填   任务的编号
-    ctype   必填   担任的职务    
+    ctype   必填   担任的职务  （图源，修图，翻译，嵌字分别为TY,XT,FY,QZ）  
     成功输出参数
     int 1
     
@@ -31,7 +31,7 @@ interface ClaimPort{
     
     传入参数
     pid     必填   任务的编号
-    ctype   必填   担任的职务    
+    ctype   必填   担任的职务 （图源，修图，翻译，嵌字分别为TY,XT,FY,QZ）   
     成功输出参数
     int 1
     
@@ -53,7 +53,7 @@ interface ClaimPort{
     
     传入参数
     pid     必填   任务的编号
-    ctype   必填   担任的职务    
+    ctype   必填   担任的职务（图源，修图，翻译，嵌字分别为TY,XT,FY,QZ）    
     成功输出参数
     int 1
     

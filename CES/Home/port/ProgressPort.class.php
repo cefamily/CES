@@ -11,7 +11,7 @@ interface ProgressPort{
     
     传入参数
     pid         必填          任务的ID
-    type        必填          职位
+    type        必填          职位（图源，修图，翻译，嵌字分别为TY,XT,FY,QZ）
     text        必填          进度说明
 
     成功输出参数
