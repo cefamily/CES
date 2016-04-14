@@ -248,6 +248,12 @@ class UserController extends Controller{
         $this->userEvent->_safe_login();
         if($this->tool->checkCaptcha($data['captcha']))
             $this->error('验证码错误');
+         $result=$this->user->user_login(session('user')['uname'],$data['password']);
+        if($result){
+            $this->user->change_email(session('userstat')['uid'],$data['email']);
+        }else{
+            $this->error('密码错误');
+        }
     }
     
     
