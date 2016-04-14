@@ -4,7 +4,7 @@ use Think\Model;
 class UserInfoApi extends Model{
     function user_login($user,$password){
         $where['uname']=$user;
-        $where['upassword']=$passowrd;
+        $where['upassword']=md5($passowrd.$uname);
         $result=$this->where($where)->find();
         if($this){
             return $result; 
@@ -13,7 +13,7 @@ class UserInfoApi extends Model{
         }
     }
     
-    function user_reg(){
+    function user_reg($data){
         $rule=array(
             array('uname','require','用户名格式错误',1,'',1),
 		    array('uname','4,16','用户名长度要在4-16字符',1,'length',1),
@@ -21,7 +21,7 @@ class UserInfoApi extends Model{
 		    array('upassword','require','请输入密码',1,'',1),
 		    array('uemail','email','Email格式不正确',1)          
         );
-        
+        $data['password']=md5($data['password'].$data['uname']);
         if($this->validate($rule)->create($data)){
             if($this->add()){                
                 return true;                
@@ -54,7 +54,16 @@ class UserInfoApi extends Model{
    
    function change_password($user,$password,$oldpassword){
        $where['uid']=$user;
-       $where['upassword']=$oldpassword;
+       $temp=$this->where($where)->find();
+       $data['upassword']='';
+       $data['uid']=$user;
+       if($temp){
+            $where['upassword']=md5($oldpassword.$temp['uname']); 
+            $data['upassword']=md5($password.$temp['uname']);
+       }else{
+           return false;
+       }
+       
        $rule=array(
            array('uid','require','UID必须'),
            array('uid','number','UID格式不正确'),
@@ -62,7 +71,7 @@ class UserInfoApi extends Model{
        );
        $result=$this->where($where)->find();
        if($result){
-           $res=$this-validate($rule)->create();
+           $res=$this-validate($rule)->create($data);
            if($res){
                if($this->save()){
                    return true;

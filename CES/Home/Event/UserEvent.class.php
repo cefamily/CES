@@ -35,7 +35,13 @@ class UserEvent extends Controller{
     已经登录返回true，未登录返回false
     */
     function _safe_admin(){
-        
+        _safe_login();
+        if(isset(session('adminstat')){
+            return true;
+        }else{
+            $4his->error('后台未登录');
+            return false;
+        }
     }
 }
 ?>

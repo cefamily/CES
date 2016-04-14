@@ -4,9 +4,11 @@ use Think\Controller;
 class UserController extends Controller{
      private userModel;
      private userEvent;
+     private tool;
 	 function _initialize(){
          $this->user=D('UserInfo','Api');
          $this->userEvent=A('User','Event');
+         $this->tool=A('Tool');
      }
     /*
     获取我的用户信息
@@ -179,7 +181,7 @@ class UserController extends Controller{
     API接口：domain/index.php/Home/User/userLogin
     */
     public function userLogin(){
-        if($data['captcha']!=session('captcha'))
+        if($this->tool->checkCaptcha($data['captcha']))
             $this->error('验证码错误');
         $result=$this->userModel->userLogin($data);
         if($result){
@@ -242,7 +244,11 @@ class UserController extends Controller{
     
     API接口：domain/index.php/Home/User/changeEmail
     */
-	public function changeEmail();
+	public function changeEmail(){
+        $this->userEvent->_safe_login();
+        if($this->tool->checkCaptcha($data['captcha']))
+            $this->error('验证码错误');
+    }
     
     
      /*
@@ -262,6 +268,8 @@ class UserController extends Controller{
     */
     public function changePassword(){
         $this->userEvent->_safe_login();
+        if($this->tool->checkCaptcha($data['captcha']))
+            $this->error('验证码错误');
         $uid=session('user')['uid'];
         $newpassword=$data['newpassword'];
         $password=$data['passwor'];
@@ -288,7 +296,11 @@ class UserController extends Controller{
     API接口：domain/index.php/Home/User/changeUserEmail
     */
     
-    public function changeUserEmail();
+    public function changeUserEmail(){
+        $this->userEvent->_safe_login();
+        
+        $uid=$data
+    }
     
     
      /*
@@ -325,6 +337,18 @@ class UserController extends Controller{
     API接口：domain/index.php/Home/User/adminLogin
     */
     
-    public function adminLogin();
+    public function adminLogin(){
+        $this->userEvent->_safe_login();
+        if($this->tool->checkCaptcha($data['captcha']))
+            $this->error('验证码错误');
+        $password=$data['password'];
+        $result=$this->user->user_login(session('user')['uname'],$password);
+        if($result['type']>2){
+            session('adminstat',$result);
+            $this->success('1');
+        }else{
+            $this->error('0');
+        }
+    }
 }
 ?>
