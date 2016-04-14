@@ -2,9 +2,9 @@
 namespace Home\Controller;
 use Think\Controller;
 class UserController extends Controller{
-     private userModel;
-     private userEvent;
-     private tool;
+     private $userModel;
+     private $userEvent;
+     private $tool;
 	 function _initialize(){
          $this->user=D('UserInfo','Api');
          $this->userEvent=A('User','Event');
