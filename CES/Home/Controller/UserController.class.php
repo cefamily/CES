@@ -278,7 +278,7 @@ class UserController extends Controller{
         }else{
             $this->error('0');
         }
-    
+    }
      /*
     后台管理员修改邮箱
     
@@ -298,9 +298,16 @@ class UserController extends Controller{
     
     public function changeUserEmail(){
         $this->userEvent->_safe_login();
-        
-        $uid=$data
-    }
+        $this->userEvent->_safe_admin();
+        $this->userEvent->_safe_type(3);
+        $this->userEvent->_safe_user_type($data['uid']);
+        $res=$this->user->change_email($data['uid'],$data['uemail']);
+        if($res){
+            $this->success('1');
+        }else{
+            $this->error('0');
+        }
+     }
     
     
      /*
@@ -342,8 +349,9 @@ class UserController extends Controller{
         if($this->tool->checkCaptcha($data['captcha']))
             $this->error('验证码错误');
         $password=$data['password'];
+        $this->userEvent->_safe_type(3);
         $result=$this->user->user_login(session('user')['uname'],$password);
-        if($result['type']>2){
+        if($result){
             session('adminstat',$result);
             $this->success('1');
         }else{
