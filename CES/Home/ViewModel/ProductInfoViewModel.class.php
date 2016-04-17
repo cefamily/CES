@@ -4,24 +4,37 @@ use Think\Model\ViewModel;
 class ProductInfoViewModel extends ViewModel{
 	
 	protected $viewFields = array(
-		'ProductInfo'=>array(),
-		'UserInfo'=>array('UserName'=>'uname', '_on'=>'ProductInfo.UserId=UserInfo.UserId'),
+		'ProductInfo'=>array(
+			'pid',      //任务编号，int，主键，自动
+			'uid',      //用户编号，int,默认0
+			'pname',    //任务标题，varchar(200)，默认''
+			'pimg',     //缩略图，varchar(300),默认''
+			'pstate',   //任务状态,tinyint,默认0
+						/*
+						-1:审核不通过
+						0：待审核
+						1：征集中
+						2：可以进行
+						3：进行中
+						4：可以完成
+						5：已完成
+						
+						98：伪删除
+						99：删除
+						*/
+			'premark',  //备注，text，默认''
+			'pclick',   //点击数,int,默认0
+			'pctime',   //创建时间，int，默认0
+			'pup',      //被收藏数，int，默认0
+			'ptype',    //图源类型,tinyint，默认0
+						//0:网源，1：图源
+			'pftime',   //完成时间，int，默认0
+			'pteam'     //是否限定组，tinyint，默认0
+						//0：共有，1：私有限定组
+		),
+		'UserInfo'=>array('uname','utype', '_on'=>'ProductInfo.uid=UserInfo.uid'),
 	);
-	public function _initialize(){
-		$this->viewFields['ProductInfo'] = array_flip(D('Admin/ProductInfo')->_map);
-	}
-	function getMyProductsList($userid,$page=1,$count=10,$order='releasetime DESC'){
-		$where['uid'] = $userid;
-		return $this->where($where)->page($page,$count)->order($order)
-					//->fetchSql()
-					->select();
-	}
-	function getProductsList($page=1,$count=10,$order='releasetime DESC'){
-		$where['state'] = array('in','1,2,3');
-		return $this->where($where)->page($page,$count)->order($order)
-					//->fetchSql()
-					->select();
-	}
+
 
 	
 	
