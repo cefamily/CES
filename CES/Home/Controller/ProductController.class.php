@@ -44,7 +44,13 @@ class ProductController extends Controller{
     API接口：domain/index.php/Home/Product/getMyProductList
     
     */
-    public function getMyProductList();
+    public function getMyProductList(){
+        
+        
+        
+        
+        
+    }
     
     
     
