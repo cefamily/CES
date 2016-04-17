@@ -10,7 +10,7 @@ class UserEvent extends Controller{
             return $this->$name;
         }else{
             $this->$name = null;
-            return $null;
+            return null;
         }
         
     }
