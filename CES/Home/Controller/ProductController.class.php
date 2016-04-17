@@ -44,7 +44,16 @@ class ProductController extends Controller{
     API接口：domain/index.php/Home/Product/getMyProductList
     
     */
-    public function getMyProductList();
+    public function getMyProductList(){
+        $this->user->_safe_login();
+        $p = D('ProductInfo','Api');
+        $page = I('post.page',1);
+        $limit = I('post.limit',10);
+        $r = $p->getListByUid($this->user->uid,$page,$limit);
+        $n = $p->getCountByUid($this->user->uid);
+        $array = array('products'=>$r,'row'=>$n);
+        $this->success($array);
+    }
     
     
     
@@ -59,7 +68,7 @@ class ProductController extends Controller{
     传入参数
     page        默认1         显示页数
     limit       默认10        每页显示的数量
-    state       选填          资源状态可选征集，进行，完成
+    state       选填          资源状态可选1征集，3进行，5完成
     成功输出参数
     {products:$array_products,row:$row}
     ___________________
@@ -91,7 +100,18 @@ class ProductController extends Controller{
     
     API接口：domain/index.php/Home/Product/getProductList
     */
-    public function getProductList();
+    public function getProductList(){
+        $this->user->_safe_login();
+        $p = D('ProductInfo','Api');
+        $page = I('post.page',1);
+        $limit = I('post.limit',10);
+        $state = I('post.state',0);
+        if(!in_array($state,array(1,3,5)))$state = 0;
+        $r = $p->getListByState($state,$page,$limit);
+        $n = $p->getCountByState($state);
+        $array = array('products'=>$r,'row'=>$n);
+        $this->success($array);
+    }
     
     /*
     后台获得任务列表(仅可获得有权限管理的任务列表)
@@ -138,7 +158,42 @@ class ProductController extends Controller{
     
     API接口：domain/index.php/Home/Product/getAllProductList
     */
-    public function getAllProductList();
+    public function getAllProductList(){
+        $this->user->_safe_admin();
+        $this->user->_safe_type(3);
+        $p = D('ProductInfo','Api');
+        $page = I('post.page',1);
+        $limit = I('post.limit',10);
+        $type = I('post.type','pid');
+        $value = I('post.value','');
+        if(!in_array($type,array('pid','name','state','uid')))$type = 'pid';
+        if(!$value){
+            $r = $p->getAllList($this->user->type,$page,$limit);
+            $n = $p->getAllCount($this->user->type);
+        }else{
+            if($type == 'pid'){
+                
+                
+            }elseif($type == 'name'){
+                
+                
+            }elseif($type == 'state'){
+                
+                
+            }elseif($type == 'uid'){
+            
+            }
+            
+        }
+        
+        
+        
+        
+        
+        
+        $array = array('products'=>$r,'row'=>$n);
+        $this->success($array);
+    }
     
     
     

@@ -21,7 +21,12 @@ class ClaimController extends Controller{
     
     API接口：domain/index.php/Home/Claim/claimProduct
     */
-	public function claimProduct();
+	public function claimProduct(){
+        
+        
+        
+        
+    }
     
     
     
@@ -42,7 +47,12 @@ class ClaimController extends Controller{
     
     API接口：domain/index.php/Home/Claim/finishClaim
     */
-    public function finishClaim();
+    public function finishClaim(){
+        
+        
+        
+        
+    }
     
     
     

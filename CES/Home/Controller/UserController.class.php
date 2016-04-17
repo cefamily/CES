@@ -8,7 +8,7 @@ class UserController extends Controller{
 	 function _initialize(){
          $this->user=D('UserInfo','Api');
          $this->userEvent=A('User','Event');
-         $this->tool=A('Tool');
+         $this->tool=A('Tool','Event');
      }
     /*
     获取我的用户信息
@@ -38,6 +38,7 @@ class UserController extends Controller{
     public function getMyInfo(){
 		$result=$this->user->getUserInfoById();
 		}
+
     
     /*
     获取用户信息
@@ -69,7 +70,10 @@ class UserController extends Controller{
     API接口：domain/index.php/Home/User/getUserInfo
     */
 
-    public function getUserInfo();
+    public function getUserInfo(){
+        
+        
+    }
     
     
     
@@ -108,7 +112,10 @@ class UserController extends Controller{
     API接口：domain/index.php/Home/User/getUserList
     */
 
-    public function getUserList();
+    public function getUserList(){
+        
+        
+    }
     
     
     
@@ -148,7 +155,10 @@ class UserController extends Controller{
     API接口：domain/index.php/Home/User/getAdminList
     */
     
-    public function getAdminList();
+    public function getAdminList(){
+        
+        
+    }
     
     
     /*
@@ -167,7 +177,10 @@ class UserController extends Controller{
     
     API接口：domain/index.php/Home/User/changeUserType
     */
-	public function changeUserType();
+	public function changeUserType(){
+        
+        
+    }
     
     
     /*
@@ -208,7 +221,10 @@ class UserController extends Controller{
     
     API接口：domain/index.php/Home/User/userLogout
     */
-    public function userLogout();
+    public function userLogout(){
+        
+        
+    }
     
     
      /*
@@ -227,7 +243,10 @@ class UserController extends Controller{
     
     API接口：domain/index.php/Home/User/reg
     */
-	public function reg();
+	public function reg(){
+        
+        
+    }
     
     
      /*
@@ -333,7 +352,10 @@ class UserController extends Controller{
     
     API接口：domain/index.php/Home/User/changeUserPassword
     */
-    public function changeUserPassword();
+    public function changeUserPassword(){
+        
+        
+    }
     
     
     /*
