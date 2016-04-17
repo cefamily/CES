@@ -2,7 +2,15 @@
 namespace Home\Api;
 use Think\Model;
 class UserInfoApi extends Model{
-    function user_login($user,$password){
+ 	
+	private $USER_FIELD_LIST='uid,uname,uemail,utype,uavatar,uctime,uip,ulltime';
+	/***
+		用户登录API
+		参数
+		user 用户名
+		password 密码（MD5加密后)
+	*/
+    function userLogin($user,$password){
         $where['uname']=$user;
         $where['upassword']=md5($passowrd.$uname);
         $result=$this->where($where)->find();
@@ -13,6 +21,14 @@ class UserInfoApi extends Model{
         }
     }
     
+	/***
+		用户注册
+		参数
+		data 用户注册信息
+			uname 用户名
+			upassword 密码
+			uemail 邮箱
+	*/
     function user_reg($data){
         $rule=array(
             array('uname','require','用户名格式错误',1,'',1),
@@ -33,6 +49,12 @@ class UserInfoApi extends Model{
         }
     }
     
+	/***
+		修改用户邮箱
+		参数
+		user 用户ID
+		email 修改后的邮箱
+	*/
    function change_email($user,$email){
        $rules=array(
            array('uid','require','用户编号必须'),
@@ -52,9 +74,18 @@ class UserInfoApi extends Model{
       }
    }
    
+   
+   /***
+   		修改用户密码
+		参数
+		user 用户ID
+		password 要修改的密码
+		oldpassword 旧密码
+		（密码均为MD5加密后的)
+   */
    function change_password($user,$password,$oldpassword){
-       $where['uid']=$user;
-       $temp=$this->where($where)->find();
+	   
+       $temp=$this->_getUserInfo($user);
        $data['upassword']='';
        $data['uid']=$user;
        if($temp){
@@ -87,11 +118,29 @@ class UserInfoApi extends Model{
        }
    }
    
+   /***
+   		添加管理员（权限3）
+   */
+   
    function add_admin(){
 	   //TODO
    }
+      
+   /***
+   		获取用户列表
+   */
+   function get_user_list($type,$data,$page){
+       
    
-   private function user_type_change($uid,$type){
+   }
+   
+   /***
+   		修改用户权限（私有方法)
+		参数
+		uid 用户ID
+		type 要修改的权限
+   */
+   private function _userTypeChange($uid,$type){
        //TODO
        $rule=array(
            array('uid','require','UID必须',1),
@@ -113,7 +162,13 @@ class UserInfoApi extends Model{
        
    }
    
-   function get_user_info($uid){
+   
+   /***
+   		获取用户所有信息(私有方法)
+		参数
+		uid 用户ID
+   */
+   private function _getUserInfo($uid){
        $where['uid']=$uid;
        $result=$this->where($where)->find();
        if($result){
@@ -123,10 +178,7 @@ class UserInfoApi extends Model{
        }
    }
    
-   function get_user_list($type,$data,$page){
-       
-   
-   }
+
    
    
 }

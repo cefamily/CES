@@ -35,7 +35,9 @@ class UserController extends Controller{
     API接口：domain/index.php/Home/User/getMyInfo
     */
     
-    public function getMyInfo();
+    public function getMyInfo(){
+		$result=$this->user->getUserInfoById();
+		}
     
     /*
     获取用户信息
@@ -181,8 +183,7 @@ class UserController extends Controller{
     API接口：domain/index.php/Home/User/userLogin
     */
     public function userLogin(){
-        if($this->tool->checkCaptcha($data['captcha']))
-            $this->error('验证码错误');
+        $this->tool->checkCaptcha($data['captcha']);
         $result=$this->userModel->userLogin($data);
         if($result){
             session('userstat',$result);
