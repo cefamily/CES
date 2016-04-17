@@ -45,11 +45,13 @@ class ProductController extends Controller{
     
     */
     public function getMyProductList(){
-        
-        
-        
-        
-        
+        $this->user->_safe_login();
+        $p = D('ProductInfo');
+        $where['uid'] = $this->user->uid;
+        $r = $p->field('pid,panme,pimg,pstate,premark,pclick,pctime,pup,ptype,pftime,pteam')->where($where)->select();
+        $n = $p->where($where)->getField('count(1)');
+        $array = array('products'=>$r,'row'=>$n);
+        $this->success($array);
     }
     
     
