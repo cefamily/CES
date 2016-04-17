@@ -6,10 +6,5 @@ class ToolController extends Controller{
 		$Verify = new \Think\Verify();
 		$Verify->entry();
 	}
-   
-   public function checkCaptcha($code,$id=''){
-       $verify=new \Think\Verify();
-       return $Verify->check($code,$id);
-   }
 }
 ?>
