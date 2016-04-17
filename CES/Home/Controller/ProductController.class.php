@@ -158,7 +158,42 @@ class ProductController extends Controller{
     
     API接口：domain/index.php/Home/Product/getAllProductList
     */
-    public function getAllProductList();
+    public function getAllProductList(){
+        $this->user->_safe_admin();
+        $this->user->_safe_type(3);
+        $p = D('ProductInfo','Api');
+        $page = I('post.page',1);
+        $limit = I('post.limit',10);
+        $type = I('post.type','pid');
+        $value = I('post.value','');
+        if(!in_array($type,array('pid','name','state','uid')))$type = 'pid';
+        if(!$value){
+            $r = $p->getAllList($this->user->type,$page,$limit);
+            $n = $p->getAllCount($this->user->type);
+        }else{
+            if($type == 'pid'){
+                
+                
+            }elseif($type == 'name'){
+                
+                
+            }elseif($type == 'state'){
+                
+                
+            }elseif($type == 'uid'){
+            
+            }
+            
+        }
+        
+        
+        
+        
+        
+        
+        $array = array('products'=>$r,'row'=>$n);
+        $this->success($array);
+    }
     
     
     
