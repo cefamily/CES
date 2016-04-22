@@ -1,8 +1,13 @@
 <?php
 namespace Home\Event;
-use Think\Controller;
-class UserEvent extends Controller{
-    
+class UserEvent extends OutEvent{
+   
+    public function __construct(){
+        
+        //test
+        //$this->admin = $this->uid = 1;
+        //$this->type = 4;
+    }
     function __get($name){
         $sname = "_get_".$name;
         if(method_exists($this,$sname)){

@@ -4,7 +4,6 @@ use Think\Controller;
 class ProductController extends Controller{
 	public function _initialize(){
         $this->user = A('User','Event');
-        
     }
  /*
     获得我发布的任务列表
@@ -168,29 +167,23 @@ class ProductController extends Controller{
         $value = I('post.value','');
         if(!in_array($type,array('pid','name','state','uid')))$type = 'pid';
         if(!$value){
-            $r = $p->getAllList($this->user->type,$page,$limit);
-            $n = $p->getAllCount($this->user->type);
+            $r = $p->commandList($this->user->type,$page,$limit);
+            $n = $p->commandCount($this->user->type);
         }else{
             if($type == 'pid'){
-                
-                
+                $r = $p->commandListByPid($value,$this->user->type,$page,$limit);
+                $n = $p->commandCountByPid($value,$this->user->type);
             }elseif($type == 'name'){
-                
-                
+                $r = $p->commandListByName($value,$this->user->type,$page,$limit);
+                $n = $p->commandCountByName($value,$this->user->type);
             }elseif($type == 'state'){
-                
-                
+                $r = $p->commandListByState($value,$this->user->type,$page,$limit);
+                $n = $p->commandCountByState($value,$this->user->type);
             }elseif($type == 'uid'){
-            
+                $r = $p->commandListByUid($value,$this->user->type,$page,$limit);
+                $n = $p->commandCountByUid($value,$this->user->type);
             }
-            
         }
-        
-        
-        
-        
-        
-        
         $array = array('products'=>$r,'row'=>$n);
         $this->success($array);
     }
@@ -211,7 +204,16 @@ class ProductController extends Controller{
     
     API接口：domain/index.php/Home/Product/cleanProduct
     */
-	public function cleanProduct();
+	public function cleanProduct(){
+        $this->user->_safe_admin();
+        $this->user->_safe_type(4);
+        $p = D('ProductInfo');
+        $where['pftime'] = array('LT',time()-3600*24*7);
+        $where2['pftime'] = array('NEQ',0);
+        $data['pstate'] = 99;
+        $d = $p->where($where)->where($where2)->data($data)->save();
+        $this->success($d);
+    }
     
     
     
@@ -236,7 +238,12 @@ class ProductController extends Controller{
 
     API接口：domain/index.php/Home/Product/changeProduct
     */
-    public function changeProduct();
+    public function changeProduct(){
+        
+        
+        
+        
+    }
     
     
     
@@ -262,7 +269,19 @@ class ProductController extends Controller{
     
     API接口：domain/index.php/Home/Product/releaseProduct
     */
-    public function releaseProduct();
+    public function releaseProduct(){
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    }
     
     
     
@@ -309,6 +328,11 @@ class ProductController extends Controller{
     
     API接口：domain/index.php/Home/Product/getMyClaimProduct
     */
-    public function getMyClaimProduct();	
+    public function getMyClaimProduct(){
+        
+        
+        
+        
+    }
 }
 ?>

@@ -9,7 +9,7 @@ class ProductInfoApi{
         $model = D('ProductInfo');
         $where['uid'] = $uid;
         $where['pstate'] = array('LT',90);
-        $m = $model->field('pid,panme,pimg,pstate,premark,pclick,pctime,pup,ptype,pftime,pteam')
+        $m = $model->field('pid,pname,pimg,pstate,premark,pclick,pctime,pup,ptype,pftime,pteam')
         ->page($page,$limit)->where($where)->order('pid desc')->select();
         if(!$m)return array();
         return array_values($m);  
@@ -34,7 +34,10 @@ class ProductInfoApi{
         $where['pstate'] = $state?$state:array('IN','1,3,5');
         return $model->where($where)->getField('count(1)');
     }
-    
+     function getAllList($page,$limit){
+        
+        
+    }
     
     
     
