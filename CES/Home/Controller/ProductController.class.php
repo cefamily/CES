@@ -255,10 +255,26 @@ class ProductController extends OutController{
     API接口：domain/index.php/Home/Product/changeProduct
     */
     public function changeProduct(){
-        
-        
-        
-        
+        $this->user->_safe_admin();
+        $this->user->_safe_type(3);
+        $p = $this->product;
+        $pid = I('post.pid',0);
+        $d = $p->getByPid($pid);
+        if(!$d)$this->error('没有找到任务');
+        if($d['utype']>=$this->user->type && $d['uid']!=$this->user->uid)$this->error('无权限');
+        if($d['team'] && $this->user->type<4)$this->team->_safe_control($pid);//------------------------------------------
+        $data = array();
+        $pname = I('post.pname','');
+        $pimg = I('post.pimg','');
+        $pstate = I('post.pstate','');
+        $premark = I('post.remark','');
+        if(strlen($pname))$data['pname'] = $pname;
+        if(strlen($pimg))$data['pimg'] = $pimg;
+        if(strlen($pstate))$data['pstate'] = $pstate;
+        if(strlen($remark))$data['remark'] = $remark;
+        if(!$data)$this->success(1);
+        $this->success($p->changeProduct($pid,$data));
+
     }
     
     
@@ -271,7 +287,7 @@ class ProductController extends OutController{
     权限2以及以上才能填team参数
     
     传入参数
-    pid         必填          任务的ID
+
     pname       必填          任务名字
     pimg        必填          任务封面
     premark     选填          备注
@@ -286,15 +302,35 @@ class ProductController extends OutController{
     API接口：domain/index.php/Home/Product/releaseProduct
     */
     public function releaseProduct(){
+        $this->user->_safe_login();
+        $pname = I('post.pname','');
+        $pimg = I('post.pimg','');
+        $premark = I('post.premark','');
         
         
-        
-        
-        
-        
-        
-        
-        
+        if(strlen($pname))$data['pname'] = $pname;else $this->error('没有名字');
+        if(strlen($pimg))$data['pimg'] = $pimg;else $this->error('没有封面');
+        if(strlen($premark))$data['premark'] = $premark;
+        $data['pctime'] = time();
+        $data['uid'] = $this->user->uid;
+        if($this->user->type>1){
+            $team = I('post.team',array());
+            if(!is_array($team))$this->error('e');
+            $data['state'] = 1;
+            if($team)$data['team'] = 1;
+            $pid = $this->product->release($data);
+            if(!$pid)$this->error('发布失败');
+            foreach($team as $v){
+                $this->progress->add($pid,'team',$v);
+            }
+            
+        }else{
+            
+            $pid = $this->product->release($data);
+            if(!$pid)$this->error('发布失败');
+        }
+        $out['pid'] = $pid;
+        $this->success($out);
         
         
     }
@@ -345,8 +381,15 @@ class ProductController extends OutController{
     API接口：domain/index.php/Home/Product/getMyClaimProduct
     */
     public function getMyClaimProduct(){
-        
-        
+        $this->user->_safe_login();
+        $p = $this->product;
+        $page = I('post.page',1);
+        $limit = I('post.limit',10);
+        $type = I('post.type','');
+        $r = $p->getListByClaim($this->user->uid,$type,$page,$limit);
+        $n = $p->getCountByClaim($this->user->uid,$type);
+        $array = array('products'=>$r,'row'=>$n);
+        $this->success($array);
         
         
     }

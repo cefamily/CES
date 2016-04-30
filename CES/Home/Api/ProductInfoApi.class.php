@@ -7,7 +7,9 @@ class ProductInfoApi{
     }
     function getByPid($pid){
         $model = D('ProductInfo','ViewModel');
-        $m = $model->where(array('pid'=>$pid))->find();
+        $where['pid'] = $pid;
+        $where['pstate'] = array('LT',99);
+        $m = $model->where($where)->find();
         if(!$m)return false;
         return $m;  
     }
@@ -93,8 +95,30 @@ class ProductInfoApi{
         $where['utype'] = array('LT',$utype);
         return $model->where($where)->getField('count(1)');
     }
-    function getAllList($page,$limit){
+    function changeProduct($pid,$data){
+        $model = D('ProductInfo');
+        return $model->where(array('pid'=>$pid))->data($data)->save();
+    }
+    function release($data){
+        $model = D('ProductInfo');
+        return $model->data($data)->add();
+    }
+    function getListByClaim($uid,$type,$page,$limit){
+        $model = D('Claim','ViewModel');
+        $where['uid'] = $uid;
+        if($type)$where['ctype'] = $type;
+        $where['pstate'] = array('LT',90);
+        $m = $model->where($where)->page($page,$limit)->order(array('ProductInfo.pid'=>'DESC'))->select();
+        if(!$m)return array();
+        return array_values($m);
         
+    }
+    function getCountByClaim($uid,$type){
+        $model = D('Claim','ViewModel');
+        $where['uid'] = $uid;
+        if($type)$where['ctype'] = $type;
+        $where['pstate'] = array('LT',90);
+        return $model->where($where)->getField('count(1)');
         
     }
     

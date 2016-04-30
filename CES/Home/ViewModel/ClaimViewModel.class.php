@@ -4,12 +4,14 @@ use Think\Model\ViewModel;
 class ClaimViewModel extends ViewModel{
 	
 	protected $viewFields = array(
-		'Claim'=>array(),
-		'UserInfo'=>array('UserName'=>'uname', '_on'=>'Claim.UserId=UserInfo.UserId'),
-		'ProductInfo'=>array('ProTitle'=>'title', '_on'=>'Claim.ProId=ProductInfo.ProId'),
+		'Claim'=>array(
+			'cid','pid','uid','ctype','cfinish'
+		),
+		'UserInfo'=>array('uname','utype','_on'=>'Claim.uid=UserInfo.uid'),
+		'ProductInfo'=>array('pname','pstate', '_on'=>'Claim.pid=ProductInfo.pid'),
 	);
 	public function _initialize(){
-		$this->viewFields['Claim'] = array_flip(D('Admin/Claim')->_map);
+		
 	}
 	public function getClaimByCid($cid){
 		$where['cid'] = $cid;
