@@ -158,14 +158,14 @@ class UserInfoApi extends Model{
 	/***
 		添加汉化组权限
 	*/
-   function addMenmber(){
+   function addMenmber($uid){
 	   return $this->_userTypeChange($uid,2);	 
    }
    
    /***
    		删除汉化组权限
    */
-   function delMenmber(){
+   function delMenmber($uid){
 	 	return $this->_userTypeChange($uid,1);	  
    }
    

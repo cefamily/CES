@@ -2,6 +2,19 @@
 namespace Home\Controller;
 use Think\Controller;
 class TeamController extends Controller{
+	private $teamApi;
+	private $teamUserApi;
+	private $teamEvent;
+	private $userEvent;
+	private $userApi;
+	 function _initialize(){
+		 $this->teamApi=M('TeamInfp','Api');
+		 $this->teamUserApi=M('TeamUser','Api');
+		 $this->teamEvent=A('TeamInfo','Event');
+		 $this->userEvent=A('User','Event');
+		 $this->userApi=D('UserInfo','Api');
+	 }
+	
 	    /*
     获取组的信息
     
@@ -37,7 +50,14 @@ class TeamController extends Controller{
     
     API接口：domain/index.php/Home/Team/getTeamInfo
     */
-	public function getTeamInfo();
+	public function getTeamInfo(){
+		$tid=I('post.tid',0,'int');
+		$this->userEvent->_safe_login();
+        $this->userEvent->_safe_admin();
+        $this->userEvent->_safe_type(3);
+		$result=$this->teamApi->getTeamInfo($tid);
+		$this->success($result);
+	}
     
     
     
@@ -62,7 +82,18 @@ class TeamController extends Controller{
     
     API接口：domain/index.php/Home/Team/addTeam
     */
-    public function addTeam();
+    public function addTeam(){
+		$data['tname']=I('post.tname','',false);
+		$this->userEvent->_safe_login();
+        $this->userEvent->_safe_admin();
+        $this->userEvent->_safe_type(4);
+		if($this->teamApi->addTeam($data))
+		{
+			$this->success(1);
+		}else{
+			$this->error(0);
+		}
+	}
     
     
     
@@ -82,7 +113,18 @@ class TeamController extends Controller{
     
     API接口：domain/index.php/Home/Team/deleteTeam
     */
-    public function deleteTeam();
+    public function deleteTeam(){
+		$tid=I('post.tid',0,'int');
+		$this->userEvent->_safe_login();
+        $this->userEvent->_safe_admin();
+        $this->userEvent->_safe_type(4);
+		if($this->teamApi->delTeam($data))
+		{
+			$this->success(1);
+		}else{
+			$this->error(0);
+		}	
+	}
     
     
     
@@ -122,7 +164,16 @@ class TeamController extends Controller{
     
     API接口：domain/index.php/Home/Team/getTeamList
     */
-    public function getTeamList();
+    public function getTeamList(){
+		$page=I('post.page',1,'int');
+		$limit=I('post.limit',10,'int');
+		$this->userEvent->_safe_login();
+        $this->userEvent->_safe_admin();
+        $this->userEvent->_safe_type(3);
+		
+		$result=$this->teamApi->getTeamList($page,$limit);
+		$this->success($result);	
+	}
     
     
     
@@ -146,7 +197,41 @@ class TeamController extends Controller{
     
     API接口：domain/index.php/Home/Team/addMember
     */
-    public function addMember();
+    public function addMember(){
+		$type=I('post.type','',false);
+		$data['team']=I('post.tid',0,'int');
+		$this->userEvent->_safe_login();
+        $this->userEvent->_safe_admin();
+        $this->userEvent->_safe_type(3);
+		$myInfo=session('adminstat');
+		if($type=='uid'){
+			$data['uid']=I('post.value',0,'int');
+			$res=$this->userApi->where('uid='.$value)->find();			
+		}else{
+			$value=I('post.value','','/^[A-Za-z0-9_]{4,16}$/');			
+			$res=$this->userApi->where('uname='.$value)->find();
+			if($res){
+				$data['uid']=$res['uid'];
+			}else{
+				$this->error('用户不存在');
+			}
+		}
+
+		if($myInfo['utype']!=4){
+			$this->userEvent->_safe_user_type($data['uid']);
+		}
+		
+		if($this->teamApi->userInTempCheck($data['uid'],$data['tid'])){
+			$this->error('该用户已经存在');
+		}
+		
+		if($res['utype']==0){
+			$this->userApi->addMenmber($data['uid']);
+		}
+		
+		$this->teamUserApi->addMenmber($data);
+		$this->success(1);
+	}
     
     
     
@@ -170,7 +255,43 @@ class TeamController extends Controller{
     
     API接口：domain/index.php/Home/Team/delMember
     */
-    public function delMember();
+    public function delMember(){
+		$type=I('post.type','',false);
+		$data['team']=I('post.tid',0,'int');
+		$this->userEvent->_safe_login();
+        $this->userEvent->_safe_admin();
+        $this->userEvent->_safe_type(3);
+		$myInfo=session('adminstat');
+		if($type=='uid'){
+			$data['uid']=I('post.value',0,'int');
+			$res=$this->userApi->where('uid='.$value)->find();			
+		}else{
+			$value=I('post.value','','/^[A-Za-z0-9_]{4,16}$/');			
+			$res=$this->userApi->where('uname='.$value)->find();
+			if($res){
+				$data['uid']=$res['uid'];
+			}else{
+				$this->error('用户不存在');
+			}
+		}
+
+		if($myInfo['utype']!=4){
+			$this->userEvent->_safe_user_type($data['uid']);
+		}
+		
+		if(!$this->teamApi->userInTempCheck($data['uid'],$data['tid'])){
+			$this->error('该用户不存在');
+		}
+		$this->teamUserApi->delMenmber($data);
+		if($res['utype']==1){
+			//$this->userApi->addMenmber($data['uid']);
+			if(!$this->teamUserApi->userTeamCheck($data['uid'])){
+				$this->userApi->delMenmber($data['uid']);
+			}
+		}
+		
+		$this->success(1);
+	}
     
     
     
@@ -192,7 +313,41 @@ class TeamController extends Controller{
     
     API接口：domain/index.php/Home/Team/addMaster
     */
-	public function addMaster();
+	public function addMaster(){
+		$type=I('post.type','',false);
+		$data['team']=I('post.tid',0,'int');
+		$this->userEvent->_safe_login();
+        $this->userEvent->_safe_admin();
+        $this->userEvent->_safe_type(4);
+		$myInfo=session('adminstat');
+		if($type=='uid'){
+			$data['uid']=I('post.value',0,'int');
+			$res=$this->userApi->where('uid='.$value)->find();			
+		}else{
+			$value=I('post.value','','/^[A-Za-z0-9_]{4,16}$/');			
+			$res=$this->userApi->where('uname='.$value)->find();
+			if($res){
+				$data['uid']=$res['uid'];
+			}else{
+				$this->error('用户不存在');
+			}
+		}
+		
+		if($res['utype']<2){
+			$this->error('该用户至少需要汉化组权限');
+		}
+		if($myInfo['utype']!=4){
+			$this->userEvent->_safe_user_type($data['uid']);
+		}
+		
+		if($this->teamApi->userInTempCheck($data['uid'],$data['tid'])){
+			$this->teamUserApi->addMaster($data,true);
+		}else{
+			$this->teamUserApi->addMaster($data,true);
+		}
+		
+		$this->success(1);
+	}
     
     
     
@@ -214,14 +369,32 @@ class TeamController extends Controller{
     
     API接口：domain/index.php/Home/Team/delMaster
     */
-    public function delMaster();
-	
-
-	
-	
-	
-	
-	
-	
+    public function delMaster(){
+		
+		$type=I('post.type','',false);
+		$data['team']=I('post.tid',0,'int');
+		$this->userEvent->_safe_login();
+        $this->userEvent->_safe_admin();
+        $this->userEvent->_safe_type(4);
+		$myInfo=session('adminstat');
+		if($type=='uid'){
+			$data['uid']=I('post.value',0,'int');
+			$res=$this->userApi->where('uid='.$value)->find();			
+		}else{
+			$value=I('post.value','','/^[A-Za-z0-9_]{4,16}$/');			
+			$res=$this->userApi->where('uname='.$value)->find();
+			if($res){
+				$data['uid']=$res['uid'];
+			}else{
+				$this->error('用户不存在');
+			}
+		}
+		
+		if($myInfo['utype']!=4){
+			$this->userEvent->_safe_user_type($data['uid']);
+		}
+		$this->teamUserApi-delMaster($data);	
+		}
+		
 }
 ?>
