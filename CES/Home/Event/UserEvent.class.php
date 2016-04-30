@@ -14,8 +14,8 @@ class UserEvent extends OutEvent{
             $this->$name = $this->$sname();
             return $this->$name;
         }else{
-            $this->$name = null;
-            return null;
+            $this->$name = NULL;
+            return NULL;
         }
         
     }

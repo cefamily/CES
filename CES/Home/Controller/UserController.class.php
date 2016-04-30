@@ -2,11 +2,11 @@
 namespace Home\Controller;
 use Think\Controller;
 class UserController extends Controller{
-     private $userModel;
+     private $userApi;
      private $userEvent;
      private $tool;
 	 function _initialize(){
-         $this->user=D('UserInfo','Api');
+         $this->userApi=D('UserInfo','Api');
          $this->userEvent=A('User','Event');
          $this->tool=A('Tool','Event');
      }
@@ -36,7 +36,7 @@ class UserController extends Controller{
     */
     
     public function getMyInfo(){
-		$result=$this->user->getUserInfoById();
+		$result=$this->userApi->getUserInfoById();
 		}
 
     
@@ -196,8 +196,11 @@ class UserController extends Controller{
     API接口：domain/index.php/Home/User/userLogin
     */
     public function userLogin(){
+		$data['captcha']=I('post.captcha','',false);
+		$data['user']=I('post.name/s','','/^[A-Za-z0-9_]{4,16}$/');
+		$data['password']=I('post.password','',false);
         $this->tool->checkCaptcha($data['captcha']);
-        $result=$this->userModel->userLogin($data);
+        $result=$this->userApi->userLogin($data);
         if($result){
             session('userstat',$result);
             $this->success(1);
@@ -222,8 +225,9 @@ class UserController extends Controller{
     API接口：domain/index.php/Home/User/userLogout
     */
     public function userLogout(){
-        
-        
+        session('userstat',NULL);
+		session('adminstat',NULL);
+		$this->success(1);        
     }
     
     
@@ -244,8 +248,17 @@ class UserController extends Controller{
     API接口：domain/index.php/Home/User/reg
     */
 	public function reg(){
+        $data['uemail']=I('post.email','','email');
+		$data['upassword']=I('post.password','',false);
+		$data['uname']=I('post.name','',false);
+		$data['captcha']=I('post.captcha','',false);
         
-        
+		$result['uid']=$this->userApi->user_reg($data);
+		if($result){
+			$this->success($result);
+		}else{
+			$this->error($this->userApi->getError());
+		}
     }
     
     
@@ -265,12 +278,17 @@ class UserController extends Controller{
     API接口：domain/index.php/Home/User/changeEmail
     */
 	public function changeEmail(){
+		$data['email']=I('post.email','','email');
+		$data['password']=I('post.password','',false);
+		$data['captcha']=I('post.captcha','',false);
+		
         $this->userEvent->_safe_login();
         if($this->tool->checkCaptcha($data['captcha']))
             $this->error('验证码错误');
-         $result=$this->user->user_login(session('user')['uname'],$data['password']);
+		 $userInfo=session('userstat');
+         $result=$this->userApi->user_login($userInfo['uname'],$data['password']);
         if($result){
-            $this->user->change_email(session('userstat')['uid'],$data['email']);
+            $this->user->change_email($userInfo['uid'],$data['email']);
         }else{
             $this->error('密码错误');
         }
@@ -296,10 +314,11 @@ class UserController extends Controller{
         $this->userEvent->_safe_login();
         if($this->tool->checkCaptcha($data['captcha']))
             $this->error('验证码错误');
-        $uid=session('user')['uid'];
-        $newpassword=$data['newpassword'];
-        $password=$data['passwor'];
-        if($this->user->change_password($uid,$newpassword,$password)){
+		$userInfo=session('userstat');
+        $uid=$userInfo['uid'];
+        $newpassword=I('post.newpassword','',false);
+        $password=I('post.password','',false);
+        if($this->userApi->change_password($uid,$newpassword,$password)){
             $this->success('1');
         }else{
             $this->error('0');
@@ -327,7 +346,7 @@ class UserController extends Controller{
         $this->userEvent->_safe_admin();
         $this->userEvent->_safe_type(3);
         $this->userEvent->_safe_user_type($data['uid']);
-        $res=$this->user->change_email($data['uid'],$data['uemail']);
+        $res=$this->userApi->change_email($data['uid'],$data['uemail']);
         if($res){
             $this->success('1');
         }else{
@@ -374,12 +393,14 @@ class UserController extends Controller{
     */
     
     public function adminLogin(){
+		$data['captcha']=I('post.captcha','',false);
+		$password=I('post.password','',false);
         $this->userEvent->_safe_login();
         if($this->tool->checkCaptcha($data['captcha']))
-            $this->error('验证码错误');
-        $password=$data['password'];
+            $this->error('验证码错误');        
         $this->userEvent->_safe_type(3);
-        $result=$this->user->user_login(session('user')['uname'],$password);
+		$userInfo=session('userstat');
+        $result=$this->userApi->user_login($userInfo['uname'],$password);
         if($result){
             session('adminstat',$result);
             $this->success('1');

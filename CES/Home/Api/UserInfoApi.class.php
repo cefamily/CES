@@ -10,9 +10,9 @@ class UserInfoApi extends Model{
 		user 用户名
 		password 密码（MD5加密后)
 	*/
-    function userLogin($user,$password){
-        $where['uname']=$user;
-        $where['upassword']=md5($passowrd.$uname);
+    function userLogin($data){
+        $where['uname']=$data['user'];
+        $where['upassword']=md5($data['password'].$data['user']);
         $result=$this->where($where)->find();
         if($this){
             return $result; 
@@ -31,17 +31,18 @@ class UserInfoApi extends Model{
 	*/
     function user_reg($data){
         $rule=array(
-            array('uname','require','用户名格式错误',1,'',1),
+			array('uname','/^[A-Za-z0-9_]+$/','用户名中只能含有字母、数字、_(下划线)',1,'regx',1),
 		    array('uname','4,16','用户名长度要在4-16字符',1,'length',1),
 		    array('uname','unique','该用户已存在',1,'unique',1),
 		    array('upassword','require','请输入密码',1,'',1),
-		    array('uemail','email','Email格式不正确',1)          
+		    array('uemail','email','Email格式不正确',1),          
         );
         $data['password']=md5($data['password'].$data['uname']);
         if($this->validate($rule)->create($data)){
-            if($this->add()){                
-                return true;                
+            if($id=$this->add()){                
+                return $id;
             }else{
+				$this->error='未知错误';
                 return false;
             }
         }else{

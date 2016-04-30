@@ -21,6 +21,9 @@ class UserInfoModel extends Model{
 		'ulltime',		//用户最后操作时间,int,默认0
 	);
 	protected $pk = 'uid';
+	protected $_auto=array(
+		array('UserType','0',1)
+	);
 	/*
   	protected	$_validate=array(
 		array('UserName','require','用户名格式错误',1,'',1),
