@@ -1,7 +1,6 @@
 <?php
 namespace Home\Event;
-use Think\Controller;
-class ProgressEvent extends Controller{
+class ProgressEvent extends OutEvent{
     
     
     protected function _get_user(){

@@ -1,12 +1,15 @@
 <?php
 namespace Home\Controller;
-use Think\Controller;
-class ProgressController extends Controller{
+class ProgressController extends OutController{
 
-    public function _initialize(){
-        $this->user = A('User','Event');
-        $this->claim = A('Claim','Event');
-        
+    protected function _get_user(){
+        return A('User','Event');
+    }
+    protected function _get_progress(){
+        return A('Progress','Event');
+    }
+    protected function _get_claim(){
+        return A('Claim','Event');
     }
    /*
     修改我认领的任务的职务的进度
@@ -25,7 +28,20 @@ class ProgressController extends Controller{
 
     API接口：domain/index.php/Home/Progress/changeProgress
     */
-	public function changeProgress();
+	public function changeProgress(){
+        $this->user->_safe_login();
+        $this->user->_safe_type(2);
+        $pid = I('post.pid','');
+        $type = I('post.type','');
+        $text = I('post.text','');
+        if(!$pid || $type || $text)$this->error('参数不符合');
+        $this->claim->_safe_my_claim($pid,$type);
+        if($this->progress->add($pid,$type,$text)){
+            $this->success(1);
+        }else $this->error('修改进度失败');
+        
+        
+    }
 
 
 	

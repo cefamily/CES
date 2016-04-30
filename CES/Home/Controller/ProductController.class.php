@@ -8,6 +8,12 @@ class ProductController extends OutController{
     protected function _get_product(){
         return D('ProductInfo','Api');
     }
+    protected function _get_team(){
+        return A('Team','Event');
+    }
+    protected function _get_progress(){
+        return A('Progress','Event');
+    }
  /*
     获得我发布的任务列表
     

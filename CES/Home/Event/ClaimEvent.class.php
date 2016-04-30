@@ -1,7 +1,7 @@
 <?php
 namespace Home\Event;
 use Think\Controller;
-class ClaimEvent extends Controller{
+class ClaimEvent{
     
     
     /***
@@ -9,6 +9,10 @@ class ClaimEvent extends Controller{
     如type职位未传参，则检查是否认领过此任务
     */
     function _safe_my_claim($pid,$type=null){
+        $c = M('Claim');
+        $where['pid'] = $pid;
+        if($type)$where['ctype'] = $type;
+        if(!$c->where($where)->find()) $this->error('没有认领此');
         
     }
 }
