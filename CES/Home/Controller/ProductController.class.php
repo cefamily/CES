@@ -1,9 +1,12 @@
 <?php
 namespace Home\Controller;
-use Think\Controller;
-class ProductController extends Controller{
-	public function _initialize(){
-        $this->user = A('User','Event');
+class ProductController extends OutController{
+	protected function _get_user(){
+        return A('User','Event');
+    }
+    
+    protected function _get_product(){
+        return D('ProductInfo','Api');
     }
  /*
     获得我发布的任务列表
@@ -43,9 +46,10 @@ class ProductController extends Controller{
     API接口：domain/index.php/Home/Product/getMyProductList
     
     */
+    //ok!!!
     public function getMyProductList(){
         $this->user->_safe_login();
-        $p = D('ProductInfo','Api');
+        $p = $this->product;
         $page = I('post.page',1);
         $limit = I('post.limit',10);
         $r = $p->getListByUid($this->user->uid,$page,$limit);
@@ -54,7 +58,7 @@ class ProductController extends Controller{
         $this->success($array);
     }
     
-    
+   
     
     
     
@@ -99,13 +103,15 @@ class ProductController extends Controller{
     
     API接口：domain/index.php/Home/Product/getProductList
     */
+    
+    
     public function getProductList(){
         $this->user->_safe_login();
-        $p = D('ProductInfo','Api');
+        $p = $this->product;
         $page = I('post.page',1);
         $limit = I('post.limit',10);
         $state = I('post.state',0);
-        if(!in_array($state,array(1,3,5)))$state = 0;
+        if(!in_array($state,array(1,2,3,4,5)))$state = 0;
         $r = $p->getListByState($state,$page,$limit);
         $n = $p->getCountByState($state);
         $array = array('products'=>$r,'row'=>$n);
@@ -160,28 +166,38 @@ class ProductController extends Controller{
     public function getAllProductList(){
         $this->user->_safe_admin();
         $this->user->_safe_type(3);
-        $p = D('ProductInfo','Api');
+        $p = $this->product;
         $page = I('post.page',1);
         $limit = I('post.limit',10);
         $type = I('post.type','pid');
         $value = I('post.value','');
         if(!in_array($type,array('pid','name','state','uid')))$type = 'pid';
-        if(!$value){
+        if(!strlen($value)){
             $r = $p->commandList($this->user->type,$page,$limit);
             $n = $p->commandCount($this->user->type);
         }else{
             if($type == 'pid'){
-                $r = $p->commandListByPid($value,$this->user->type,$page,$limit);
-                $n = $p->commandCountByPid($value,$this->user->type);
+                $r = $p->getByPid($value);
+                if($r && $this->type>$r['utype']){
+                    $r = array($r);
+                    $n = 1;
+                }else{
+                    $r = array();
+                    $n = 0;
+                }
             }elseif($type == 'name'){
                 $r = $p->commandListByName($value,$this->user->type,$page,$limit);
                 $n = $p->commandCountByName($value,$this->user->type);
             }elseif($type == 'state'){
+                $value = floor($value);
+                if($value>98)$this->error('w');
+                if($this->user->type!=4 && $value==98)$this->error('w');
                 $r = $p->commandListByState($value,$this->user->type,$page,$limit);
                 $n = $p->commandCountByState($value,$this->user->type);
             }elseif($type == 'uid'){
-                $r = $p->commandListByUid($value,$this->user->type,$page,$limit);
-                $n = $p->commandCountByUid($value,$this->user->type);
+                $this->user->_safe_user_type($value);
+                $r = $p->getListByUid($value,$page,$limit);
+                $n = $p->getCountByUid($value);
             }
         }
         $array = array('products'=>$r,'row'=>$n);

@@ -5,6 +5,12 @@ class ProductInfoApi{
     public function _initialize(){
         
     }
+    function getByPid($pid){
+        $model = D('ProductInfo','ViewModel');
+        $m = $model->where(array('pid'=>$pid))->find();
+        if(!$m)return false;
+        return $m;  
+    }
     function getListByUid($uid,$page,$limit){
         $model = D('ProductInfo');
         $where['uid'] = $uid;
@@ -22,7 +28,7 @@ class ProductInfoApi{
     }
     function getListByState($state,$page,$limit){
         $model = D('ProductInfo','ViewModel');
-        $where['pstate'] = $state?$state:array('IN','1,3,5');
+        $where['pstate'] = $state?$state:array('BETWEEN',array(1,5));
         $m = $model
         ->page($page,$limit)->where($where)->order('pid desc')->select();
         if(!$m)return array();
@@ -31,10 +37,63 @@ class ProductInfoApi{
     }
     function getCountByState($state){
         $model = D('ProductInfo');
-        $where['pstate'] = $state?$state:array('IN','1,3,5');
+        $where['pstate'] = $state?$state:array('BETWEEN',array(1,5));
         return $model->where($where)->getField('count(1)');
     }
-     function getAllList($page,$limit){
+    
+    function commandList($utype,$page,$limit){
+        $model = D('ProductInfo','ViewModel');
+        $where = array();
+        $where['pstate'] = array('LT',90);
+        $where['utype'] = array('LT',$utype);
+        $m = $model->where($where)->page($page,$limit)->order(array('ProductInfo.pid'=>'DESC'))->select();
+        if(!$m)return array();
+        return array_values($m);  
+    }
+    
+    function commandCount($utype){
+        $model = D('ProductInfo','ViewModel');
+        $where = array();
+        $where['pstate'] = array('LT',90);
+        $where['utype'] = array('LT',$utype);
+        return $model->where($where)->getField('count(1)');
+    }
+    function commandListByName($value,$utype,$page,$limit){
+        $model = D('ProductInfo','ViewModel');
+        $where = array();
+        $where['pname'] = array('LIKE','%'.$value.'%');
+        $where['pstate'] = array('LT',90);
+        $where['utype'] = array('LT',$utype);
+        $m = $model->where($where)->page($page,$limit)->order(array('ProductInfo.pid'=>'DESC'))->select();
+        if(!$m)return array();
+        return array_values($m);  
+    }
+    
+    function commandCountByName($value,$utype){
+        $model = D('ProductInfo','ViewModel');
+        $where = array();
+        $where['pname'] = array('LIKE','%'.$value.'%');
+        $where['pstate'] = array('LT',90);
+        $where['utype'] = array('LT',$utype);
+        return $model->where($where)->getField('count(1)');
+    }
+    function commandListByState($value,$utype,$page,$limit){
+        $model = D('ProductInfo','ViewModel');
+        $where  = array();
+        $where['pstate'] = $value;
+        $where['utype'] = array('LT',$utype);
+        $m = $model->where($where)->page($page,$limit)->order(array('ProductInfo.pid'=>'DESC'))->select();
+        if(!$m)return array();
+        return array_values($m);
+    }
+    function commandCountByState($value,$utype,$page,$limit){
+        $model = D('ProductInfo','ViewModel');
+        $where  = array();
+        $where['pstate'] = $value;
+        $where['utype'] = array('LT',$utype);
+        return $model->where($where)->getField('count(1)');
+    }
+    function getAllList($page,$limit){
         
         
     }
