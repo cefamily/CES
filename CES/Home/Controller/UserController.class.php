@@ -36,8 +36,15 @@ class UserController extends Controller{
     */
     
     public function getMyInfo(){
-		$result=$this->userApi->getUserInfoById();
+		$this->userEvent->_safe_login();
+		$userInfo=session('userstat');
+		$result=$this->userApi->getUserInfoById($userInfo['uid']);
+		if($result){
+			$this->success($result);
+		}else{
+			$this->error(0);
 		}
+	}
 
     
     /*
@@ -71,8 +78,17 @@ class UserController extends Controller{
     */
 
     public function getUserInfo(){
-        
-        
+		$uid=I('post.uid','0','int');
+        $this->userEvent->_safe_login();
+        $this->userEvent->_safe_admin();
+        $this->userEvent->_safe_type(3);
+        $this->userEvent->_safe_user_type($uid);
+		$result=$this->userApi->getUserInfoById($uid);
+		if($result){
+			$this->success($result);
+		}else{
+			$this->error(0);
+		}
     }
     
     
@@ -113,8 +129,15 @@ class UserController extends Controller{
     */
 
     public function getUserList(){
-        
-        
+		$page=I('param.page','1','int');
+		$limit=I('param.limit','10','int');
+        $this->userEvent->_safe_login();
+        $this->userEvent->_safe_admin();
+        $this->userEvent->_safe_type(3);
+		$myInfo=session('adminstat');
+		$where['uid']=array('lt',$myInfo['uid']);
+		$result->$this->userApi->getUserList($where,$page,$limit);
+		$this->success($result);
     }
     
     
@@ -156,8 +179,15 @@ class UserController extends Controller{
     */
     
     public function getAdminList(){
-        
-        
+        $page=I('param.page','1','int');
+		$limit=I('param.limit','10','int');
+        $this->userEvent->_safe_login();
+        $this->userEvent->_safe_admin();
+        $this->userEvent->_safe_type(4);
+		$myInfo=session('adminstat');
+		$where['uid']=array('eq',3);
+		$result->$this->userApi->getUserList($where,$page,$limit);
+		$this->success($result);     
     }
     
     
@@ -177,10 +207,14 @@ class UserController extends Controller{
     
     API接口：domain/index.php/Home/User/changeUserType
     */
-	public function changeUserType(){
-        
-        
-    }
+//	public function changeUserType(){
+//        $uid=I('post.uid')=
+//        
+//    }
+
+
+
+
     
     
     /*
@@ -318,7 +352,13 @@ class UserController extends Controller{
         $uid=$userInfo['uid'];
         $newpassword=I('post.newpassword','',false);
         $password=I('post.password','',false);
-        if($this->userApi->change_password($uid,$newpassword,$password)){
+		$userInfo=session('userstat');
+        $result=$this->userApi->user_login($userInfo['uname'],$password);
+		if(!$result){
+			  $this->error('旧密码不正确');
+			  return;
+			 }
+        if($this->userApi->change_password($uid,$password)){
             $this->success('1');
         }else{
             $this->error('0');
@@ -342,6 +382,8 @@ class UserController extends Controller{
     */
     
     public function changeUserEmail(){
+		$data['uid']=I('post.uid',0,'int');
+		$data['uemail']=I('post.email','','email');
         $this->userEvent->_safe_login();
         $this->userEvent->_safe_admin();
         $this->userEvent->_safe_type(3);
@@ -372,7 +414,13 @@ class UserController extends Controller{
     API接口：domain/index.php/Home/User/changeUserPassword
     */
     public function changeUserPassword(){
-        
+        $newpassword=I('post.newpassword','',false);
+        $password=I('post.password','',false);
+        if($this->userApi->change_password($uid,$password)){
+            $this->success('1');
+        }else{
+            $this->error('0');
+        }
         
     }
     

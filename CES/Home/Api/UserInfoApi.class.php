@@ -13,7 +13,7 @@ class UserInfoApi extends Model{
     function userLogin($data){
         $where['uname']=$data['user'];
         $where['upassword']=md5($data['password'].$data['user']);
-        $result=$this->where($where)->find();
+        $result=$this->where($where)->getFiled($this->USER_FIELD_LIST);
         if($this){
             return $result; 
         }else{
@@ -89,12 +89,12 @@ class UserInfoApi extends Model{
        $temp=$this->_getUserInfo($user);
        $data['upassword']='';
        $data['uid']=$user;
-       if($temp){
-            $where['upassword']=md5($oldpassword.$temp['uname']); 
-            $data['upassword']=md5($password.$temp['uname']);
-       }else{
-           return false;
-       }
+       //if($temp){
+//            $where['upassword']=md5($oldpassword.$temp['uname']); 
+//            $data['upassword']=md5($password.$temp['uname']);
+//       }else{
+//           return false;
+//       }
        
        $rule=array(
            array('uid','require','UID必须'),
@@ -119,20 +119,54 @@ class UserInfoApi extends Model{
        }
    }
    
-   /***
-   		添加管理员（权限3）
-   */
-   
-   function add_admin(){
-	   //TODO
-   }
+
       
    /***
    		获取用户列表
    */
-   function get_user_list($type,$data,$page){
-       
+   function get_user_list($where,$page,$size){
+	   
+	   //$where['utype']=array('lt',$myInfo['utype']);
+	   return $this->where($where)->page($page,$size)->getField($this->USER_FIELD_LIST);
+   }
    
+   function getUserInfoById($id){
+	   $where['uid']=$uid;
+       $result=$this->where($where)->getField($this->USER_FIELD_LIST);
+       if($result){
+           return $result;
+       }else{
+           return NULL;
+       }
+   }
+   
+   /***
+   		添加管理员（权限3）
+   */
+   
+   function add_admin($uid){
+	   return $this->_userTypeChange($uid,3);	   
+   }
+   
+   /***
+   		删除管理员权限
+   */
+   function delAdmin($uid){
+	   return $this->_userTypeChange($uid,2);
+   }
+
+	/***
+		添加汉化组权限
+	*/
+   function addMenmber(){
+	   return $this->_userTypeChange($uid,2);	 
+   }
+   
+   /***
+   		删除汉化组权限
+   */
+   function delMenmber(){
+	 	return $this->_userTypeChange($uid,1);	  
    }
    
    /***
