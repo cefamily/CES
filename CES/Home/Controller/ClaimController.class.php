@@ -58,6 +58,7 @@ class ClaimController extends OutController{
     任务的pteam不为0则需要验证是否有权限
     
     传入参数
+    uid     必填   用户ID
     pid     必填   任务的编号
     ctype   必填   担任的职务    
     成功输出参数
@@ -66,23 +67,25 @@ class ClaimController extends OutController{
     API接口：domain/index.php/Home/Claim/finishClaim
     */
     public function finishClaim(){
-        $this->user->_safe_login();
+        $this->user->_safe_admin();
         $this->user->_safe_type(3);
         $pid = floor(I('post.pid',0));
         $ctype = I('post.ctype','');
-        if(!$pid || !$ctype)$this->error('参数错误');
+        $uid = I('post.uid',0);
+        if(!$pid || !$ctype || !$uid)$this->error('参数错误');
+        if(!$p = M('ProductInfo').find($pid))$this->error('没有找到任务');
+        if($p['team'])$this->team->_safe_control($pid);
         $where['pid'] = $pid;
-        $where['uid'] = $this->user->uid;
+        $where['uid'] = $uid;
         $where['ctype'] = $ctype;
         if(!M('Claim')->where($where)->find()){
             $this->error('没有担任过此任务');
         }
         $data['cfinish'] = time();
         M('Claim')->where($where)->data($data)->save();
-        $this->progress->add($pid,$ctype,$this->user->name.'完成了此任务的'.$ctype.'职务');
+        if(!$u = M('userInfo')->find($uid))$this->error('未找到用户');
+        $this->progress->add($pid,$ctype,$this->user->name.'审核：'.$u['uname'].'完成了此任务的'.$ctype.'职务');
         $this->success(1);
-        
-        
     }
     
     
@@ -98,6 +101,7 @@ class ClaimController extends OutController{
     任务的pteam不为0则需要验证是否有权限
     
     传入参数
+    uid     必填   用户ID
     pid     必填   任务的编号
     ctype   必填   担任的职务    
     成功输出参数
@@ -106,8 +110,37 @@ class ClaimController extends OutController{
     API接口：domain/index.php/Home/Claim/cancelClaim
     */
     public function cancelClaim(){
-        //$this->claim->_safe_my_claim($pid,$type);
+        $this->user->_safe_admin();
+        $this->user->_safe_type(3);
+        $pid = floor(I('post.pid',0));
+        $ctype = I('post.ctype','');
+        $uid = I('post.uid',0);
+        if(!$pid || !$ctype || !$uid)$this->error('参数错误');
+        if(!$p = M('ProductInfo').find($pid))$this->error('没有找到任务');
+        if($p['team'])$this->team->_safe_control($pid);
+        $where['pid'] = $pid;
+        $where['uid'] = $uid;
+        $where['ctype'] = $ctype;
+        if(!M('Claim')->where($where)->delete()){
+            $this->error('没有担任过此任务');
+        }
         
+        if(!$u = M('userInfo')->find($uid))$this->error('未找到用户');
+        $this->progress->add($pid,$ctype,$this->user->name.'取消了'.$u['uname'].'的'.$ctype.'职务');
+        $this->success(1);
+    }
+    
+    
+    public function getClaimedUser(){
+        $this->user->_safe_login();
+        $model = D('Claim','ViewModel');
+        $where['pid'] = I('post.pid',0);
+        $where['pstate'] = array('LT',90);
+        $m = $model->where($where)->select();
+        if(!$m)$m = array();
+        $n = count($m);
+        $array = array('claims'=>$m,'row'=>$n);
+        $this->success($array);
     }
 		
 }
