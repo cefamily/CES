@@ -24,6 +24,9 @@ class OutController{
 		echo json_encode($data);
 		die();
 	}
-    
+    function __construct(){
+		
+		if(method_exists($this,'_initialize'))$this->_initialize();
+	}
 }
 ?>
