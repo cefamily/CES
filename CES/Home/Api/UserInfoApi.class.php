@@ -14,7 +14,7 @@ class UserInfoApi extends Model{
         $where['uname']=$data['user'];
         $where['upassword']=md5($data['password'].$data['user']);
         $result=$this->where($where)->getField($this->USER_FIELD_LIST);
-        if($this){
+        if($result){
             return $result; 
         }else{
             return NULL;
