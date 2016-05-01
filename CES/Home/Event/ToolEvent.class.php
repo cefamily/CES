@@ -5,7 +5,7 @@ class ToolEvent{
     
    public function checkCaptcha($code,$id=''){
        $verify=new \Think\Verify();
-       return $Verify->check($code,$id);
+       return $verify->check($code,$id);
    }
 }
 ?>

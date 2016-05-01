@@ -13,7 +13,7 @@ class UserInfoApi extends Model{
     function userLogin($data){
         $where['uname']=$data['user'];
         $where['upassword']=md5($data['password'].$data['user']);
-        $result=$this->where($where)->getFiled($this->USER_FIELD_LIST);
+        $result=$this->where($where)->getField($this->USER_FIELD_LIST);
         if($this){
             return $result; 
         }else{
