@@ -66,9 +66,17 @@ interface ClaimPort{
 	
 	
 	
-	
-	
-	
+	//获取认领此任务的全部人员列表
+    /*
+    传入参数
+    pid     必填   任务的编号
+   
+    成功输出参数
+    
+	{claims:$array,row:$row}
+    
+    */
+	public function getClaimedUser();
 	
 	
 	
