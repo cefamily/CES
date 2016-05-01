@@ -8,8 +8,8 @@ class TeamController extends Controller{
 	private $userEvent;
 	private $userApi;
 	 function _initialize(){
-		 $this->teamApi=M('TeamInfp','Api');
-		 $this->teamUserApi=M('TeamUser','Api');
+		 $this->teamApi=D('TeamInfo','Api');
+		 $this->teamUserApi=D('TeamUser','Api');
 		 $this->teamEvent=A('TeamInfo','Event');
 		 $this->userEvent=A('User','Event');
 		 $this->userApi=D('UserInfo','Api');
