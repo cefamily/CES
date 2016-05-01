@@ -1,7 +1,7 @@
 <?php
 namespace Home\Controller;
 use Think\Controller;
-class TeamController extends Controller{
+class TeamController extends OutController{
 	private $teamApi;
 	private $teamUserApi;
 	private $teamEvent;

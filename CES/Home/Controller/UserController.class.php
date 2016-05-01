@@ -1,7 +1,7 @@
 <?php
 namespace Home\Controller;
 use Think\Controller;
-class UserController extends Controller{
+class UserController extends OutController{
      private $userApi;
      private $userEvent;
      private $tool;
@@ -186,7 +186,7 @@ class UserController extends Controller{
         $this->userEvent->_safe_type(4);
 		$myInfo=session('adminstat');
 		$where['uid']=array('eq',3);
-		$result->$this->userApi->getUserList($where,$page,$limit);
+		$result=$this->userApi->getUserList($where,$page,$limit);
 		$this->success($result);     
     }
     
