@@ -288,7 +288,7 @@ class UserController extends OutController{
 		$data['captcha']=I('post.captcha','',false);
         
 		$result['uid']=$this->userApi->user_reg($data);
-		if($result){
+		if($result['uid']){
 			$this->success($result);
 		}else{
 			$this->error($this->userApi->getError());
