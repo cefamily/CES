@@ -231,15 +231,20 @@ class UserController extends OutController{
     */
     public function userLogin(){
 		$data['captcha']=I('post.captcha','',false);
-		$data['user']=I('post.name/s','','/^[A-Za-z0-9_]{4,16}$/');
+		$data['user']=I('post.name','','/^[A-Za-z0-9_]{4,16}$/');
 		$data['password']=I('post.password','',false);
-        $this->tool->checkCaptcha($data['captcha']);
+
+          if(!$this->tool->checkCaptcha($data['captcha']))
+        {
+            $this->error('验证码错误:'.$data['captcha']);
+            return;
+        }
         $result=$this->userApi->userLogin($data);
         if($result){
             session('userstat',$result);
             $this->success(1);
         }else{
-            $this->error(0);
+            $this->error("用户名或密码错误".$data['password']);
         }
         
     }
@@ -316,8 +321,8 @@ class UserController extends OutController{
     API接口：domain/index.php/Home/User/changeEmail
     */
 	public function changeEmail(){
-		$data['email']=I('post.email','','email');
-		$data['password']=I('post.password','',false);
+		$data['uemail']=I('post.email','','email');
+		$data['upassword']=I('post.password','',false);
 		$data['captcha']=I('post.captcha','',false);
 		
         $this->userEvent->_safe_login();

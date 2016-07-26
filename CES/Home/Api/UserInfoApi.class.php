@@ -37,7 +37,7 @@ class UserInfoApi extends Model{
 		    array('upassword','require','请输入密码',1,'',1),
 		    array('uemail','email','Email格式不正确',1),          
         );
-        $data['password']=md5($data['password'].$data['uname']);
+        $data['upassword']=md5($data['upassword'].$data['uname']);
         if($this->validate($rule)->create($data)){
             if($id=$this->add()){                
                 return $id;
