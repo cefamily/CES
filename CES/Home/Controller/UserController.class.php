@@ -286,7 +286,11 @@ class UserController extends OutController{
 		$data['upassword']=I('post.password','',false);
 		$data['uname']=I('post.name','',false);
 		$data['captcha']=I('post.captcha','',false);
-        
+        if(!$this->tool->checkCaptcha($data['captcha']))
+        {
+            $this->error('验证码错误:'.$data['captcha']);
+            return;
+        }
 		$result['uid']=$this->userApi->user_reg($data);
 		if($result['uid']){
 			$this->success($result);
