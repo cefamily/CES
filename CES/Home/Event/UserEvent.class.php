@@ -31,12 +31,12 @@ class UserEvent extends OutEvent{
     }
     function _get_type(){
         if($this->uid)
-            return $this->userstat['type'];
+            return $this->userstat['utype'];
         return 0;
     }
     function _get_name(){
         if($this->uid)
-            return $this->userstat['name'];
+            return $this->userstat['uname'];
         return '';
     }
    
