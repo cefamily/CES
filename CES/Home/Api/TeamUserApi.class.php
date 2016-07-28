@@ -1,5 +1,5 @@
 <?php
-namespace Home\Api;
+namespace Admin\Logic;
 use Think\Model;
 class TeamUserApi extends Model{
 	
