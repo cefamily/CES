@@ -322,8 +322,8 @@ class ProductController extends OutController{
         if($this->user->type>1){
             $team = I('post.team',array());
             if(!is_array($team))$this->error('e');
-            $data['state'] = 1;
-            if($team)$data['team'] = 1;
+            $data['pstate'] = 1;
+            if($team)$data['pteam'] = 1;
             $pid = $this->product->release($data);
             if(!$pid)$this->error('发布失败');
             foreach($team as $v){
