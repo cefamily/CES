@@ -395,6 +395,25 @@ class TeamController extends OutController{
 		}
 		$this->teamUserApi-delMaster($data);	
 		}
-		
+
+
+    /*
+    获取所有组的信息
+    
+    权限
+    登录
+    
+    传入参数
+    无
+    成功输出参数
+    [{"tid":"ID","tname":"组名称","tctime":创建时间}]
+    
+    API接口：domain/index.php/Home/Team/getAllTeamList
+    */
+	public function getAllTeamList(){
+        $this->userEvent->_safe_login();
+        $list=$this->teamApi->getTeamList(1,9999);
+        $this->success($list);
+    }
 }
 ?>
