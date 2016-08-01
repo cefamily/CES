@@ -298,6 +298,7 @@ class ProductController extends OutController{
     pimg        必填          任务封面
     premark     选填          备注
     team        选填          有认领权限的组的ID的数组
+    ptype       必填          图源类型
 
 
     成功输出参数
@@ -312,11 +313,13 @@ class ProductController extends OutController{
         $pname = I('post.pname','');
         $pimg = I('post.pimg','');
         $premark = I('post.premark','');
+        $ptype=I('post.ptype','');
         
         
         if(strlen($pname))$data['pname'] = $pname;else $this->error('没有名字');
         if(strlen($pimg))$data['pimg'] = $pimg;else $this->error('没有封面');
         if(strlen($premark))$data['premark'] = $premark;
+        if(strlen($ptype))$data['ptype']=$ptype;else $this->error('没有图源类型');
         $data['pctime'] = time();
         $data['uid'] = $this->user->uid;
         if($this->user->type>1){

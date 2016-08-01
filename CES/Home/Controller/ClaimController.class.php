@@ -35,13 +35,29 @@ class ClaimController extends OutController{
         $pid = floor(I('post.pid',0));
         $ctype = I('post.ctype','');
         if(!$pid || !$ctype)$this->error('参数错误');
-        if(!$p = M('ProductInfo').find($pid))$this->error('没有找到任务');
+        if(!$p = M('ProductInfo')->find($pid))$this->error('没有找到任务');
         if($p['team'])$this->team->_safe_claim($pid);
         $data['uid'] = $this->user->uid;
         $data['pid'] = $pid;
         $data['ctype'] = $ctype;
+        $typestr='';
+        switch($ctype){
+            case 'ty':
+                $typestr='图源';
+            break;
+            case 'qz':
+                $typestr='嵌字';
+            break;
+            case 'xt':
+                $typestr='修图';
+            break;
+            case 'fy':
+                $typestr='翻译';
+            break;
+            
+        }
         M('Claim')->data($data)->add();
-        $this->progress->add($pid,$ctype,$this->user->name.'认领了此任务的'.$ctype.'职务');
+        $this->progress->add($pid,$ctype,$this->user->name.'认领了此任务的'.$typestr.'职务');
         $this->success(1);
         
     }
