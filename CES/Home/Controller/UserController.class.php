@@ -40,7 +40,7 @@ class UserController extends OutController{
 		$userInfo=session('userstat');
 		$result=$this->userApi->getUserInfoById($userInfo['uid']);
 		if($result){
-			$this->success($result);
+			$this->success(array_values($result));
 		}else{
 			$this->error(0);
 		}
@@ -313,7 +313,7 @@ class UserController extends OutController{
     
     传入参数
     email       必填      修改后的邮箱
-    password    必填      用户的密码（md5加密后的）
+    //password    必填      用户的密码（md5加密后的）
     captcha     必填      验证码
     成功输出参数
     int 1
@@ -326,15 +326,20 @@ class UserController extends OutController{
 		$data['captcha']=I('post.captcha','',false);
 		
         $this->userEvent->_safe_login();
-        if($this->tool->checkCaptcha($data['captcha']))
+        if(!$this->tool->checkCaptcha($data['captcha']))
             $this->error('验证码错误');
-		 $userInfo=session('userstat');
-         $result=$this->userApi->user_login($userInfo['uname'],$data['password']);
-        if($result){
-            $this->user->change_email($userInfo['uid'],$data['email']);
+		//  $userInfo=session('userstat');
+        //  $result=$this->userApi->user_login($userInfo['uname'],$data['password']);
+        // if($result){
+        $res=$this->userApi->change_email($userInfo['uid'],$data['email']);
+        if($res){
+            $this->success(1);
         }else{
-            $this->error('密码错误');
+            $this->error($this->userApi->getError());
         }
+        // }else{
+        //     $this->error('密码错误');
+        // }
     }
     
     

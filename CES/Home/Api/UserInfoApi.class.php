@@ -63,11 +63,14 @@ class UserInfoApi extends Model{
            array('uid','number','UID格式不符'),
            array('uemail','email','邮箱格式不符')          
        );
+      $data['uid']=$user;
+      $data['uemail']=$email;
       $res=$this->validate($rules)->create($data);
       if($res){
           if($this->save()){
               return true;
           }else{
+              $this->error="Error";
               return false;
           }
       }else{
@@ -131,7 +134,7 @@ class UserInfoApi extends Model{
    }
    
    function getUserInfoById($id){
-	   $where['uid']=$uid;
+	   $where['uid']=$id;
        $result=$this->where($where)->getField($this->USER_FIELD_LIST);
        if($result){
            return $result;
