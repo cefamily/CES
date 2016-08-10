@@ -331,7 +331,7 @@ class UserController extends OutController{
 		//  $userInfo=session('userstat');
         //  $result=$this->userApi->user_login($userInfo['uname'],$data['password']);
         // if($result){
-        $res=$this->userApi->change_email($userInfo['uid'],$data['email']);
+        $res=$this->userApi->change_email($this->userEvent->uid,$data['uemail']);
         if($res){
             $this->success(1);
         }else{
