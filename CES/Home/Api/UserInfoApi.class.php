@@ -87,39 +87,27 @@ class UserInfoApi extends Model{
 		oldpassword 旧密码
 		（密码均为MD5加密后的)
    */
-   function change_password($user,$password,$oldpassword){
+   function change_password($user,$username,$password){
 	   
        $temp=$this->_getUserInfo($user);
-       $data['upassword']='';
+       $data['upassword']=md5($password.$username);
        $data['uid']=$user;
-       //if($temp){
-//            $where['upassword']=md5($oldpassword.$temp['uname']); 
-//            $data['upassword']=md5($password.$temp['uname']);
-//       }else{
-//           return false;
-//       }
-       
        $rule=array(
            array('uid','require','UID必须'),
            array('uid','number','UID格式不正确'),
            array('upassword','require','密码必须')
        );
-       $result=$this->where($where)->find();
-       if($result){
-           $res=$this-validate($rule)->create($data);
+           $res=$this->validate($rule)->create($data);
            if($res){
                if($this->save()){
                    return true;
                }else{
+                   $this->error='Error'.$data['upassword'].':'.$data['uid'];
                    return false;
                }
            }else{
                return false;
            }
-       }else{
-           $this->error='旧密码不正确';
-           return false;
-       }
    }
    
 

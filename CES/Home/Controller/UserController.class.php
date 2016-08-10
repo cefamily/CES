@@ -360,22 +360,26 @@ class UserController extends OutController{
     */
     public function changePassword(){
         $this->userEvent->_safe_login();
-        if($this->tool->checkCaptcha($data['captcha']))
+        $captcha=I('post.captcha','',false);
+        if(!$this->tool->checkCaptcha($captcha))
             $this->error('验证码错误');
-		$userInfo=session('userstat');
-        $uid=$userInfo['uid'];
+		// $userInfo=session('userstat');
+        $uid=$this->userEvent->uid;
         $newpassword=I('post.newpassword','',false);
         $password=I('post.password','',false);
-		$userInfo=session('userstat');
-        $result=$this->userApi->user_login($userInfo['uname'],$password);
+
+        $data['user']=$this->userEvent->name;
+        $data['password']=$password;
+        
+        $result=$this->userApi->userLogin($data);
 		if(!$result){
 			  $this->error('旧密码不正确');
 			  return;
 			 }
-        if($this->userApi->change_password($uid,$password)){
-            $this->success('1');
+        if($this->userApi->change_password($uid,$data['user'],$newpassword)){
+            $this->success(1);
         }else{
-            $this->error('0');
+            $this->error($this->userApi->getError());
         }
     }
      /*
