@@ -408,7 +408,8 @@ class ProductController extends OutController{
     权限
     登录
 
-    参数 无
+    参数 
+        pid    必填    任务ID
 
     返回值:
 
