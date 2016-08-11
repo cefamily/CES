@@ -22,6 +22,7 @@ class ProgressController extends OutController{
     pid         必填          任务的ID
     type        必填          职位
     text        必填          进度说明
+    flag        必填          是否完成
 
     成功输出参数
     int 1
@@ -34,8 +35,17 @@ class ProgressController extends OutController{
         $pid = I('post.pid','');
         $type = I('post.type','');
         $text = I('post.text','');
-        if(!$pid || $type || $text)$this->error('参数不符合');
+        $flag=I('post.flag','');
+        if(!$pid || !$type || !$text)$this->error('参数不符合');
         $this->claim->_safe_my_claim($pid,$type);
+        if($flag=='true'){
+            $where['pid']=$pid;
+            $where['uid']=$this->user->uid;
+            $where['ctype']=$type;
+            $data['cfinish']=1;
+            $claimMode=M('Claim');
+            $claimMode->where($where)->save($data);
+        }
         if($this->progress->add($pid,$type,$text)){
             $this->success(1);
         }else $this->error('修改进度失败');

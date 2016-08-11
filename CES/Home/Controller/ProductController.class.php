@@ -402,5 +402,29 @@ class ProductController extends OutController{
         
         
     }
+  /*
+    根据Pid获取任务信息
+    
+    权限
+    登录
+
+    参数 无
+
+    返回值:
+
+    API接口：domain/index.php/Home/Product/getProductByPid
+    */
+
+    public function getProductByPid(){
+        $this->user->_safe_login();
+        $pid=I('post.pid',0,'int');
+        $res=$this->product->getByPid($pid);
+        if($res){
+            $this->success($res);
+        }else{
+            $this->error('error'.$pid);
+        }
+
+    }
 }
 ?>

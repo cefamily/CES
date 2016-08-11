@@ -146,7 +146,10 @@ class ClaimController extends OutController{
         $this->success(1);
     }
     
+    /*
+    获取该任务的认领用户列表
     
+    */
     public function getClaimedUser(){
         $this->user->_safe_login();
         $model = D('Claim','ViewModel');

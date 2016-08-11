@@ -1,6 +1,6 @@
 <?php
 namespace Home\Event;
-class ClaimEvent{
+class ClaimEvent extends OutEvent{
     
     
     /***
@@ -11,7 +11,7 @@ class ClaimEvent{
         $c = M('Claim');
         $where['pid'] = $pid;
         if($type)$where['ctype'] = $type;
-        if(!$c->where($where)->find()) $this->error('没有认领此');
+        if(!$c->where($where)->find()) $this->error('没有认领此任务');
         
     }
 }
