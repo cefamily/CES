@@ -32,7 +32,11 @@ class ClaimViewModel extends ViewModel{
 						//0:网源，1：图源
 			'pftime',   //完成时间，int，默认0
 			'pteam'  ,   //是否限定组，tinyint，默认0
-			'_on'=>'Claim.pid=ProductInfo.pid'),
+			'GROUP_CONCAT(`ctype`)'=>'ctypes',
+			'_on'=>'Claim.pid=ProductInfo.pid'
+			),
+			
+
 	);
 	public function _initialize(){
 		

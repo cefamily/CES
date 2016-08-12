@@ -108,7 +108,8 @@ class ProductInfoApi{
         $where['uid'] = $uid;
         if($type)$where['ctype'] = $type;
         $where['pstate'] = array('LT',90);
-        $m = $model->where($where)->page($page,$limit)->order(array('ProductInfo.pid'=>'DESC'))->select();
+        $m = $model->where($where)->page($page,$limit)->order(array('ProductInfo.pid'=>'DESC'))->group('Claim.pid')->select();
+        //\Think\Log::write($m,'WARN');
         if(!$m)return array();
         return array_values($m);
         
