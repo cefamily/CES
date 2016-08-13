@@ -326,11 +326,17 @@ class ProductController extends OutController{
             $team = I('post.team',array());
             if(!is_array($team))$this->error('e');
             $data['pstate'] = 1;
-            if($team)$data['pteam'] = 1;
+            if($team[0]==0){
+                $data['pteam']=0;
+            }else{
+                $data['pteam'] = 1;
+            }
             $pid = $this->product->release($data);
             if(!$pid)$this->error('发布失败');
-            foreach($team as $v){
-                $this->progress->add($pid,'team',$v);
+            if($team[0]!=0){
+                foreach($team as $v){
+                    $this->progress->add($pid,'team',$v);
+                }
             }
             
         }else{
@@ -426,6 +432,20 @@ class ProductController extends OutController{
             $this->error('error'.$pid);
         }
 
+    }
+
+
+    public function getMyCanClaimProduct(){
+         $this->user->_safe_login();
+         $uid=$this->user->uid;
+         $res=$this->product->getMyCanClaim($uid);
+         $result['products']=$res;
+         if($res){
+             
+             $this->success($result);
+         }else{
+             $this->error('uid:'.$uid);
+         }
     }
 }
 ?>

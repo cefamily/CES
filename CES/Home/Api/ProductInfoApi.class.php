@@ -122,6 +122,13 @@ class ProductInfoApi{
         return $model->where($where)->getField('count(1)');
         
     }
+
+    function getMyCanClaim($uid){
+        $model = D('ProductInfo');
+        $res= $model->query('SELECT DISTINCT pro . * FROM  `product_info` pro RIGHT JOIN  `progress` prg ON  `pro`.`pid` =  `prg`.`pid` WHERE  `pro`.`pteam` =0 
+        OR  `prg`.`gtext` IN (SELECT  `tid` FROM  `team_user` WHERE  `uid` ='.$uid.')');
+        return $res;
+        }
     
     
     
