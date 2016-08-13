@@ -438,7 +438,9 @@ class ProductController extends OutController{
     public function getMyCanClaimProduct(){
          $this->user->_safe_login();
          $uid=$this->user->uid;
-         $res=$this->product->getMyCanClaim($uid);
+         $page = I('post.page',1,'int');
+         $limit = I('post.limit',10);
+         $res=$this->product->getMyCanClaim($uid,$page,$limit);
          $result['products']=$res;
          if($res){
              
