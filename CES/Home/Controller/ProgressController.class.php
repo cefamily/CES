@@ -31,7 +31,7 @@ class ProgressController extends OutController{
     */
 	public function changeProgress(){
         $this->user->_safe_login();
-        $this->user->_safe_type(2);
+        $this->user->_safe_type(1);
         $pid = I('post.pid','');
         $type = I('post.type','');
         $text = I('post.text','');
