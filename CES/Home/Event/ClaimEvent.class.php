@@ -11,7 +11,7 @@ class ClaimEvent extends OutEvent{
         $c = M('Claim');
         $where['pid'] = $pid;
         if($type)$where['ctype'] = $type;
-        if(!$c->where($where)->find()) $this->error('没有认领此任务或改职务');
+        if(!$c->where($where)->find()) $this->error('没有认领此任务或没有担任该职务');
         
     }
 }
