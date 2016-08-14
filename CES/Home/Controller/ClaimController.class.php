@@ -31,12 +31,15 @@ class ClaimController extends OutController{
     */
 	public function claimProduct(){
         $this->user->_safe_login();
-        $this->user->_safe_type(2);
+        
         $pid = floor(I('post.pid',0));
         $ctype = I('post.ctype','');
         if(!$pid || !$ctype)$this->error('参数错误');
         if(!$p = M('ProductInfo')->find($pid))$this->error('没有找到任务');
         if($p['team'])$this->team->_safe_claim($pid);
+        if($p['pteam']!=0){
+            $this->user->_safe_type(2);
+        }
         $data['uid'] = $this->user->uid;
         $data['pid'] = $pid;
         $data['ctype'] = $ctype;
