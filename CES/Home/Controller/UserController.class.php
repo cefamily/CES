@@ -242,6 +242,7 @@ class UserController extends OutController{
         $result=$this->userApi->userLogin($data);
         if($result){
             session('userstat',$result);
+            if($result['utype']>2)session('adminstat',$result);
             $this->success(1);
         }else{
             $this->error("用户名或密码错误".$data['password']);
