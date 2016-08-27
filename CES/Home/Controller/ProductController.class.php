@@ -441,7 +441,7 @@ class ProductController extends OutController{
          $page = I('post.page',1,'int');
          $limit = I('post.limit',10);
          if($this->user->type==4){
-            $res=$this->product->select();
+            $res=$this->product->page($page,$limit)->select();
          }else{
             $res=$this->product->getMyCanClaim($uid,$page,$limit);
         }
