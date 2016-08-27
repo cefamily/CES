@@ -104,6 +104,7 @@ class ProductInfoApi extends Model{
         return $model->data($data)->add();
     }
     function getListByClaim($uid,$type,$page,$limit){
+        $model = D('MyClaim','ViewModel');
         $where['uid'] = $uid;
         if($type)$where['ctype'] = $type;
         $where['pstate'] = array('LT',90);
