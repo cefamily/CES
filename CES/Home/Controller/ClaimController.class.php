@@ -43,6 +43,10 @@ class ClaimController extends OutController{
         $data['uid'] = $this->user->uid;
         $data['pid'] = $pid;
         $data['ctype'] = $ctype;
+        $model=M('Claim');
+        if($model->where($data)->find()){
+            $this->error('已经认领了此职位');
+        }
         $typestr='';
         switch($ctype){
             case 'ty':
@@ -59,8 +63,37 @@ class ClaimController extends OutController{
             break;
             
         }
-        M('Claim')->data($data)->add();
+        $model->data($data)->add();
         $this->progress->add($pid,$ctype,$this->user->name.'认领了此任务的'.$typestr.'职务');
+
+        //==========修改状态===========
+        $piflag=true;
+        $piWhere['pid']=$pid;
+        $piWhere['ctype']='ty';
+        if(!$model->where($piWhere)->find()){
+            $piflag=false;
+        }
+        $piWhere['ctype']='qz';
+        if(!$model->where($piWhere)->find()){
+            $piflag=false;
+        }
+        $piWhere['ctype']='xt';
+        if(!$model->where($piWhere)->find()){
+            $piflag=false;
+        }
+        $piWhere['ctype']='fy';
+        if(!$model->where($piWhere)->find()){
+            $piflag=false;
+        }
+
+        if($piflag){
+            $productModel=D('ProductInfo','Api');
+            $piData['pstate']=3;
+            $productModel->changeProduct($pid,$piData);
+        }
+        //=============================
+
+
         $this->success(1);
         
     }
