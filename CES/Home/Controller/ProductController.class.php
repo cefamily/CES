@@ -446,6 +446,7 @@ class ProductController extends OutController{
             $res=$this->product->getMyCanClaim($uid,$page,$limit);
         }
          $result['products']=$res;
+         $result['page']=$page;
          if($res){
              
              $this->success($result);

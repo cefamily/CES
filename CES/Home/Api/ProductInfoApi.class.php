@@ -126,7 +126,7 @@ class ProductInfoApi extends Model{
     function getMyCanClaim($uid,$page,$limit){
         $model = D('ProductInfo');
         $res= $model->query('SELECT DISTINCT pro . * FROM  `product_info` pro RIGHT JOIN  `progress` prg ON  `pro`.`pid` =  `prg`.`pid` WHERE  `pro`.`pteam` =0 
-        OR  `prg`.`gtext` IN (SELECT  `tid` FROM  `team_user` WHERE  `uid` ='.$uid.') LIMIT '.($page-1)*$limit.','.$limit);
+        OR  `prg`.`gtext` IN (SELECT  `tid` FROM  `team_user` WHERE  `uid` ='.$uid.') LIMIT '.(($page-1)*$limit).','.$limit);
         return $res;
         }
     
