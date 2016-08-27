@@ -127,7 +127,7 @@ class ClaimController extends OutController{
         $ctype = I('post.ctype','');
         $uid = I('post.uid',0);
         if(!$pid || !$ctype || !$uid)$this->error('参数错误');
-        if(!$p = M('ProductInfo').find($pid))$this->error('没有找到任务');
+        if(!$p = M('ProductInfo')->find($pid))$this->error('没有找到任务');
         if($p['team'])$this->team->_safe_control($pid);
         $where['pid'] = $pid;
         $where['uid'] = $uid;
@@ -170,7 +170,7 @@ class ClaimController extends OutController{
         $ctype = I('post.ctype','');
         $uid = I('post.uid',0);
         if(!$pid || !$ctype || !$uid)$this->error('参数错误');
-        if(!$p = M('ProductInfo').find($pid))$this->error('没有找到任务');
+        if(!$p = M('ProductInfo')->find($pid))$this->error('没有找到任务');
         if($p['team'])$this->team->_safe_control($pid);
         $where['pid'] = $pid;
         $where['uid'] = $uid;
