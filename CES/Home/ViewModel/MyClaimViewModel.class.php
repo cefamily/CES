@@ -1,8 +1,8 @@
 <?php
 namespace Home\ViewModel;
 use Think\Model\ViewModel;
-class ClaimViewModel extends ViewModel{
-	
+class MyClaimViewModel extends ViewModel{
+	protected $table_name="claim";
 	protected $viewFields = array(
 		'Claim'=>array(
 			'cid','pid','uid','ctype','cfinish'
@@ -32,6 +32,7 @@ class ClaimViewModel extends ViewModel{
 						//0:网源，1：图源
 			'pftime',   //完成时间，int，默认0
 			'pteam'  ,   //是否限定组，tinyint，默认0
+			'GROUP_CONCAT(`ctype`)'=>'ctypes',
 			'_on'=>'Claim.pid=ProductInfo.pid'
 			),
 			

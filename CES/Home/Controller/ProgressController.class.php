@@ -49,6 +49,7 @@ class ProgressController extends OutController{
         if($this->progress->add($pid,$type,$text)){
             $this->success(1);
         }else $this->error('修改进度失败');
+    }
         
         /*
     根据Pid获取任务进度
@@ -65,28 +66,19 @@ class ProgressController extends OutController{
     API接口：domain/index.php/Home/Product/getProductByPid
     */
 
-    function getProgress(){
+    public function getProgress(){
         $this->user->_safe_login();
         $pid=I('post.pid','','int');
         $type=I('post.type','');
 
-        $claimMode=M('Claim');
+        $claimMode=M('Progress');
         $where['pid']=$pid;
         if($type) $where['gtype']=$type;
-        $res=$claimMode->where($where)->find();
+        $res=$claimMode->where($where)->select();
         
         $this->success($res);
         
     }
-
-    }
-
-
-	
-	
-	
-	
-	
 	
 }
 ?>
