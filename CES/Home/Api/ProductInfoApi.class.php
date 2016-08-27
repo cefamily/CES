@@ -1,7 +1,7 @@
 <?php
 namespace Home\Api;
 use Think\Model;
-class ProductInfoApi{
+class ProductInfoApi extends Model{
     public function _initialize(){
         
     }
