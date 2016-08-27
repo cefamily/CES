@@ -35,7 +35,9 @@ class ClaimController extends OutController{
         $pid = floor(I('post.pid',0));
         $ctype = I('post.ctype','');
         if(!$pid || !$ctype)$this->error('参数错误');
-        if(!$p = M('ProductInfo')->find($pid))$this->error('没有找到任务');
+        $p = M('ProductInfo')->find($pid);
+        if(!$p)$this->error('没有找到任务');
+        if($p['pstate']!=1)$this->error('该任务未开始征集');
         if($p['team'])$this->team->_safe_claim($pid);
         if($p['pteam']!=0){
             $this->user->_safe_type(2);
