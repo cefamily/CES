@@ -80,8 +80,9 @@ class UserEvent extends OutEvent{
         $type=$user->where($where)->getField('utype');
         if($strict){
         if($type>$this->type)$this->error('权限不足');
-    }else{
-        if($type>=$this->type)$this->error('权限不足');
+        }else{
+            if($type>=$this->type)$this->error('权限不足');
+        }
     }
 }
 ?>
