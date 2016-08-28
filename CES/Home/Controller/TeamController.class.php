@@ -199,7 +199,7 @@ class TeamController extends OutController{
     */
     public function addMember(){
 		$type=I('post.type','',false);
-		$data['team']=I('post.tid',0,'int');
+		$data['tid']=I('post.tid',0,'int');
 		$this->userEvent->_safe_login();
         $this->userEvent->_safe_admin();
         $this->userEvent->_safe_type(3);
@@ -210,12 +210,12 @@ class TeamController extends OutController{
 		}else{
 			$value=I('post.value','','/^[A-Za-z0-9_]{4,16}$/');			
 			$res=$this->userApi->where('uname='.$value)->find();
-			if($res){
-				$data['uid']=$res['uid'];
-			}else{
-				$this->error('用户不存在');
-			}
 		}
+        if($res){
+                $data['uid']=$res['uid'];
+            }else{
+                $this->error('用户不存在');
+            }
 
 		if($myInfo['utype']!=4){
 			$this->userEvent->_safe_user_type($data['uid']);
