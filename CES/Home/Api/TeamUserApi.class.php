@@ -44,6 +44,13 @@ class TeamUserApi extends Model{
 	function delMaster($data){
 		return $this->where($data)->setField('tadmin','0');
 	}
+
+	function getTeamUserList($tid,$type=0){
+		$where['tid']=$tid;
+		$where['tadmin']=$type;
+		return $this->field('user_info.uid,user_info.uname')->where($where)->join('user_info ON user_info.uid=team_user.uid')->select();
+
+	}
 	
 	/***
 		检查uid用户是否还存在其他组

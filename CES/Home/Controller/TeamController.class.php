@@ -55,7 +55,9 @@ class TeamController extends OutController{
 		$this->userEvent->_safe_login();
         $this->userEvent->_safe_admin();
         $this->userEvent->_safe_type(3);
-		$result=$this->teamApi->getTeamInfo($tid);
+		$result['team']=$this->teamApi->getTeamInfo($tid);
+        $result['master']=$this->teamUserApi->getTeamUserList($tid,1);
+        $result['member']=$this->teamUserApi->getTeamUserList($tid);
 		$this->success($result);
 	}
     
