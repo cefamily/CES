@@ -418,7 +418,7 @@ class TeamController extends OutController{
     */
 	public function getAllTeamList(){
         $this->userEvent->_safe_login();
-        $list=$this->teamApi->getTeamList(1,9999);
+        $list=$this->teamApi->select();
         $this->success($list);
     }
 
