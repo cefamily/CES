@@ -12,7 +12,7 @@ class ProductInfoApi extends Model{
         $where['pstate'] = array('LT',99);
     }else{
         $where['pstate']=array(
-                array('LT',99),
+                array('LT',98),
                 array('GT',0)
             );
     }
