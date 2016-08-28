@@ -171,7 +171,7 @@ class TeamController extends OutController{
         $this->userEvent->_safe_admin();
         $this->userEvent->_safe_type(3);
 		
-		$result=$this->teamApi->getTeamList($page,$limit);
+		$result['teams']=$this->teamApi->getTeamList($page,$limit);
 		$this->success($result);	
 	}
     
@@ -206,7 +206,7 @@ class TeamController extends OutController{
 		$myInfo=session('adminstat');
 		if($type=='uid'){
 			$data['uid']=I('post.value',0,'int');
-			$res=$this->userApi->where('uid='.$value)->find();			
+			$res=$this->userApi->where('uid='.$data['uid'])->find();			
 		}else{
 			$value=I('post.value','','/^[A-Za-z0-9_]{4,16}$/');			
 			$res=$this->userApi->where('uname='.$value)->find();
@@ -221,7 +221,7 @@ class TeamController extends OutController{
 			$this->userEvent->_safe_user_type($data['uid']);
 		}
 		
-		if($this->teamApi->userInTempCheck($data['uid'],$data['tid'])){
+		if($this->teamUserApi->userInTempCheck($data['uid'],$data['tid'])){
 			$this->error('该用户已经存在');
 		}
 		
