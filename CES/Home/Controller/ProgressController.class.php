@@ -74,7 +74,7 @@ class ProgressController extends OutController{
         $claimMode=M('Progress');
         $where['pid']=$pid;
         if($type) $where['gtype']=$type;
-        $res=$claimMode->where($where)->select();
+        $res=$claimMode->where($where)->order('gid desc')->select();
         
         $this->success($res);
         
