@@ -71,7 +71,7 @@ class UserEvent extends OutEvent{
     
     /***
     检查该uid权限是否低于当前用户权限
-    $strict 是否严格检查，平级也被判定为权限不足
+    $pass 是否允许平级，true允许，false不允许，默认false
     如果低于返回true，高于返回false
     **/
     function _safe_user_type($uid,$strict=false){
@@ -79,9 +79,9 @@ class UserEvent extends OutEvent{
         $where['uid']=$uid;
         $type=$user->where($where)->getField('utype');
         if($strict){
-        if($type>=$this->type)$this->error('权限不足');
-    }else{
         if($type>$this->type)$this->error('权限不足');
+    }else{
+        if($type>=$this->type)$this->error('权限不足');
     }
 }
 ?>
