@@ -33,6 +33,12 @@ class TeamInfoApi extends Model{
 	function getTeamList($page,$limit){
 		return $this->page($page,$limit)->select();
 	}
+
+	function changeTeamName($tid,$name){
+		$where['tid']=$tid;
+		$data['tname']=$name;
+		return $this->where($where)->save($data);
+	}
 	
 }
 ?>

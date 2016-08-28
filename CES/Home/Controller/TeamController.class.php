@@ -218,9 +218,8 @@ class TeamController extends OutController{
             }
 
 		if($myInfo['utype']!=4){
-			$this->userEvent->_safe_user_type($data['uid']);
+			$this->userEvent->_safe_user_type($data['uid'],true);
 		}
-		
 		if($this->teamUserApi->userInTempCheck($data['uid'],$data['tid'])){
 			$this->error('该用户已经存在');
 		}
@@ -276,7 +275,7 @@ class TeamController extends OutController{
 		}
 
 		if($myInfo['utype']!=4){
-			$this->userEvent->_safe_user_type($data['uid']);
+			$this->userEvent->_safe_user_type($data['uid'],true);
 		}
 		
 		if(!$this->teamApi->userInTempCheck($data['uid'],$data['tid'])){
@@ -414,6 +413,21 @@ class TeamController extends OutController{
         $this->userEvent->_safe_login();
         $list=$this->teamApi->getTeamList(1,9999);
         $this->success($list);
+    }
+
+
+    public function changeTeamName(){
+        $this->userEvent->_safe_login();
+        $this->userEvent->_safe_admin();
+        $this->userEvent->_safe_type(4);
+        $tid=I('post.tid','',false);
+        $tname=I('post.tname','','string');
+        $res=$this->teamApi->changeTeamName($tid,$tname);
+        if($res){
+            $this->success(1);
+        }else{
+            $this->error(0);
+        }
     }
 }
 ?>
