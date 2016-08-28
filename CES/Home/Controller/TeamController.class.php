@@ -93,7 +93,7 @@ class TeamController extends OutController{
 		{
 			$this->success(1);
 		}else{
-			$this->error(0);
+			$this->error('插入失败，小组名字大概存在了，大概..');
 		}
 	}
     
@@ -120,7 +120,7 @@ class TeamController extends OutController{
 		$this->userEvent->_safe_login();
         $this->userEvent->_safe_admin();
         $this->userEvent->_safe_type(4);
-		if($this->teamApi->delTeam($data))
+		if($this->teamApi->delTeam($tid))
 		{
 			$this->success(1);
 		}else{
