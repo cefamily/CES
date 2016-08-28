@@ -172,8 +172,12 @@ class TeamController extends OutController{
 		$this->userEvent->_safe_login();
         $this->userEvent->_safe_admin();
         $this->userEvent->_safe_type(3);
-		
-		$result['teams']=$this->teamApi->getTeamList($page,$limit);
+		$uid=$this->userEvent->uid;
+        if($this->userEvent->type==4){
+            $result['teams']=$this->teamApi->page($page,$limit)->select();
+        }else{
+		  $result['teams']=$this->teamApi->getTeamList($uid,$page,$limit);
+        }
 		$this->success($result);	
 	}
     

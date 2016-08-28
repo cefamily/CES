@@ -32,8 +32,10 @@ class TeamInfoApi extends Model{
 		return $z;
 	}
 	
-	function getTeamList($page,$limit){
-		return $this->page($page,$limit)->select();
+	function getTeamList($uid,$page,$limit){
+		$where['team_user.uid']=$uid;
+		$where['team_user.tadmin']=1;
+		return $this->field('team_info.*')->join('team_user ON team_info.tid=team_user.tid')->where($where)->page($page,$limit)->select();
 	}
 
 	function changeTeamName($tid,$name){
