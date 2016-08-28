@@ -115,10 +115,15 @@ class UserInfoApi extends Model{
    /***
    		获取用户列表
    */
-   function get_user_list($where,$page,$size){
+   function getUserList($where,$page,$size){
 	   
 	   //$where['utype']=array('lt',$myInfo['utype']);
-	   return $this->where($where)->page($page,$size)->getField($this->USER_FIELD_LIST);
+	    $result = $this->where($where)->page($page,$size)->getField($this->USER_FIELD_LIST);
+        if($result){
+           return array_values($result);
+        }else{
+           return array();
+        }
    }
    
    function getUserInfoById($id){

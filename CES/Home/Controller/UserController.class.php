@@ -135,9 +135,10 @@ class UserController extends OutController{
         $this->userEvent->_safe_admin();
         $this->userEvent->_safe_type(3);
 		$myInfo=session('adminstat');
-		$where['uid']=array('lt',$myInfo['uid']);
-		$result->$this->userApi->getUserList($where,$page,$limit);
-		$this->success($result);
+		$where['utype']=array('lt',$myInfo['utype']);
+		$result['users'] = D('UserInfo','Api')->getUserList($where,$page,$limit);
+		
+        $this->success($result);
     }
     
     
