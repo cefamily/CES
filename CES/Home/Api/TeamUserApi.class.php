@@ -17,7 +17,7 @@ class TeamUserApi extends Model{
 		}
 	}
 	function delMenmber($uid){
-		$where['uid']=$uid;
+		$where=$uid;
 		return $this->where($where)->delete();
 	}
 	

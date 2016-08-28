@@ -258,14 +258,14 @@ class TeamController extends OutController{
     */
     public function delMember(){
 		$type=I('post.type','',false);
-		$data['team']=I('post.tid',0,'int');
+		$data['tid']=I('post.tid',0,'int');
 		$this->userEvent->_safe_login();
         $this->userEvent->_safe_admin();
         $this->userEvent->_safe_type(3);
 		$myInfo=session('adminstat');
 		if($type=='uid'){
 			$data['uid']=I('post.value',0,'int');
-			$res=$this->userApi->where('uid='.$value)->find();			
+			$res=$this->userApi->where('uid='.$data['uid'])->find();			
 		}else{
 			$value=I('post.value','','/^[A-Za-z0-9_]{4,16}$/');			
 			$res=$this->userApi->where('uname='.$value)->find();
@@ -280,7 +280,7 @@ class TeamController extends OutController{
 			$this->userEvent->_safe_user_type($data['uid'],true);
 		}
 		
-		if(!$this->teamApi->userInTempCheck($data['uid'],$data['tid'])){
+		if(!$this->teamUserApi->userInTempCheck($data['uid'],$data['tid'])){
 			$this->error('该用户不存在');
 		}
 		$this->teamUserApi->delMenmber($data);
@@ -316,14 +316,14 @@ class TeamController extends OutController{
     */
 	public function addMaster(){
 		$type=I('post.type','',false);
-		$data['team']=I('post.tid',0,'int');
+		$data['tid']=I('post.tid',0,'int');
 		$this->userEvent->_safe_login();
         $this->userEvent->_safe_admin();
         $this->userEvent->_safe_type(4);
 		$myInfo=session('adminstat');
 		if($type=='uid'){
 			$data['uid']=I('post.value',0,'int');
-			$res=$this->userApi->where('uid='.$value)->find();			
+			$res=$this->userApi->where('uid='.$data['uid'])->find();			
 		}else{
 			$value=I('post.value','','/^[A-Za-z0-9_]{4,16}$/');			
 			$res=$this->userApi->where('uname='.$value)->find();
@@ -341,8 +341,8 @@ class TeamController extends OutController{
 			$this->userEvent->_safe_user_type($data['uid']);
 		}
 		
-		if($this->teamApi->userInTempCheck($data['uid'],$data['tid'])){
-			$this->teamUserApi->addMaster($data,true);
+		if(!$this->teamUserApi->userInTempCheck($data['uid'],$data['tid'])){
+			$this->error('该用户不存在');
 		}else{
 			$this->teamUserApi->addMaster($data,true);
 		}
@@ -373,14 +373,14 @@ class TeamController extends OutController{
     public function delMaster(){
 		
 		$type=I('post.type','',false);
-		$data['team']=I('post.tid',0,'int');
+		$data['tid']=I('post.tid',0,'int');
 		$this->userEvent->_safe_login();
         $this->userEvent->_safe_admin();
         $this->userEvent->_safe_type(4);
 		$myInfo=session('adminstat');
 		if($type=='uid'){
 			$data['uid']=I('post.value',0,'int');
-			$res=$this->userApi->where('uid='.$value)->find();			
+			$res=$this->userApi->where('uid='.$data['uid'])->find();			
 		}else{
 			$value=I('post.value','','/^[A-Za-z0-9_]{4,16}$/');			
 			$res=$this->userApi->where('uname='.$value)->find();
@@ -394,7 +394,8 @@ class TeamController extends OutController{
 		if($myInfo['utype']!=4){
 			$this->userEvent->_safe_user_type($data['uid']);
 		}
-		$this->teamUserApi-delMaster($data);	
+		$this->teamUserApi->delMaster($data);
+        $this->success(1);
 		}
 
 
