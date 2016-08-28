@@ -209,6 +209,9 @@ class TeamController extends OutController{
 		$this->userEvent->_safe_login();
         $this->userEvent->_safe_admin();
         $this->userEvent->_safe_type(3);
+        if($this->userEvent->type<4){
+            $this->teamEvent->_safe_teamAdmin($data['tid']);
+        }
 		$myInfo=session('adminstat');
 		if($type=='uid'){
 			$data['uid']=I('post.value',0,'int');
@@ -266,6 +269,9 @@ class TeamController extends OutController{
 		$this->userEvent->_safe_login();
         $this->userEvent->_safe_admin();
         $this->userEvent->_safe_type(3);
+        if($this->userEvent->type<4){
+            $this->teamEvent->_safe_teamAdmin($data['tid']);
+        }
 		$myInfo=session('adminstat');
 		if($type=='uid'){
 			$data['uid']=I('post.value',0,'int');

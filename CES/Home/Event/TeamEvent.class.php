@@ -21,6 +21,16 @@ class TeamEvent extends OutEvent{
         
         
     }
+
+
+    function _safe_teamAdmin($tid){
+    	$user=M('UserTeam')->where(array('tid'=>$tid,'uid'=>$this->user->uid,'tadmin'=>'1'))->find();
+			if($user){
+				return true;
+			}else{
+				return false;
+			}
+    }
     
     
     function _safe_claim($pid){
