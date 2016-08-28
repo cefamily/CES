@@ -5,10 +5,17 @@ class ProductInfoApi extends Model{
     public function _initialize(){
         
     }
-    function getByPid($pid){
+    function getByPid($pid,$type){
         $model = D('ProductInfo','ViewModel');
         $where['pid'] = $pid;
+        if($type){
         $where['pstate'] = array('LT',99);
+    }else{
+        $where['pstate']=array(
+                array('LT',99),
+                array('GT',0)
+            );
+    }
         $m = $model->where($where)->find();
         if(!$m)return false;
         return $m;  

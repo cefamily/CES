@@ -425,7 +425,11 @@ class ProductController extends OutController{
     public function getProductByPid(){
         $this->user->_safe_login();
         $pid=I('post.pid',0,'int');
-        $res=$this->product->getByPid($pid);
+        if($this->user->type>=3){
+            $res=$this->product->getByPid($pid,ture);
+    }else{
+         $res=$this->product->getByPid($pid,false);
+    }
         if($res){
             $this->success($res);
         }else{
