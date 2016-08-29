@@ -294,7 +294,7 @@ class TeamController extends OutController{
 			$this->error('该用户不存在');
 		}
 		$this->teamUserApi->delMenmber($data);
-		if($res['utype']==1){
+		if($res['utype']==2){
 			//$this->userApi->addMenmber($data['uid']);
 			if(!$this->teamUserApi->userTeamCheck($data['uid'])){
 				$this->userApi->delMenmber($data['uid']);
@@ -355,6 +355,9 @@ class TeamController extends OutController{
 			$this->error('该用户不存在');
 		}else{
 			$this->teamUserApi->addMaster($data,true);
+            if($this->userEvent->type==2){
+                $this->userApi->add_admin($data['uid']);
+            }
 		}
 		
 		$this->success(1);
@@ -405,6 +408,10 @@ class TeamController extends OutController{
 			$this->userEvent->_safe_user_type($data['uid']);
 		}
 		$this->teamUserApi->delMaster($data);
+
+        if(!$this->teamUserApi->where(array('uid'=>$data['uid'],'tadmin'=>1))->find()){
+            $this->userApi->delAdmin($data['uid']);
+        }
         $this->success(1);
 		}
 
