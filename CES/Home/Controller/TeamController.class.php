@@ -233,7 +233,7 @@ class TeamController extends OutController{
 			$this->error('该用户已经存在');
 		}
 		
-		if($res['utype']==0){
+		if($res['utype']==1){
 			$this->userApi->addMenmber($data['uid']);
 		}
 		
