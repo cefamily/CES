@@ -5,7 +5,7 @@ class ProductInfoApi extends Model{
     public function _initialize(){
         
     }
-    function getByPid($pid,$type){
+    function getByPid($pid,$type=ture){
         $model = D('ProductInfo','ViewModel');
         $where['pid'] = $pid;
         if($type){
