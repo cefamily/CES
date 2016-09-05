@@ -3,7 +3,7 @@ namespace Home\Api;
 use Think\Model;
 class UserInfoApi extends Model{
  	
-	private $USER_FIELD_LIST='uid,uname,uemail,utype,uavatar,uctime,uip,ulltime';
+	private $USER_FIELD_LIST='uid,uname,uemail,utype,uavatar,uctime,uip,ulltime,nickname';
 	/***
 		用户登录API
 		参数
