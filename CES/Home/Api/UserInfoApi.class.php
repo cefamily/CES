@@ -90,7 +90,7 @@ class UserInfoApi extends Model{
           if($this->save()){
               return true;
           }else{
-              $this->error="Error";
+              $this->error="昵称重复或不正确或未修改";
               return false;
           }
       }else{
