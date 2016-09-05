@@ -3,7 +3,7 @@ namespace Home\Api;
 use Think\Model;
 class UserInfoApi extends Model{
  	
-	private $USER_FIELD_LIST='uid,uname,uemail,utype,uavatar,uctime,uip,ulltime,nickname';
+	private $USER_FIELD_LIST='uid,uname,uemail,utype,uavatar,uctime,uip,ulltime';
 	/***
 		用户登录API
 		参数
@@ -60,7 +60,7 @@ class UserInfoApi extends Model{
 		user 用户ID
 		email 修改后的邮箱
 	*/
-   function change_email($user,$email){
+   function change_email($user,$email,$nickname){
        $rules=array(
            array('uid','require','用户编号必须'),
            array('uemail','require','邮箱必须'),
@@ -69,6 +69,7 @@ class UserInfoApi extends Model{
        );
       $data['uid']=$user;
       $data['uemail']=$email;
+      $data['nickname']=$nickname;
       $res=$this->validate($rules)->create($data);
       if($res){
           if($this->save()){
@@ -81,22 +82,7 @@ class UserInfoApi extends Model{
           return false;
       }
    }
-   function change_nickname($user,$nickname){
-
-      $data['uid']=$user;
-      $data['nickname']=$nickname;
-      $res=$this->create($data);
-      if($res){
-          if($this->save()){
-              return true;
-          }else{
-              $this->error="昵称重复或不正确或未修改";
-              return false;
-          }
-      }else{
-          return false;
-      }
-   }
+   
    
    /***
    		修改用户密码
