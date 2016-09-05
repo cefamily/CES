@@ -19,6 +19,7 @@ class UserInfoModel extends Model{
 		'uip',			//用户最后登陆ip，varchar(20),默认''
 		'uctime',		//用户创建时间,int,默认0
 		'ulltime',		//用户最后操作时间,int,默认0
+		'nickname'
 	);
 	protected $pk = 'uid';
 	protected $_auto=array(

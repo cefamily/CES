@@ -3,7 +3,7 @@ namespace Home\Api;
 use Think\Model;
 class UserInfoApi extends Model{
  	
-	private $USER_FIELD_LIST='uid,uname,uemail,utype,uavatar,uctime,uip,ulltime';
+	private $USER_FIELD_LIST='uid,uname,uemail,utype,uavatar,uctime,uip,ulltime,nickname';
 	/***
 		用户登录API
 		参数
@@ -81,7 +81,22 @@ class UserInfoApi extends Model{
           return false;
       }
    }
-   
+   function change_nickname($user,$nickname){
+
+      $data['uid']=$user;
+      $data['nickname']=$nickname;
+      $res=$this->create($data);
+      if($res){
+          if($this->save()){
+              return true;
+          }else{
+              $this->error="Error";
+              return false;
+          }
+      }else{
+          return false;
+      }
+   }
    
    /***
    		修改用户密码

@@ -327,6 +327,7 @@ class UserController extends OutController{
 	public function changeEmail(){
 		$data['uemail']=I('post.email','','email');
 		$data['upassword']=I('post.password','',false);
+        $data['nickname']=I('post.nickname','');
 		$data['captcha']=I('post.captcha','',false);
 		
         $this->userEvent->_safe_login();
@@ -335,6 +336,7 @@ class UserController extends OutController{
 		//  $userInfo=session('userstat');
         //  $result=$this->userApi->user_login($userInfo['uname'],$data['password']);
         // if($result){
+        $res=$this->userApi->change_nickname($this->userEvent->uid,$data['nickname']);
         $res=$this->userApi->change_email($this->userEvent->uid,$data['uemail']);
         if($res){
             $this->success(1);
