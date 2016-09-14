@@ -206,6 +206,7 @@ class ProductController extends OutController{
                 $n = $p->getCountByUid($value);
             }
         }
+        if($r)foreach($r as &$v)if(!$v['nickname'])$v['nickname'] = $v['uname'];
         $array = array('products'=>$r,'row'=>$n);
         $this->success($array);
     }

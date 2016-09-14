@@ -32,7 +32,7 @@ class ProductInfoViewModel extends ViewModel{
 			'pteam'     //是否限定组，tinyint，默认0
 						//0：共有，1：私有限定组
 		),
-		'UserInfo'=>array('uname','utype', '_on'=>'ProductInfo.uid=UserInfo.uid'),
+		'UserInfo'=>array('uname','nickname','utype', '_on'=>'ProductInfo.uid=UserInfo.uid'),
 	);
 
 
