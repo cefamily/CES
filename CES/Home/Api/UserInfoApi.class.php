@@ -124,11 +124,12 @@ class UserInfoApi extends Model{
    function getUserList($where,$page,$size){
 	   
 	   //$where['utype']=array('lt',$myInfo['utype']);
-	    $result = $this->where($where)->page($page,$size)->getField($this->USER_FIELD_LIST);
+	    $result = $this->where($where)->page($page,$size)->order(array('uid'=>'DESC'))->getField($this->USER_FIELD_LIST);
         if($result){
-           return array_values($result);
+            if($result)foreach($result as &$v)if(!$v['nickname'])$v['nickname'] = $v['uname'];
+            return array_values($result);
         }else{
-           return array();
+            return array();
         }
    }
    
